@@ -1,6 +1,6 @@
-#include "Map.h"
 #include "MapDriver.h"
+#include "Map.h"
 
 void testLoadMaps() {
-
+	loader();
 }
