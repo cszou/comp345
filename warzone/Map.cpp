@@ -14,6 +14,8 @@ using std::list;
 using std::vector;
 #include <sstream>
 using std::stringstream;
+#include <algorithm>
+using std::find;
 
 Map::Map(const Map& m)
 {
@@ -33,13 +35,54 @@ Map& Map::operator=(const Map& m)
 	return *this;
 }
 
+void Map::addTerritory(Territory* t) {
+	this->territories.push_back(t);
+	list<Continent*>::iterator it;
+	for (it = this->continents.begin(); it != this->continents.end(); it++) {
+		if (t->getContinent() == (*it)->getName())
+		{
+			(*it)->addTerritories(t);
+			break;
+		}
+	}
+}
+
+void Map::addContinent(Continent* c) {
+	this->continents.push_back(c);
+}
+
+void Map::showAllContinents() {
+	cout << "**********Showing all continents*********" << endl;
+	for (const auto& c : continents)
+	{
+		cout << *c << endl;
+		c->showAllTerritories();
+	}
+}
+
+void Map::showAllTerritories() {
+	cout << "**********Showing all territories**********" << endl;
+	for (const auto& t : territories)
+		cout << *t << endl;
+}
+
 Territory::Territory(const Territory& t)
 {
-	this->numberOfArmies = t.numberOfArmies;
+	this->name = t.name;
 	this->coordX = t.coordX;
 	this->coordY = t.coordY;
-	this->owner = t.owner;
 	this->continent = t.continent;
+	this->owner = t.owner;
+	this->numberOfArmies = t.numberOfArmies;
+}
+
+Territory::Territory(string n, int x, int y, string c) {
+	this->name = n;
+	this->coordX = x;
+	this->coordY = y;
+	this->continent = c;
+	this->owner = "";
+	this->numberOfArmies = 0;
 }
 
 Territory& Territory::operator=(const Territory& t)
@@ -72,21 +115,26 @@ int Territory::getNumberOfArmies() const
 	return this->numberOfArmies;
 }
 
+string Territory::getContinent() const
+{
+	return this->continent;
+}
+
 Continent::Continent(string name, int num) {
-	this->numberOfTerritory = num;
+	this->bonus = num;
 	this->continentName = name;
 }
 
 Continent::Continent(const Continent& c)
 {
 	this->numberOfTerritory = c.numberOfTerritory;
-	this, continentName = c.continentName;
+	this->continentName = c.continentName;
 }
 
 Continent& Continent::operator=(Continent& c)
 {
 	this->numberOfTerritory = c.numberOfTerritory;
-	this, continentName = c.continentName;
+	this->continentName = c.continentName;
 	return *this;
 }
 
@@ -109,16 +157,29 @@ void Continent::addTerritories(Territory* t) {
 	this->tList.push_back(t);
 }
 
+void Continent::showAllTerritories() {
+	cout << this->getName() << " has " << this->tList.size() << " territories: " << endl;
+	for (const auto& t : tList) {
+		cout << *t << endl;
+	}
+	cout << endl;
+}
+
 std::ostream& operator<<(std::ostream &strm, const Continent &c)
 {
-	return strm << "Continent name: " << c.continentName << " with " << c.numberOfTerritory << " territories.";
+	return strm << "Continent: " << c.continentName << " ,bonus: " << c.bonus;
+}
+
+std::ostream& operator<<(std::ostream& strm, const Territory& t)
+{
+	return strm << "Territory name: " << t.name << " at coordinate: (" << t.coordX << ", " << t.coordY << ") at continent " << t.continent << ".";
 }
 
 void loader()
 {
+	Map gameMap;
 	string line;
 	string path;
-	list<Continent> continents;
 	string s;
 	string name;
 	cout << "Please emter the map name: ";
@@ -140,8 +201,8 @@ void loader()
 				string::size_type pos = line.find(s);
 				name = line.substr(0, pos);
 				num = stoi(line.substr(pos + 1, len - pos), nullptr);
-				continents.push_back(Continent::Continent(name, num));
-				cout << continents.back() << endl;
+				Continent* c = new Continent(name, num);
+				gameMap.addContinent(c);
 				getline(mapReader, line, '\n');
 			}
 			cout << endl;
@@ -153,7 +214,6 @@ void loader()
 				getline(mapReader, line, '\n');
 				if (line == "")
 					continue;
-				cout << line << endl;
 				vector<string> tInfo;
 				int start = 0;
 				int end = 0;
@@ -163,10 +223,14 @@ void loader()
 					end = line.find(d);
 					tInfo.push_back(line.substr(start, end));
 					line = line.substr(end + 1, len - end + 1);
-					cout << tInfo.back() << endl;
 				}
+				Territory *t = new Territory(tInfo[0], stoi(tInfo[1], nullptr), stoi(tInfo[2], nullptr), tInfo[3]);
+				gameMap.addTerritory(t);
 			}
 		}
 	}
 	mapReader.close();
+	cout << "All loaded." << endl;
+	gameMap.showAllContinents();
+	//gameMap.showAllTerritories();
 }
