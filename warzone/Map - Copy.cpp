@@ -15,49 +15,37 @@ using std::stringstream;
 #include <algorithm>
 using std::find;
 
-Map::Map() {
-	this->totalTerritories = 0;
-}
-
 Map::Map(const Map& m)
 {
 	this->totalTerritories = m.totalTerritories;
+	//this->t = m.t;
+}
+
+bool Map::validate()
+{
+	return true;
 }
 
 Map& Map::operator=(const Map& m)
 {
 	this->totalTerritories = m.totalTerritories;
+	//this->t = m.t;
 	return *this;
 }
 
-Map::~Map()
-{
-	for (auto& t : territories)
-		delete t;
-	for (auto& c : continents)
-		delete c;
-}
-
 void Map::addTerritory(Territory* t) {
-	if (!territoryExists(t->getName()))
+	if(!territoryExists(t->getName()))
 	{
 		this->territories.push_back(t);
-		this->totalTerritories++;
 	}
-	else
-	{
-		this->getTerritory(t->getName())->setX(t->getX());
-		this->getTerritory(t->getName())->setY(t->getY());
-		this->getTerritory(t->getName())->setContinent(t->getContinent());
-	}
-	if (t->getContinent() != nullptr)
-		for (auto& c : continents) {
-			if (t->getContinent()->getName() == c->getName())
-			{
-				c->addTerritories(t);
-				break;
-			}
+	vector<Continent*>::iterator it;
+	for (it = this->continents.begin(); it != this->continents.end(); it++) {
+		if (t->getContinent() == (*it)->getName())
+		{
+			(*it)->addTerritories(t);
+			break;
 		}
+	}
 }
 
 void Map::addContinent(Continent* c) {
@@ -71,7 +59,6 @@ void Map::showAllContinents() {
 		cout << *c << endl;
 		c->showAllTerritories();
 	}
-	cout << "Total " << this->totalTerritories << " territories." << endl;
 }
 
 void Map::showAllTerritories() {
@@ -81,39 +68,11 @@ void Map::showAllTerritories() {
 }
 
 bool Map::territoryExists(string s) {
-	for (auto $t : territories)
-		if (($t)->getName() == s)
+	vector<Territory*>::iterator it;
+	for (it = this->territories.begin(); it != this->territories.end(); it++)
+		if ((*it)->getName() == s)
 			return true;
 	return false;
-}
-
-Territory* Map::getTerritory(string name) const
-{
-	for (auto& t : territories)
-		if (t->getName() == name)
-			return t;
-}
-
-Continent* Map::getContinent(string name) const
-{
-	for (auto& c : continents)
-		if (c->getName() == name)
-			return c;
-}
-
-vector<Territory*> Map::getAllTerritories() const
-{
-	return territories;
-}
-
-Territory::Territory(string name)
-{
-	this->name = name;
-	this->coordX = -1;
-	this->coordY = -1;
-	this->continent = nullptr;
-	this->owner = "";
-	this->numberOfArmies = 0;
 }
 
 Territory::Territory(const Territory& t)
@@ -126,7 +85,7 @@ Territory::Territory(const Territory& t)
 	this->numberOfArmies = t.numberOfArmies;
 }
 
-Territory::Territory(string n, int x, int y, Continent* c) {
+Territory::Territory(string n, int x, int y, string c) {
 	this->name = n;
 	this->coordX = x;
 	this->coordY = y;
@@ -150,33 +109,6 @@ void Territory::setOwner(string o)
 	this->owner = o;
 }
 
-void Territory::setContinent(Continent* c)
-{
-	this->continent = c;
-}
-
-void Territory::setX(int x)
-{
-	this->coordX = x;
-}
-
-void Territory::setY(int y)
-{
-	this->coordY = y;
-}
-
-void Territory::addNeighbour(Territory* t)
-{
-	this->neighbours.push_back(t);
-}
-
-void Territory::showNeighbours()
-{
-	for (auto& t : neighbours)
-		cout << t->getName() << ", ";
-	cout << endl;
-}
-
 string Territory::getOwner() const
 {
 	return this->owner;
@@ -192,26 +124,16 @@ int Territory::getNumberOfArmies() const
 	return this->numberOfArmies;
 }
 
-Continent* Territory::getContinent() const
+string Territory::getContinent() const
 {
 	return this->continent;
-}
-
-int Territory::getX() const
-{
-	return coordX;
-}
-
-int Territory::getY() const
-{
-	return coordY;
 }
 
 void Territory::setName(string name) {
 	this->name = name;
 }
 
-string Territory::getName() const {
+string Territory::getName() {
 	return this->name;
 }
 
@@ -243,26 +165,24 @@ int Continent::getTerritoryNumber()
 	return numberOfTerritory;
 }
 
-string Continent::getName() const
+string Continent::getName()
 {
 	return continentName;
 }
 
 void Continent::addTerritories(Territory* t) {
-	this->territoriesList.push_back(t);
+	this->tList.push_back(t);
 }
 
 void Continent::showAllTerritories() {
-	cout << this->getName() << " has " << this->territoriesList.size() << " territories: " << endl;
-	for (const auto& t : territoriesList) {
-		cout << *t;
-		cout << " It has neighbours: ";
-		t->showNeighbours();
+	cout << this->getName() << " has " << this->tList.size() << " territories: " << endl;
+	for (const auto& t : tList) {
+		cout << *t << endl;
 	}
 	cout << endl;
 }
 
-std::ostream& operator<<(std::ostream& strm, const Continent& c)
+std::ostream& operator<<(std::ostream &strm, const Continent &c)
 {
 	return strm << "Continent: " << c.continentName << " ,bonus: " << c.bonus;
 }
@@ -279,24 +199,11 @@ void loader()
 	string path;
 	string s;
 	string name;
-	string q = "y";
-	ifstream mapReader;
-	while (q == "y")
-	{
-		cout << "Please emter the map name: ";
-		cin >> path;
-		mapReader.open(path);
-		if (!mapReader.is_open()) {
-			cout << "failed to open " << path << endl;
-			cout << "Do you want to try again? (y/n)" << endl;
-			cin >> q;
-		}
-		else
-			q = "n";
-	}
+	cout << "Please emter the map name: ";
+	cin >> path;
+	ifstream mapReader(path);
 	if (!mapReader.is_open()) {
-		cout << "Program ended" << endl;
-		exit(0);
+		cout << "failed to open " << path << endl;
 	}
 	while (!mapReader.eof()) {
 		getline(mapReader, line, '\n');
@@ -304,7 +211,7 @@ void loader()
 			s = "=";
 			name = "";
 			int num = 0;
-			while (line == "" || line == "[Continents]")
+			while(line == "" || line == "[Continents]")
 				getline(mapReader, line, '\n');
 			while (line != "") {
 				int len = line.length();
@@ -320,7 +227,7 @@ void loader()
 		else if (line == "[Territories]") {
 			s = ",";
 			name = "";
-			while (!mapReader.eof()) {
+			while (!mapReader.eof()){
 				getline(mapReader, line, '\n');
 				if (line == "")
 					continue;
@@ -334,38 +241,13 @@ void loader()
 					tInfo.push_back(line.substr(start, end));
 					line = line.substr(end + 1, len - end + 1);
 				}
-				Territory* t = new Territory(tInfo[0], stoi(tInfo[1], nullptr), stoi(tInfo[2], nullptr), gameMap.getContinent(tInfo[3]));
+				Territory *t = new Territory(tInfo[0], stoi(tInfo[1], nullptr), stoi(tInfo[2], nullptr), tInfo[3]);
 				gameMap.addTerritory(t);
-				for (int i = 4; i < tInfo.size(); i++) {
-					if (gameMap.territoryExists(tInfo[i]))
-					{
-						t->addNeighbour(gameMap.getTerritory(tInfo[i]));
-					}
-					else
-					{
-						Territory* newTerritory = new Territory(tInfo[i]);
-						gameMap.addTerritory(newTerritory);
-						t->addNeighbour(newTerritory);
-					}
-				}
 			}
 		}
 	}
 	mapReader.close();
 	cout << "All loaded." << endl;
 	gameMap.showAllContinents();
-	cout << endl << "******************Validating map******************" << endl;
-	if (validate(&gameMap))
-		cout << "This is a valid map." << endl;
-	else
-		cout << "The map is invalid." << endl;
-}
-
-bool validate(const Map* m)
-{
-	// validate each country is belong to one and only one continent
-	for (auto& t : m->getAllTerritories())
-		if (t->getContinent() == nullptr)
-			return false;
-	return true;
+	//gameMap.showAllTerritories();
 }
