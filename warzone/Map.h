@@ -1,64 +1,84 @@
 #pragma once
-#include <list>
-using std::list;
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
+class Continent;
+class Territory;
 
-
-class Territory {
+class Map {
 public:
-	Territory() {};
-	Territory(const Territory& t);
-	Territory(string n, int x, int y, string c);
-	Territory& operator =(const Territory& t);
-	void setOwner(string o);
-	string getOwner() const;
-	void setNumberOfArmies(int numOfArmies);
-	int getNumberOfArmies() const;
-	string getContinent() const;
-	friend std::ostream& operator<<(std::ostream&, const Territory&);
+	Map();
+	Map(const Map& m);
+	Map& operator =(const Map& m);
+	~Map();
+	void addTerritory(Territory* t);
+	void addContinent(Continent* t);
+	void showAllContinents();
+	void showAllTerritories();
+	bool territoryExists(string $s);
+	Territory* getTerritory(string name) const;
+	Continent* getContinent(string name) const;
+	vector<Territory*> getAllTerritories() const;
+	int getTerritoryNum() const;
+	bool validate();
 private:
-	string name;
-	string owner;
-	string continent;
-	int numberOfArmies;
-	int coordX;
-	int coordY;
+	vector<Territory*> territories;
+	vector<Continent*> continents;
+	int totalTerritories;
+	void traverse(Territory* t, vector<bool>& v);
 };
 
 class Continent {
 public:
-	Continent() {};
+	Continent();
 	Continent(string name, int num);
 	Continent(const Continent& c);
 	Continent& operator =(Continent& c);
 	Territory* getTerritories();
 	int getTerritoryNumber();
-	string getName();
+	string getName() const;
 	void addTerritories(Territory* t);
 	void showAllTerritories();
 	friend std::ostream& operator<<(std::ostream&, const Continent&);
 private:
 	int numberOfTerritory;
 	string continentName;
-	list<Territory*> tList;
+	vector<Territory*> territoriesList;
 	int bonus;
 };
 
-class Map {
+class Territory {
 public:
-	Map() {};
-	Map(const Map& m);
-	Map& operator =(const Map& m);
-	void addTerritory(Territory* t);
-	void addContinent(Continent* t);
-	void showAllContinents();
-	void showAllTerritories();
+	Territory();
+	Territory(string name);
+	Territory(const Territory& t);
+	Territory(string n, int x, int y, Continent* c);
+	Territory& operator =(const Territory& t);
+	int getNumberOfArmies() const;
+	string getOwner() const;
+	string getName() const;
+	Continent* getContinent() const;
+	int getX() const;
+	int getY() const;
+	void setNumberOfArmies(int numOfArmies);
+	void setName(string name);
+	void setOwner(string o);
+	void setContinent(Continent* c);
+	void setX(int x);
+	void setY(int y);
+	void addNeighbour(Territory* t);
+	void showNeighbours();
+	vector<Territory*> &getNeighbours();
+	friend std::ostream& operator<<(std::ostream&, const Territory&);
 private:
-	bool validate();
-	list<Territory*> territories;
-	list<Continent*> continents;
-	int totalTerritories;
+	vector<Territory*> neighbours;
+	Continent* continent;
+	string name;
+	string owner;
+	int numberOfArmies;
+	int coordX;
+	int coordY;
 };
 
 void loader();
