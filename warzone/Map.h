@@ -50,6 +50,8 @@ private:
 	int bonus;
 };
 
+class Territory{
+public:
 	Territory();
 	Territory(string name);
 	Territory(const Territory& t);
