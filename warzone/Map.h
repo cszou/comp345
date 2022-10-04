@@ -27,6 +27,8 @@ private:
 	vector<Continent*> continents;
 	int totalTerritories;
 	void traverse(Territory* t, vector<bool>& v);
+	int coordX;
+	int coordY;
 };
 
 class Continent {
@@ -48,8 +50,6 @@ private:
 	int bonus;
 };
 
-class Territory {
-public:
 	Territory();
 	Territory(string name);
 	Territory(const Territory& t);
@@ -71,6 +71,8 @@ public:
 	void showNeighbours();
 	vector<Territory*> &getNeighbours();
 	friend std::ostream& operator<<(std::ostream&, const Territory&);
+	void showAllContinents();
+	void showAllTerritories();
 private:
 	vector<Territory*> neighbours;
 	Continent* continent;
@@ -82,4 +84,5 @@ private:
 };
 
 void loader();
+bool validate(const Map* m);
 
