@@ -19,7 +19,7 @@ public:
 	bool territoryExists(string $s);
 	Territory* getTerritory(string name) const;
 	Continent* getContinent(string name) const;
-	vector<Territory*> getAllTerritories() const;
+	vector<Territory*>& getAllTerritories();
 	int getTerritoryNum() const;
 	bool validate();
 private:
@@ -27,8 +27,6 @@ private:
 	vector<Continent*> continents;
 	int totalTerritories;
 	void traverse(Territory* t, vector<bool>& v);
-	int coordX;
-	int coordY;
 };
 
 class Continent {
@@ -73,8 +71,6 @@ public:
 	void showNeighbours();
 	vector<Territory*> &getNeighbours();
 	friend std::ostream& operator<<(std::ostream&, const Territory&);
-	void showAllContinents();
-	void showAllTerritories();
 private:
 	vector<Territory*> neighbours;
 	Continent* continent;
