@@ -38,20 +38,26 @@ Map::~Map()
 		delete c;
 }
 
-void Map::addTerritory(Territory* t) {
-	if (!territoryExists(t->getName()))
-	{
-		this->territories.push_back(t);
-		this->totalTerritories++;
-		//cout << t->getName() << " (" << t << ") " << "added" << endl;
-	}
-	else
-	{
-		//cout << "Update " << t->getName() << endl;
-		this->getTerritory(t->getName())->setX(t->getX());
-		this->getTerritory(t->getName())->setY(t->getY());
-		this->getTerritory(t->getName())->setContinent(t->getContinent());
-	}
+void Map::addTerritory(Territory* t)
+{
+	this->territories.push_back(t);
+	this->totalTerritories++;
+	//cout << t->getName() << " (" << t << ") " << "added" << endl;
+	if (t->getContinent() != nullptr)
+		for (auto& c : continents) {
+			if (t->getContinent()->getName() == c->getName())
+			{
+				c->addTerritories(this->getTerritory(t->getName()));
+				break;
+			}
+		}
+}
+
+void Map::updateTerritory(Territory* t) {
+	//cout << "Update " << t->getName() << endl;
+	this->getTerritory(t->getName())->setX(t->getX());
+	this->getTerritory(t->getName())->setY(t->getY());
+	this->getTerritory(t->getName())->setContinent(t->getContinent());
 	if (t->getContinent() != nullptr)
 		for (auto& c : continents) {
 			if (t->getContinent()->getName() == c->getName())
@@ -144,18 +150,17 @@ bool Map::validate()
 		for (int i = 0; i < totalTerritories; i++)
 			visited[i] = false;
 		traverse(t, visited);
-		/*for (bool v : visited)
-			cout << v << ",";*/
-			//cout << endl;
 		for (int i = 0; i < totalTerritories;i++)
 			if (!visited[i])
-			{
-				//cout << i << endl;
 				return false;
-			}
 	}
 	// validate continent is connected;
-
+	/*visited.clear();
+	for (auto c : continents) {
+		for (int i = 0; i < c->getTerritoryNumber(); i++)
+			visited.push_back(false);
+		for(auto t:c->getTerritories())
+	}*/
 	return true;
 }
 
@@ -323,9 +328,9 @@ Continent& Continent::operator=(Continent& c)
 	return *this;
 }
 
-Territory* Continent::getTerritories()
+vector<Territory*>& Continent::getTerritories()
 {
-	return nullptr;
+	return territoriesList;
 }
 
 int Continent::getTerritoryNumber()
@@ -419,6 +424,7 @@ void loader()
 				int start = 0;
 				int end = 0;
 				int len = line.length();
+				string tempName;
 				string d = ",";
 				while (end >= 0) {
 					end = line.find(d);
@@ -428,7 +434,11 @@ void loader()
 				Territory* t = new Territory(tInfo[0], stoi(tInfo[1], nullptr), stoi(tInfo[2], nullptr), gameMap.getContinent(tInfo[3]));
 				//cout << t->getName() << " (" << t << ") 0" << endl;
 				//cout << "try adding :" << t->getName() << " (" << t << ")" << endl;
-				gameMap.addTerritory(t);
+				if (gameMap.territoryExists(t->getName())) {
+					gameMap.updateTerritory(t);
+				}
+				else
+					gameMap.addTerritory(t);
 				//for (auto t : gameMap.getAllTerritories()) {
 					//cout << t << endl;
 				//}

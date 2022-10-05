@@ -13,6 +13,7 @@ public:
 	Map& operator =(const Map& m);
 	~Map();
 	void addTerritory(Territory* t);
+	void updateTerritory(Territory* t);
 	void addContinent(Continent* t);
 	void showAllContinents();
 	void showAllTerritories();
@@ -35,7 +36,7 @@ public:
 	Continent(string name, int num);
 	Continent(const Continent& c);
 	Continent& operator =(Continent& c);
-	Territory* getTerritories();
+	vector<Territory*>& getTerritories();
 	int getTerritoryNumber();
 	string getName() const;
 	void addTerritories(Territory* t);
