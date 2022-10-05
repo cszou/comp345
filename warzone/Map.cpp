@@ -42,7 +42,6 @@ void Map::addTerritory(Territory* t)
 {
 	this->territories.push_back(t);
 	this->totalTerritories++;
-	//cout << t->getName() << " (" << t << ") " << "added" << endl;
 	if (t->getContinent() != nullptr)
 		for (auto& c : continents) {
 			if (t->getContinent()->getName() == c->getName())
@@ -54,7 +53,6 @@ void Map::addTerritory(Territory* t)
 }
 
 void Map::updateTerritory(Territory* t) {
-	//cout << "Update " << t->getName() << endl;
 	this->getTerritory(t->getName())->setX(t->getX());
 	this->getTerritory(t->getName())->setY(t->getY());
 	this->getTerritory(t->getName())->setContinent(t->getContinent());
@@ -95,19 +93,9 @@ void Map::showAllTerritories() {
 }
 
 bool Map::territoryExists(string s) {
-	//cout << s << endl;
-	//cout << "checking: " << s << endl;
-	//cout << "we have: ";
 	for (auto& t : territories)
-	{
-		//cout << t->getName() << ", ";
 		if (t->getName() == s)
-		{
-			//cout << endl;
 			return true;
-		}
-	}
-	//cout << endl;
 	return false;
 }
 
@@ -142,6 +130,7 @@ bool Map::validate()
 	for (auto& t : territories)
 		if (t->getContinent() == nullptr)
 			return false;
+	cout << "unique continent validated" << endl;
 	// validate map is connected
 	vector<bool> visited;
 	for (int i = 0; i < totalTerritories; i++)
@@ -154,27 +143,19 @@ bool Map::validate()
 			if (!visited[i])
 				return false;
 	}
+	cout << "whole map connectivity validated" << endl;
 	// validate continent is connected;
-	/*visited.clear();
-	for (auto c : continents) {
-		for (int i = 0; i < c->getTerritoryNumber(); i++)
-			visited.push_back(false);
-		for(auto t:c->getTerritories())
-	}*/
+	for (auto c : continents)
+		if(!(c->validate()))
+			return false;
+	cout << "continent connectivity validated" << endl;
 	return true;
 }
 
 void Map::traverse(Territory* t, vector<bool>& v) {
-	//cout << "checking: " << t->getName();
-	//cout << "with " << t->getNeighbours().size() << " neighbours." << endl;
 	auto it = find(territories.begin(), territories.end(), t);
 	v[it - territories.begin()] = true;
-	/*for (auto& tNeighbour : t->getNeighbours()) {
-		cout << tNeighbour->getName() << ", ";
-	}*/
-	//cout << endl;
 	for (auto& tNeighbour : t->getNeighbours()) {
-		//cout << tNeighbour->getName() << endl;
 		auto it2 = find(territories.begin(), territories.end(), tNeighbour);
 		if (!v[it2 - territories.begin()])
 			traverse(tNeighbour, v);
@@ -345,6 +326,7 @@ string Continent::getName() const
 
 void Continent::addTerritories(Territory* t) {
 	this->territoriesList.push_back(t);
+	numberOfTerritory++;
 }
 
 void Continent::showAllTerritories() {
@@ -357,6 +339,42 @@ void Continent::showAllTerritories() {
 	cout << endl;
 }
 
+bool Continent::validate()
+{
+	vector<bool> visited;
+	for (int i = 0;i < numberOfTerritory;i++)
+		visited.push_back(false);
+	for (auto t : territoriesList) {
+		for (int i = 0;i < numberOfTerritory;i++)
+			visited[i] = false;
+		traverse(t, visited);
+	}
+	for (int i = 0; i < numberOfTerritory;i++)
+		if (!visited[i])
+			return false;
+	return true;
+}
+
+void Continent::traverse(Territory* t, vector<bool>& v)
+{
+	auto it = find(territoriesList.begin(), territoriesList.end(), t);
+	v[it - territoriesList.begin()] = true;
+	for (auto& tNeighbour : t->getNeighbours()) {
+		if (!inContinent(tNeighbour))
+			continue;
+		auto it2 = find(territoriesList.begin(), territoriesList.end(), tNeighbour);
+		if (!v[it2 - territoriesList.begin()])
+			traverse(tNeighbour, v);
+	}
+}
+
+bool Continent::inContinent(Territory* t) {
+	for (auto territory : territoriesList)
+		if (t == territory)
+			return true;
+	return false;
+}
+
 std::ostream& operator<<(std::ostream& strm, const Continent& c)
 {
 	return strm << "Continent: " << c.continentName << " ,bonus: " << c.bonus;
@@ -364,7 +382,6 @@ std::ostream& operator<<(std::ostream& strm, const Continent& c)
 
 std::ostream& operator<<(std::ostream& strm, const Territory& t)
 {
-	//return strm << "Territory name: " << t.name << " (" << &t << ") " " at coordinate: (" << t.coordX << ", " << t.coordY << ") in continent " << (t.continent)->getName() << ".";
 	return strm << "Territory name: " << t.name << " at coordinate: (" << t.coordX << ", " << t.coordY << ") in continent " << (t.continent)->getName() << ".";
 }
 
@@ -432,30 +449,16 @@ void loader()
 					line = line.substr(end + 1, len - end + 1);
 				}
 				Territory* t = new Territory(tInfo[0], stoi(tInfo[1], nullptr), stoi(tInfo[2], nullptr), gameMap.getContinent(tInfo[3]));
-				//cout << t->getName() << " (" << t << ") 0" << endl;
-				//cout << "try adding :" << t->getName() << " (" << t << ")" << endl;
 				if (gameMap.territoryExists(t->getName())) {
 					gameMap.updateTerritory(t);
 				}
 				else
 					gameMap.addTerritory(t);
-				//for (auto t : gameMap.getAllTerritories()) {
-					//cout << t << endl;
-				//}
 				for (int i = 4; i < tInfo.size(); i++) {
 					if (gameMap.territoryExists(tInfo[i]))
-					{
-						//cout << "we all ready have " << tInfo[i] << endl;
-						//cout << gameMap.getTerritory(t->getName()) << endl;
-						//cout << gameMap.getTerritory(t->getName())->getName() << endl;
-						//cout << t << endl;
-						//cout << t->getName() << endl;
-						//cout << gameMap.getTerritory(tInfo[i]) << endl;
 						gameMap.getTerritory(t->getName())->addNeighbour(gameMap.getTerritory(tInfo[i]));
-					}
 					else
 					{
-						//cout << tInfo[i] << " does not exist." << endl;
 						Territory* newTerritory = new Territory(tInfo[i]);
 						gameMap.addTerritory(newTerritory);
 						gameMap.getTerritory(t->getName())->addNeighbour(newTerritory);
@@ -467,14 +470,6 @@ void loader()
 	mapReader.close();
 	cout << "All loaded." << endl;
 	gameMap.showAllContinents();
-	//for (int i = 0;i < 4;i++)
-	//	cout << i << ": " << gameMap.getAllTerritories()[i]->getName() << " ,address: " << gameMap.getAllTerritories()[i] << endl;
-	//for (auto t : gameMap.getAllTerritories()) {
-	//	cout << t->getName() << " ,address: " << t << endl;
-	//	for (auto nt : t->getNeighbours()) {
-	//		cout << "\t" << nt->getName() << " ,address: " << nt << endl;
-	//	}
-	//}
 	cout << endl << "******************Validating map******************" << endl;
 	if (gameMap.validate())
 		cout << "This is a valid map." << endl;

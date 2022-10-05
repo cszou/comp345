@@ -41,12 +41,15 @@ public:
 	string getName() const;
 	void addTerritories(Territory* t);
 	void showAllTerritories();
+	bool validate();
 	friend std::ostream& operator<<(std::ostream&, const Continent&);
 private:
 	int numberOfTerritory;
 	string continentName;
 	vector<Territory*> territoriesList;
 	int bonus;
+	void traverse(Territory* t, vector<bool>& v);
+	bool inContinent(Territory* t);
 };
 
 class Territory{
