@@ -7,7 +7,7 @@
 using namespace std;
 
 void testCards(){
-    cout<<"\n\nPart 4:Cards Deck/Hand"<<endl;
+    cout<<"\nPart 4: Cards Deck/Hand"<<endl;
     cout<<"----------------------------------------------------------------------"<<endl;
     srand(time(0));
     cout<<"Creating Deck object \n---------------------------------"<<endl;
@@ -36,7 +36,7 @@ void testCards(){
     cout<<*h;
     delete d;
     delete h;
-    
+    cout << "Cards deck/hand demo end." << endl << endl;
 };
 
 

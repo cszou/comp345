@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include<vector>
 #include<string>
@@ -98,4 +100,5 @@ class orderlist{
     void add(order* k1);
     orderlist(const orderlist& orderlistobj);
     orderlist &  operator = (const orderlist& d);
+    friend std::ostream& operator<<(std::ostream& s, orderlist& ol);
 };

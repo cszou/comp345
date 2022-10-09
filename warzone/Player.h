@@ -5,28 +5,28 @@
 #include <sstream>
 #include <algorithm>
 #include "Map.h"
-#include "Cards.h"
+#include "Card.h"
 #include "Orders.h"
 using namespace std;
 
 class Player {
 
 public:
-    vector<Territory*> territories;
-    vector<Continent*> continents;
-    vector<Card*> deckOfCards;
-    vector<Order*> list;
     Player();//Default constructor
-    Player(string vector<Territory*> territories, vector<Continent*> continents, vector<Card*> deckOfCards, vector<Order*> list, name);//Constructor 5 params
+    Player(vector<Territory*> territories, Hand* hand, string name);//Constructor 3 params
     ~Player();//Desturctor
     Player(const Player&);//Copy constructor
-    
-    void toAttack();
-    void toDefend();
-    void issueOrder(string);
+    Player& operator =(const Player& p); //assigment operator
+    void addOrder(order* o);
+    vector<Territory*> toAttack();
+    vector<Territory*> toDefend();
+    void issueOrder();
     void printOrder();
-    vector<Order*> getlist();
+    vector<order*> getlist();
 private:
+    vector<Territory*> territories;
+    Hand* handOfCards;
+    vector<order*> orderList;
     string name; 
-    ostream & operator << (ostream &os, Player &p1);
+    friend std::ostream & operator << (ostream &os, Player &p1);
 };

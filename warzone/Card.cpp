@@ -33,7 +33,7 @@ void Card:: set_cardType(int num){
     switch (num)
     {
     case 1:
-        cardType="boomb" ;
+        cardType="bomb" ;
         break;
     case 2:
         cardType="reinforcement";

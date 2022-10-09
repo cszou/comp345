@@ -7,35 +7,28 @@
 #include <vector>
 #include <algorithm> 
 #include <sstream>
-int testPlayers() 
+void testPlayers() 
 {
-    cout<<"\n\nPart 2:Player"<<endl;
+    cout<<"\nPart 2: Player"<<endl;
     cout<<"----------------------------------------------------------------------"<<endl;
     vector<Territory*> t;
-    vector<Continent*> co;
-    vector<Card*> ca;
-    vector<Order*> o;
+	t.push_back(new Territory("NB"));
+	t.push_back(new Territory("NS"));
+	Hand* h = new Hand();
+    h->add_CardinHand(new Card("bomb"));
+    h->add_CardinHand(new Card("blockade"));
     string name = "xuz";
-    cout<<"Player owns a collection of territories \n---------------------------------"<<endl;
-	string a = "canada";
-	string b = "usa";
-    a=b;
-	t.push_back(&a);
-	t.push_back(&b);
-    cout<<"Player owns a hand of Warzone cards \n---------------------------------"<<endl;
-	vector<string*> card;
-	string c = "bomb";
-	string d = "reinforcement";
-	card.push_back(&c);
-	card.push_back(&d);
-    cout<<"\nCreating Hand object \n---------------------------------" <<endl;
-	Player* a1 = new Player(t,co,ca,o,name);
-    (*a1).toAttack();
-	(*a1).toDeffend();
-	(*a1).issueOrder("attack");
-	(*a1).issueOrder("defend");
-	(*a1).printOrder();
-	Player* a2 = new Player(*a1);
-	(*a2).toAttack();
-    cout << endl;
+	cout << "Create a new player \n-----------------------------------------" << std::endl;
+    Player* p1 = new Player(t, h, name);
+    cout << *p1 << endl;
+    cout << "Territories to attack:" << endl;
+    for (auto t : p1->toAttack())
+        cout << *t << endl;
+    cout << "Territories to defend:" << endl;
+    for (auto t : p1->toDefend())
+        cout << *t << endl;
+    cout << "Player issues an order:" << endl;
+    p1->issueOrder();
+    cout << "Player now has " << p1->getlist().size() << " orders." << endl;
+    cout << "Player demo end." << endl << endl;
 }

@@ -31,6 +31,11 @@
     std::ostream& operator<<(std::ostream &s,  order *i) {
     return s << i->name;//string insertion operator
 }
+
+    std::ostream& operator<<(std::ostream& s, orderlist& ol)
+    {
+        return s << "This is a list of orders." << std::endl;
+    }
  
     advance::advance(){
        nameaccess("advance");

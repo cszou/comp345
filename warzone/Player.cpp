@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Orders.h"
 #include "Card.h"
+#include "Map.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,71 +9,102 @@
 #include <algorithm> 
 #include <sstream>
 using namespace std;
+class advacne;
+class deploy;
+class bomb;
+class blockage;
+class airlift;
+class negotiate;
+
 //Default cons
-Player::Player() 
-{	
+Player::Player()
+{
+	handOfCards = new Hand();
 }
 //Cons 4 params
-Player::Player(string vector<Territory*> territories, vector<Continent*> continents, vector<Card*> deckOfCards, vector<Order*> list, name) 
+Player::Player(vector<Territory*> territories, Hand* hand, string name)
 {
-	territories=territories;
-    continents=continents;
-    deckOfCards=deckOfCards;
-    list=list; 
-    name=name;
+	this->territories = territories;
+	this->handOfCards = hand;
+	this->name = name;
 }
 //Destructor
 Player::~Player()
 {
-	territories.clear();
-	continents.clear();
-	deckOfCards.clear();
-	list.clear();
-    name.clear();
+	for (auto t : territories)
+		delete t;
+	delete handOfCards;
+	for (auto o : orderList)
+		delete o;
 }
 //Copy cons
-Player::Player(const Player& p) 
+Player::Player(const Player& p)
 {
-	territories=p.territories;
-    continents=p.continents;
-    deckOfCards=p.deckOfCards;
-    list=p.list; 
-    name=p.name;
+	this->name = p.name;
+	for (auto t : p.territories)
+		this->territories.push_back(new Territory(*t));
+	this->handOfCards = new Hand(*p.handOfCards);
+	for (auto o : p.orderList)
+		this->orderList.push_back(new order(*o));
+}
+
+Player& Player::operator=(const Player& p)
+{
+	this->name = p.name;
+	for (auto t : p.territories)
+		this->territories.push_back(new Territory(*t));
+	this->handOfCards = new Hand(*p.handOfCards);
+	for (auto o : p.orderList)
+		this->orderList.push_back(new order(*o));
+	return *this;
+}
+
+void Player::addOrder(order* o)
+{
+	this->orderList.push_back(o);
 }
 //Establish an arbitrary list of territories to be attacked
-void Player::toAttack()
+vector<Territory*> Player::toAttack()
 {
-	for (int i = 0; i < territories.size(); i++) 
-	{
-		cout<<""<<*territories[i];
-	}
+	vector<Territory*> tAttack;
+	tAttack.push_back(new Territory("QC"));
+	tAttack.push_back(new Territory("ON"));
+	return tAttack;
 }
 //Establish an arbitrary list of territories to be defended
-void Player::toDefend() 
+vector<Territory*> Player::toDefend()
 {
-	for (int i = 0; i < territories.size(); i++)
-	{
-		cout<<""<<*territories[i];
-	}
+	vector<Territory*> tDefend;
+	tDefend.push_back(new Territory("BC"));
+	tDefend.push_back(new Territory("AB"));
+	return tDefend;
 }
 //Create order object and puts it in the player’s list of orders
-void Player::issueOrder(string order) 
+void Player::issueOrder()
 {
-	Order *o = new Order(list);
-	list.push_back(o);
+	//advance a = new advance::advance();
+	order *o = new order();
+	orderList.push_back(o);
 }
 //Link to Orders.cpp
-vector<Order*> Player::getlist() 
+vector<order*> Player::getlist()
 {
-	return list;
+	return orderList;
 }
 //For testPlayers
-void Player::printOrder() 
+void Player::printOrder()
 {
-	vector<Order*>::iterator it = list.begin();
-	for (; it != list.end(); it++)
+	vector<order*>::iterator it = orderList.begin();
+	for (; it != orderList.end(); it++)
 	{
-		cout<<""<<(*it)->getResult() ;
+		cout << "" << (*it);
 	}
 	cout << endl;
+}
+
+
+
+std::ostream& operator<<(ostream& os, Player& p1)
+{
+	return os << "Player: " << p1.name <<" has " << p1.territories.size() << " territories and " << p1.handOfCards->numOfHandCards() << " cards.";
 }

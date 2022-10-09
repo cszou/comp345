@@ -5,11 +5,12 @@
 
 void testOrdersLists(){
 
+    std::cout << "\nPart 3: Orders list" << std::endl;
     bool check = true;
     int orderfind;
     orderlist* k= new orderlist();
     //std::cout<<"using copy constructor!"<<std::endl;
-    std::cout<<&k<<std::endl;
+    std::cout<<*k<<std::endl;
     while(check){
     std::cout<<"which order you want to create? 1.advance;2.deploy;3.bomb;4.blockade;5.airlift;6.negotiate;7.non"<<std::endl;
     std::cin>>orderfind;//order *o1=new order();
@@ -99,10 +100,7 @@ void testOrdersLists(){
         std::cout<<k1->invoke(i)<<std::endl;
     }
     delete k1;
-    k1=NULL;//delete 
- 
+    k1=NULL;//delete
+    std::cout << "Orders list demo end." << std::endl << std::endl;
     
-};  
-int main(){
-        testOrdersLists();
 }

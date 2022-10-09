@@ -469,7 +469,10 @@ std::ostream& operator<<(std::ostream& strm, const Continent& c)
 //stream insertion for Territory object
 std::ostream& operator<<(std::ostream& strm, const Territory& t)
 {
-	return strm << "Territory name: " << t.name << " at coordinate: (" << t.coordX << ", " << t.coordY << ") in continent " << (t.continent)->getName() << ".";
+	if (t.getContinent() == nullptr)
+		return strm << "Territory name: " << t.name;
+	else
+		return strm << "Territory name: " << t.name << " at coordinate: (" << t.coordX << ", " << t.coordY << ") in continent " << (t.continent)->getName() << ".";
 }
 
 /* read a file and load map info as gameMap
