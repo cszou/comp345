@@ -51,9 +51,7 @@ void Card:: set_cardType(int num){
 }
 //Play method that creates an order and adds it to the player's list of order
 //Then return the card the the deck
-void Card:: play(Deck* deckCards, Hand* handCards){//OrdersList* orderlist){
-    //Order* order_card = new Order(this->get_cardType(););
-    //orderlist->add(order_card);
+void Card:: play(Deck* deckCards, Hand* handCards){
     deckCards->add_CardsToDeck(this);      
     }
 //Stream insertion operator 
