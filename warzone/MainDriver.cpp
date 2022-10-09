@@ -1,9 +1,8 @@
 #include "MapDriver.h"
 //#include "PlayerDriver.h"
 //#include "OrdersDriver.h"
-//#include "CardsDriver.h"
+#include "CardsDriver.h"
 //#include "GameEngineDriver.h"
-
 #include "Card.h"
 
 int main() {
@@ -12,6 +11,5 @@ int main() {
 	//testOrdersLists();
 	//testCards();
 	//testGameStates();
-}
 	testCards();
 }
