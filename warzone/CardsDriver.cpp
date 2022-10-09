@@ -38,8 +38,5 @@ void testCards(){
     delete h;
     
 };
-int main(){
-    testCards();
-}
-     
+
 
