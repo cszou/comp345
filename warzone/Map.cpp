@@ -586,13 +586,13 @@ Map* MapLoader::readMap()
 		if (gameMap->validate())
 		{
 			cout << "This is a valid map." << endl;
-			delete gameMap;
-			return nullptr;
+			return gameMap;
 		}
 		else
 		{
 			cout << "The map is invalid." << endl;
-			return gameMap;
+			delete gameMap;
+			return nullptr;
 		}
 	}
 }
