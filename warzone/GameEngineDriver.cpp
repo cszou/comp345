@@ -108,7 +108,7 @@ void testGameStates() {
 					if (command == "Execute_Order") {
 						valid = true;
 					}
-					else if (command == "End_Execute Orders") {
+					else if (command == "End_Execute_Orders") {
 						engine->setState("Assign Reinforcement");
 						valid = true;
 					}

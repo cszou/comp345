@@ -5,7 +5,7 @@ using std::string;
 using std::vector;
 class Continent;
 class Territory;
-#include "Player.h"
+class Player;
 
 // Map class to store the map info
 class Map {

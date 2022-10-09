@@ -1,6 +1,5 @@
 #include "Player.h"
 #include "Orders.h"
-class Advance;
 #include "Card.h"
 #include "Map.h"
 #include <iostream>
