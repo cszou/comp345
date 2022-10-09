@@ -1,23 +1,23 @@
 #include <iostream>
 #include<vector>
 #include<string>
-#include<Orders.h>
+#include"Orders.h"
 
     order::order(){
      this->name="order";
         std::cout<<"order created..."<<std::endl;
     }
     order::~order(){
-        
     }//destructor
- //   order::virtual std::string call(){
- //        return "hello"; }
+     std::string order:: call(){
+        return 0;
+     }
+     void order::execute(order* item){};
+
     std::string order:: description(){
          return "it use for";
     }//no need maybe
-    //virtual void execute(order* item){
-       //virtual function
- //   }//used for overloading
+    
     void order::nameaccess(std::string newname){
         this->name=newname;
     }
@@ -30,14 +30,15 @@
 }
     std::ostream& operator<<(std::ostream &s,  order *i) {
     return s << i->name;//string insertion operator
-};
+}
  
     advance::advance(){
        nameaccess("advance");
        std::cout<<"initiate advance!"<<std::endl;
     }
     advance::~advance(){
-        
+         std::cout<<"advance class destruction called"<<std::endl;
+
     }
     std::string advance::call(){
         return "it use for advance";
@@ -61,7 +62,8 @@
        std::cout<<"initiate deploy!"<<std::endl;
     }
     deploy::~deploy(){
-        
+      std::cout<<"deploy class destruction called"<<std::endl;
+
     }
     std::string deploy::call(){
         return "it use for deploy";
@@ -85,6 +87,9 @@
        nameaccess("bomb");
        std::cout<<"initiate bomb!"<<std::endl;
     }
+    bomb::~bomb(){
+       std::cout<<"bomb class destruction called"<<std::endl;
+    }
     std::string bomb::call(){
         return "it use for bomb";
     }
@@ -106,6 +111,9 @@
        nameaccess("blockade");
        std::cout<<"initiate blockade!"<<std::endl;
     }
+    blockade::~blockade(){
+       std::cout<<"blockade class destruction called"<<std::endl;
+    }
     std::string blockade::call(){
         return "it use for blockade";
     }
@@ -126,6 +134,9 @@
     airlift::airlift(){
        nameaccess("airlift");
        std::cout<<"initiate airlift!"<<std::endl;
+    }
+    airlift::~airlift(){
+       std::cout<<"airlift class destruction called"<<std::endl;
     }
     std::string airlift::call(){
         return "it use for airlift";
@@ -149,6 +160,9 @@
        nameaccess("negotiate");
        std::cout<<"initiate negotiate!"<<std::endl;
     }
+    negotiate::~negotiate(){
+       std::cout<<"negotiate class destruction called"<<std::endl;
+    }
     std::string negotiate::call(){
         return "it use for negotiate";
     }
@@ -169,8 +183,7 @@
 
     orderlist::orderlist(){
     }
-    orderlist::~orderlist()
-    {
+    orderlist::~orderlist(){
 	std::cout << "Destroying OrdersList" << std::endl;
 	for (auto order : list) {
 		delete order;
@@ -180,7 +193,60 @@
 	list.clear();
     std::cout << "orderlist destroyed" << std::endl;
 }
- 
+
+//copy constructor:
+orderlist::orderlist(const orderlist& orderlistobj)
+{
+ for (auto order : orderlistobj.list) {
+std::cout<<"copy constructor for orderlist"<<std::endl;
+
+  if (deploy* deploy1 = dynamic_cast<deploy*>(order)) {
+   this->list.push_back(new deploy(*deploy1));
+  }
+  else if (advance* advance1 = dynamic_cast<advance*>(order)) {
+   this->list.push_back(new advance(*advance1));
+  }
+  else if(bomb* bomb1 = dynamic_cast<bomb*>(order)) {
+   this->list.push_back(new bomb(*bomb1));
+  }
+  else if (blockade* blockade1 = dynamic_cast<blockade*>(order)) {
+   this->list.push_back(new blockade(*blockade1));
+  }
+  else if (airlift* airlift1 = dynamic_cast<airlift*>(order)) {
+   this->list.push_back(new airlift(*airlift1));
+  }
+  else if (negotiate* negotiate1 = dynamic_cast<negotiate*>(order)) {
+   this->list.push_back(new negotiate(*negotiate1));
+  }
+ }
+}
+
+//assignment operator
+orderlist& orderlist::operator=(const orderlist& e) {
+std::cout<<"assignment operator for orderlist "<<std::endl;
+for (auto order : e.list) {
+  if (deploy* deploy1 = dynamic_cast<deploy*>(order)) {
+   this->list.push_back(new deploy(*deploy1));
+  }
+  else if (advance* advance1 = dynamic_cast<advance*>(order)) {
+   this->list.push_back(new advance(*advance1));
+  }
+  else if(bomb* bomb1 = dynamic_cast<bomb*>(order)) {
+   this->list.push_back(new bomb(*bomb1));
+  }
+  else if (blockade* blockade1 = dynamic_cast<blockade*>(order)) {
+   this->list.push_back(new blockade(*blockade1));
+  }
+  else if (airlift* airlift1 = dynamic_cast<airlift*>(order)) {
+   this->list.push_back(new airlift(*airlift1));
+  }
+  else if (negotiate* negotiate1 = dynamic_cast<negotiate*>(order)) {
+   this->list.push_back(new negotiate(*negotiate1));
+  }
+ }
+  return *this;
+}
+
     order* orderlist::invoke(int k){
         return list[k];
     }
@@ -209,7 +275,7 @@
         else if(nextpos<pos){
            list.insert(list.begin()+nextpos-1,list[pos-1]);
            list.erase(list.begin()+pos);
-           std::cout<<"next smaller";
+           std::cout<<"next smaller"<<std::endl;
         }else
            ;
         
@@ -218,112 +284,3 @@
     list.push_back(k1);
     }
  
-int main()
-{
-    bool check = true;
-    int orderfind;
-    orderlist* k= new orderlist();
-    while(check){
-    std::cout<<"which order you want to create? 1.advance;2.deploy;3.bomb;4.blockade;5.airlift;6.negotiate;7.non"<<std::endl;
-    std::cin>>orderfind;//order *o1=new order();
-    switch(orderfind){
-        case 1:
-               { 
-                advance* jd=new advance();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 2:
-               { 
-                deploy* jd=new deploy();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 3:
-               { 
-                bomb* jd=new bomb();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 4:
-               { 
-                blockade* jd=new blockade();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 5:
-               { 
-                airlift* jd=new airlift();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 6:
-               {
-                negotiate* jd=new negotiate();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 7:
-              {
-                  check = false;
-                  break;}
-       /* case 3:
-        case 4:
-        case 5:
-        case 6:*/
-        
-   }}
-   
-    std::cout<<"number of cards : "<<k->listsize()<<std::endl;
-    for(int i=0;i<k->listsize();i++){
-        std::cout<<k->invoke(i)<<std::endl;
-    }
-    std::cout<<"checking execution method...."<<std::endl;
-    for(int i=0;i<k->listsize();i++){
-        k->invoke(i)->execute(k->invoke(i));
-    }
-    std::cout<<"delete which one?";
-    int threa ;
-    std::cin>>threa;
-  //  std::cout<<k->list[3]<<std::endl<<std::endl;
-    k->removal(threa);
-    std::cout<<"after cancellization:"<<std::endl;
-    for(int i=0;i<k->listsize();i++){
-        std::cout<<k->invoke(i)<<std::endl;
-    }
-    std::cout<<"move which one to where?";
-    int old;
-    int new1;
-    std::cin>>old;
-    std::cout<<"move "<<old<<" to ? ";
-    std::cin>>new1;
-    std::cout<<"move "<<old<<" to "<<new1<<std::endl;
-    k->move(old,new1);
-     for(int i=0;i<k->listsize();i++){
-        std::cout<<k->invoke(i)<<std::endl;
-    }
-    delete k;
-    k=NULL;//delete 
-    
-    
-    //std::cout<<jd->name;
-    //vector<order*>list1={o1,o2};
-    //cout << *list1[1]<<endl;
-    //cout<<*o2;
-   // return 0;
-    
-}; // Write C++ code her
-
-
-
-
-
-
-
-
