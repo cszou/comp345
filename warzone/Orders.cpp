@@ -197,8 +197,9 @@
 //copy constructor:
 orderlist::orderlist(const orderlist& orderlistobj)
 {
+    std::cout<<"copy constructor for orderlist"<<std::endl;
+
  for (auto order : orderlistobj.list) {
-std::cout<<"copy constructor for orderlist"<<std::endl;
 
   if (deploy* deploy1 = dynamic_cast<deploy*>(order)) {
    this->list.push_back(new deploy(*deploy1));
@@ -220,32 +221,16 @@ std::cout<<"copy constructor for orderlist"<<std::endl;
   }
  }
 }
+orderlist & orderlist:: operator = (const orderlist& d){
+        std::cout<<"asss constructor for orderlist"<<std::endl;
 
-//assignment operator
-orderlist& orderlist::operator=(const orderlist& e) {
-std::cout<<"assignment operator for orderlist "<<std::endl;
-for (auto order : e.list) {
-  if (deploy* deploy1 = dynamic_cast<deploy*>(order)) {
-   this->list.push_back(new deploy(*deploy1));
-  }
-  else if (advance* advance1 = dynamic_cast<advance*>(order)) {
-   this->list.push_back(new advance(*advance1));
-  }
-  else if(bomb* bomb1 = dynamic_cast<bomb*>(order)) {
-   this->list.push_back(new bomb(*bomb1));
-  }
-  else if (blockade* blockade1 = dynamic_cast<blockade*>(order)) {
-   this->list.push_back(new blockade(*blockade1));
-  }
-  else if (airlift* airlift1 = dynamic_cast<airlift*>(order)) {
-   this->list.push_back(new airlift(*airlift1));
-  }
-  else if (negotiate* negotiate1 = dynamic_cast<negotiate*>(order)) {
-   this->list.push_back(new negotiate(*negotiate1));
-  }
- }
-  return *this;
+    for(int i = 0;i< d.list.size();i++){
+        list.push_back(new order(*d.list[i]));
+    }
+    return *this;
 }
+
+
 
     order* orderlist::invoke(int k){
         return list[k];
