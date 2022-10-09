@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Orders.h"
+class Advance;
 #include "Card.h"
 #include "Map.h"
 #include <iostream>
@@ -9,12 +10,6 @@
 #include <algorithm> 
 #include <sstream>
 using namespace std;
-class advacne;
-class deploy;
-class bomb;
-class blockage;
-class airlift;
-class negotiate;
 
 //Default cons
 Player::Player()
@@ -82,9 +77,12 @@ vector<Territory*> Player::toDefend()
 //Create order object and puts it in the player’s list of orders
 void Player::issueOrder()
 {
-	//advance a = new advance::advance();
-	order *o = new order();
-	orderList.push_back(o);
+	Advance *a = new Advance();
+	orderList.push_back(a);
+	deploy* d = new deploy();
+	orderList.push_back(d);
+	bomb* b = new bomb();
+	orderList.push_back(b);
 }
 //Link to Orders.cpp
 vector<order*> Player::getlist()

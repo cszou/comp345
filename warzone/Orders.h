@@ -20,15 +20,15 @@ class order {
     friend std::ostream& operator<<(std::ostream &s,  order *i) ;
 };
      
-class advance : public order{
+class Advance : public order{
     public:
-    advance();
-    ~advance();
+    Advance();
+    ~Advance();
     std::string call();
     void validate(order* item);
     void execute(order* item);
-    advance(const advance& s);
-    advance& operator=(const advance& s);
+    Advance(const Advance& s);
+    Advance& operator=(const Advance& s);
 
 };
 

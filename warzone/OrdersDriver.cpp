@@ -17,7 +17,7 @@ void testOrdersLists(){
     switch(orderfind){
         case 1:
                { 
-                advance* jd=new advance();
+                Advance* jd=new Advance();
                 jd->validate(jd);
                 k->add(jd);
                 break;

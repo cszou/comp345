@@ -37,27 +37,27 @@
         return s << "This is a list of orders." << std::endl;
     }
  
-    advance::advance(){
+    Advance::Advance(){
        nameaccess("advance");
        std::cout<<"initiate advance!"<<std::endl;
     }
-    advance::~advance(){
+    Advance::~Advance(){
          std::cout<<"advance class destruction called"<<std::endl;
 
     }
-    std::string advance::call(){
+    std::string Advance::call(){
         return "it use for advance";
     }
-    void advance::validate(order* item){
+    void Advance::validate(order* item){
         std::cout<<"advance order validated!"<<std::endl;
     }
-    void advance::execute(order* item){
+    void Advance::execute(order* item){
         validate(item);
         std::cout<<"advance order executed!"<<std::endl;
     }
-    advance::advance(const advance& s) : order(s) {
+    Advance::Advance(const Advance& s) : order(s) {
 }
-    advance& advance::operator=(const advance& s) {
+    Advance& Advance::operator=(const Advance& s) {
     order::operator= (s);
     return *this;
 }
@@ -209,8 +209,8 @@ orderlist::orderlist(const orderlist& orderlistobj)
   if (deploy* deploy1 = dynamic_cast<deploy*>(order)) {
    this->list.push_back(new deploy(*deploy1));
   }
-  else if (advance* advance1 = dynamic_cast<advance*>(order)) {
-   this->list.push_back(new advance(*advance1));
+  else if (Advance* advance1 = dynamic_cast<Advance*>(order)) {
+   this->list.push_back(new Advance(*advance1));
   }
   else if(bomb* bomb1 = dynamic_cast<bomb*>(order)) {
    this->list.push_back(new bomb(*bomb1));

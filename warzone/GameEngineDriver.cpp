@@ -9,6 +9,7 @@ using std::string;
 
 void testGameStates() {
 
+	cout << " Part 5: Game Engine" << endl;
 	string command;
 	bool valid = false;
 	GameEngine* engine = new GameEngine();
@@ -115,12 +116,12 @@ void testGameStates() {
 						engine->setState("Win");
 						valid = true;
 					}
-
-					else {
-						cout << "Invalid Command! Please try again (For example: Execute_Order/ End_Execute_Orders/Win  ) " << endl;
-						cin >> command;
-					}
+				else {
+					cout << "Invalid Command! Please try again (For example: Execute_Order/ End_Execute_Orders/Win  ) " << endl;
+					cin >> command;
 				}
 			}
 		}
 	}
+	cout << "Geme Engine demo end." << endl << endl;
+}
