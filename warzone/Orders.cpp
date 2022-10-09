@@ -250,7 +250,6 @@ OrderList & OrderList:: operator = (const OrderList& d){
            list.erase(list.begin()+i-1);
            std::cout<<"the order want to cancel is : "<<k<<std::endl;
            std::cout<<"cancel part finished\n"<<std::endl;
-           //<<"has been removed"<<std::endl;
         }
     }
     int OrderList::listsize(){

@@ -13,5 +13,6 @@ void testLoadMaps() {
 		gameMap = MapLoader::readMap();
 	}
 	delete gameMap;
+	gameMap = nullptr;
 	cout << "Map demo end." << endl << endl;
 }

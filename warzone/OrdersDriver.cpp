@@ -3,104 +3,112 @@
 #include<string>
 #include"Orders.h"
 
-void testOrdersLists(){
+void testOrdersLists() {
 
-    std::cout << "\nPart 3: Orders list" << std::endl;
-    bool check = true;
-    int orderfind;
-    OrderList* k= new OrderList();
-    //std::cout<<"using copy constructor!"<<std::endl;
-    std::cout<<*k<<std::endl;
-    while(check){
-    std::cout<<"which order you want to create? 1.advance;2.deploy;3.bomb;4.blockade;5.airlift;6.negotiate;7.non"<<std::endl;
-    std::cin>>orderfind;//order *o1=new order();
-    switch(orderfind){
-        case 1:
-               { 
-                Advance* jd=new Advance();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 2:
-               { 
-                Deploy* jd=new Deploy();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 3:
-               { 
-                Bomb* jd=new Bomb();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 4:
-               { 
-                Blockade* jd=new Blockade();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 5:
-               { 
-                Airlift* jd=new Airlift();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 6:
-               {
-                Negotiate* jd=new Negotiate();
-                jd->validate(jd);
-                k->add(jd);
-                break;
-               }
-        case 7:
-              {
-                  check = false;
-                  break;}
-       /* case 3:
-        case 4:
-        case 5:
-        case 6:*/
-        
-   }}
-    std::cout<<"number of cards : "<<k->listsize()<<std::endl;
-    for(int i=0;i<k->listsize();i++){
-        std::cout<<k->invoke(i)<<std::endl;
-    }    
-     OrderList* k1 =new OrderList(*k);
-     std::cout<<"the order of original pointer:"<<k<<std::endl;
-     std::cout<<"the order of deep copyed pointer:"<<k1<<std::endl;
+	std::cout << "\nPart 3: Orders list" << std::endl;
+	bool check = true;
+	int orderfind;
+	OrderList* k = new OrderList();
+	std::cout << *k << std::endl;
+	while (check) {
+		std::cout << "which order you want to create? 1.advance;2.deploy;3.bomb;4.blockade;5.airlift;6.negotiate;7.non" << std::endl;
+		std::cin >> orderfind;
+		switch (orderfind) {
+		case 1:
+		{
+			Advance* jd = new Advance();
+			jd->validate(jd);
+			k->add(jd);
+			break;
+		}
+		case 2:
+		{
+			Deploy* jd = new Deploy();
+			jd->validate(jd);
+			k->add(jd);
+			break;
+		}
+		case 3:
+		{
+			Bomb* jd = new Bomb();
+			jd->validate(jd);
+			k->add(jd);
+			break;
+		}
+		case 4:
+		{
+			Blockade* jd = new Blockade();
+			jd->validate(jd);
+			k->add(jd);
+			break;
+		}
+		case 5:
+		{
+			Airlift* jd = new Airlift();
+			jd->validate(jd);
+			k->add(jd);
+			break;
+		}
+		case 6:
+		{
+			Negotiate* jd = new Negotiate();
+			jd->validate(jd);
+			k->add(jd);
+			break;
+		}
+		case 7:
+		{
+			check = false;
+			break;}
+		}
+	}
+	std::cout << "number of cards : " << k->listsize() << std::endl;
+	for (int i = 0;i < k->listsize();i++) {
+		std::cout << k->invoke(i) << std::endl;
+	}
+	OrderList* k1 = new OrderList(*k);
+	std::cout << "the order of original pointer:" << k << std::endl;
+	std::cout << "the order of deep copyed pointer:" << k1 << std::endl;
 
-    std::cout<<"checking execution method...."<<std::endl;
-    for(int i=0;i<k1->listsize();i++){
-        k1->invoke(i)->execute(k1->invoke(i));
-    }
-    std::cout<<"delete which one?";
-    int threa ;
-    std::cin>>threa;
-  //  std::cout<<k->list[3]<<std::endl<<std::endl;
-    k1->removal(threa);
-    std::cout<<"after cancellization:"<<std::endl;
-    for(int i=0;i<k1->listsize();i++){
-        std::cout<<k1->invoke(i)<<std::endl;
-    }
-    std::cout<<"move which one to where?";
-    int old;
-    int new1;
-    std::cin>>old;
-    std::cout<<"move "<<old<<" to ? ";
-    std::cin>>new1;
-    std::cout<<"move "<<old<<" to "<<new1<<std::endl;
-    k1->move(old,new1);
-     for(int i=0;i<k1->listsize();i++){
-        std::cout<<k1->invoke(i)<<std::endl;
-    }
-    delete k1;
-    k1=NULL;//delete
-    std::cout << "Orders list demo end." << std::endl << std::endl;
-    
+	std::cout << "checking execution method...." << std::endl;
+	for (int i = 0;i < k1->listsize();i++) {
+		k1->invoke(i)->execute(k1->invoke(i));
+	}
+	bool cont = true;
+		std::cout << "delete which one?";
+		int threa;
+		while (cont) {
+			std::cin >> threa;
+			if (threa > k1->listsize())
+				std::cout << "Out of bound. Please try again." << std::endl;
+			else
+				cont = false;
+		}
+		k1->removal(threa);
+		std::cout << "after cancellization:" << std::endl;
+		for (int i = 0;i < k1->listsize();i++) {
+			std::cout << k1->invoke(i) << std::endl;
+		}
+	int old;
+	int new1;
+	cont = true;
+	while(cont) {
+		std::cout << "move which one to where?";
+		std::cin >> old;
+		std::cout << "move " << old << " to ? ";
+		std::cin >> new1;
+		std::cout << "move " << old << " to " << new1 << std::endl;
+		if(old>k1->listsize()||new1>k1->listsize())
+			std::cout << "Out of bound. Please try again." << std::endl;
+		else
+			cont = false;
+	}
+	k1->move(old, new1);
+	for (int i = 0;i < k1->listsize();i++) {
+		std::cout << k1->invoke(i) << std::endl;
+	}
+	delete k1;
+	k1 = NULL;
+	std::cout << "Orders list demo end." << std::endl << std::endl;
+
 }

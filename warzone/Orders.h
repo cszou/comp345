@@ -90,7 +90,6 @@ class OrderList{
     private:
         std::vector<Order*>list;//list of order of pointer
     public:
-    //std::vector<order*>list;//list of order of pointer
     OrderList();
     ~OrderList();
     Order* invoke(int k);

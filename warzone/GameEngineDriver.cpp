@@ -9,7 +9,7 @@ using std::string;
 
 void testGameStates() {
 
-	cout << "Part 5: Game Engine" << endl;
+	cout << "\nPart 5: Game Engine" << endl;
 	string command;
 	bool valid = false;
 	GameEngine* engine = new GameEngine();
@@ -124,4 +124,6 @@ void testGameStates() {
 		}
 	}
 	cout << "Geme Engine demo end." << endl << endl;
+	delete engine;
+	engine = nullptr;
 }

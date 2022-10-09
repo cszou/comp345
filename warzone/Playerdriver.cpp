@@ -30,5 +30,7 @@ void testPlayers()
     cout << "Player issues an order:" << endl;
     p1->issueOrder();
     cout << "Player now has " << p1->getlist().size() << " orders." << endl;
+    delete p1;
+    p1 = nullptr;
     cout << "Player demo end." << endl << endl;
 }
