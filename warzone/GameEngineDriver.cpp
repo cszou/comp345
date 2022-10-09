@@ -9,7 +9,7 @@ using std::string;
 
 void testGameStates() {
 
-	cout << " Part 5: Game Engine" << endl;
+	cout << "Part 5: Game Engine" << endl;
 	string command;
 	bool valid = false;
 	GameEngine* engine = new GameEngine();

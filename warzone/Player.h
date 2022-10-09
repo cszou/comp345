@@ -17,16 +17,16 @@ public:
     ~Player();//Desturctor
     Player(const Player&);//Copy constructor
     Player& operator =(const Player& p); //assigment operator
-    void addOrder(order* o);
+    void addOrder(Order* o);
     vector<Territory*> toAttack();
     vector<Territory*> toDefend();
     void issueOrder();
     void printOrder();
-    vector<order*> getlist();
+    vector<Order*> getlist();
 private:
     vector<Territory*> territories;
     Hand* handOfCards;
-    vector<order*> orderList;
+    vector<Order*> orderList;
     string name; 
     friend std::ostream & operator << (ostream &os, Player &p1);
 };

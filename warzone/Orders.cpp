@@ -3,36 +3,36 @@
 #include<string>
 #include"Orders.h"
 
-    order::order(){
+    Order::Order(){
      this->name="order";
         std::cout<<"order created..."<<std::endl;
     }
-    order::~order(){
+    Order::~Order(){
     }//destructor
-     std::string order:: call(){
+     std::string Order:: call(){
         return 0;
      }
-     void order::execute(order* item){};
+     void Order::execute(Order* item){};
 
-    std::string order:: description(){
+    std::string Order:: description(){
          return "it use for";
     }//no need maybe
     
-    void order::nameaccess(std::string newname){
+    void Order::nameaccess(std::string newname){
         this->name=newname;
     }
-    order::order(const order& e) {//copy consrtuctor
+    Order::Order(const Order& e) {//copy consrtuctor
     name  = e.name;
 }
-    order& order::operator=(const order& e) { //assignment operator
+    Order& Order::operator=(const Order& e) { //assignment operator
     name  = e.name;
     return *this;
 }
-    std::ostream& operator<<(std::ostream &s,  order *i) {
+    std::ostream& operator<<(std::ostream &s,  Order *i) {
     return s << i->name;//string insertion operator
 }
 
-    std::ostream& operator<<(std::ostream& s, orderlist& ol)
+    std::ostream& operator<<(std::ostream& s, OrderList& ol)
     {
         return s << "This is a list of orders." << std::endl;
     }
@@ -48,147 +48,147 @@
     std::string Advance::call(){
         return "it use for advance";
     }
-    void Advance::validate(order* item){
+    void Advance::validate(Order* item){
         std::cout<<"advance order validated!"<<std::endl;
     }
-    void Advance::execute(order* item){
+    void Advance::execute(Order* item){
         validate(item);
         std::cout<<"advance order executed!"<<std::endl;
     }
-    Advance::Advance(const Advance& s) : order(s) {
+    Advance::Advance(const Advance& s) : Order(s) {
 }
     Advance& Advance::operator=(const Advance& s) {
-    order::operator= (s);
+    Order::operator= (s);
     return *this;
 }
 
-    deploy::deploy(){
+    Deploy::Deploy(){
        nameaccess("deploy");
        std::cout<<"initiate deploy!"<<std::endl;
     }
-    deploy::~deploy(){
+    Deploy::~Deploy(){
       std::cout<<"deploy class destruction called"<<std::endl;
 
     }
-    std::string deploy::call(){
+    std::string Deploy::call(){
         return "it use for deploy";
     }
 
-    void deploy::validate(order* item){
+    void Deploy::validate(Order* item){
         std::cout<<"deploy order validated!"<<std::endl;
     }
-    void deploy::execute(order* item){
+    void Deploy::execute(Order* item){
         validate(item);
         std::cout<<"deploy order executed!"<<std::endl;
     }
-    deploy::deploy(const deploy& s) : order(s) {
+    Deploy::Deploy(const Deploy& s) : Order(s) {
 }   
-    deploy& deploy::operator=(const deploy& s) {
-  order::operator= (s);
+    Deploy& Deploy::operator=(const Deploy& s) {
+  Order::operator= (s);
   return *this;
 }
 
-    bomb::bomb(){
+    Bomb::Bomb(){
        nameaccess("bomb");
        std::cout<<"initiate bomb!"<<std::endl;
     }
-    bomb::~bomb(){
+    Bomb::~Bomb(){
        std::cout<<"bomb class destruction called"<<std::endl;
     }
-    std::string bomb::call(){
+    std::string Bomb::call(){
         return "it use for bomb";
     }
-    void bomb::validate(order* item){
+    void Bomb::validate(Order* item){
         std::cout<<"bomb order validated!"<<std::endl;
     }
-    void bomb::execute(order* item){
+    void Bomb::execute(Order* item){
         validate(item);
         std::cout<<"bomb order executed!"<<std::endl;
     }
-    bomb::bomb(const bomb& s) : order(s) {
+    Bomb::Bomb(const Bomb& s) : Order(s) {
 }
-    bomb& bomb::operator=(const bomb& s) {
-    order::operator= (s);
+    Bomb& Bomb::operator=(const Bomb& s) {
+    Order::operator= (s);
     return *this;
 }
 
-    blockade::blockade(){
+    Blockade::Blockade(){
        nameaccess("blockade");
        std::cout<<"initiate blockade!"<<std::endl;
     }
-    blockade::~blockade(){
+    Blockade::~Blockade(){
        std::cout<<"blockade class destruction called"<<std::endl;
     }
-    std::string blockade::call(){
+    std::string Blockade::call(){
         return "it use for blockade";
     }
-    void blockade::validate(order* item){
+    void Blockade::validate(Order* item){
         std::cout<<"blockade order validated!"<<std::endl;
     }
-    void blockade::execute(order* item){
+    void Blockade::execute(Order* item){
         validate(item);
         std::cout<<"blockade order executed!"<<std::endl;
     }
-    blockade::blockade(const blockade& s) : order(s) {
+    Blockade::Blockade(const Blockade& s) : Order(s) {
 }
-    blockade& blockade::operator=(const blockade& s) {
-    order::operator= (s);
+    Blockade& Blockade::operator=(const Blockade& s) {
+    Order::operator= (s);
     return *this;
 }
    
-    airlift::airlift(){
+    Airlift::Airlift(){
        nameaccess("airlift");
        std::cout<<"initiate airlift!"<<std::endl;
     }
-    airlift::~airlift(){
+    Airlift::~Airlift(){
        std::cout<<"airlift class destruction called"<<std::endl;
     }
-    std::string airlift::call(){
+    std::string Airlift::call(){
         return "it use for airlift";
     }
-    void airlift::validate(order* item){
+    void Airlift::validate(Order* item){
         //validate part
         std::cout<<"airlift order validated!"<<std::endl;
     }
-    void airlift::execute(order* item){
+    void Airlift::execute(Order* item){
         validate(item);
         std::cout<<"airlift order executed!"<<std::endl;
     }
-    airlift::airlift(const airlift& s) : order(s) {
+    Airlift::Airlift(const Airlift& s) : Order(s) {
     }
-    airlift& airlift::operator=(const airlift& s) {
-    order::operator= (s);
+    Airlift& Airlift::operator=(const Airlift& s) {
+    Order::operator= (s);
     return *this;
     }
 
-    negotiate::negotiate(){
+    Negotiate::Negotiate(){
        nameaccess("negotiate");
        std::cout<<"initiate negotiate!"<<std::endl;
     }
-    negotiate::~negotiate(){
+    Negotiate::~Negotiate(){
        std::cout<<"negotiate class destruction called"<<std::endl;
     }
-    std::string negotiate::call(){
+    std::string Negotiate::call(){
         return "it use for negotiate";
     }
-    void negotiate::validate(order* item){
+    void Negotiate::validate(Order* item){
         //validate part
         std::cout<<"negotiate order validated!"<<std::endl;
     }
-    void negotiate::execute(order* item){
+    void Negotiate::execute(Order* item){
         validate(item);
         std::cout<<"negotiate order executed!"<<std::endl;
     }
-    negotiate::negotiate(const negotiate& s) : order(s) {
+    Negotiate::Negotiate(const Negotiate& s) : Order(s) {
 }
-    negotiate& negotiate::operator=(const negotiate& s) {
-    order::operator= (s);
+    Negotiate& Negotiate::operator=(const Negotiate& s) {
+    Order::operator= (s);
     return *this;
 }
 
-    orderlist::orderlist(){
+    OrderList::OrderList(){
     }
-    orderlist::~orderlist(){
+    OrderList::~OrderList(){
 	std::cout << "Destroying OrdersList" << std::endl;
 	for (auto order : list) {
 		delete order;
@@ -200,52 +200,52 @@
 }
 
 //copy constructor:
-orderlist::orderlist(const orderlist& orderlistobj)
+OrderList::OrderList(const OrderList& orderlistobj)
 {
     std::cout<<"copy constructor for orderlist"<<std::endl;
 
  for (auto order : orderlistobj.list) {
 
-  if (deploy* deploy1 = dynamic_cast<deploy*>(order)) {
-   this->list.push_back(new deploy(*deploy1));
+  if (Deploy* deploy1 = dynamic_cast<Deploy*>(order)) {
+   this->list.push_back(new Deploy(*deploy1));
   }
   else if (Advance* advance1 = dynamic_cast<Advance*>(order)) {
    this->list.push_back(new Advance(*advance1));
   }
-  else if(bomb* bomb1 = dynamic_cast<bomb*>(order)) {
-   this->list.push_back(new bomb(*bomb1));
+  else if(Bomb* bomb1 = dynamic_cast<Bomb*>(order)) {
+   this->list.push_back(new Bomb(*bomb1));
   }
-  else if (blockade* blockade1 = dynamic_cast<blockade*>(order)) {
-   this->list.push_back(new blockade(*blockade1));
+  else if (Blockade* blockade1 = dynamic_cast<Blockade*>(order)) {
+   this->list.push_back(new Blockade(*blockade1));
   }
-  else if (airlift* airlift1 = dynamic_cast<airlift*>(order)) {
-   this->list.push_back(new airlift(*airlift1));
+  else if (Airlift* airlift1 = dynamic_cast<Airlift*>(order)) {
+   this->list.push_back(new Airlift(*airlift1));
   }
-  else if (negotiate* negotiate1 = dynamic_cast<negotiate*>(order)) {
-   this->list.push_back(new negotiate(*negotiate1));
+  else if (Negotiate* negotiate1 = dynamic_cast<Negotiate*>(order)) {
+   this->list.push_back(new Negotiate(*negotiate1));
   }
  }
 }
-orderlist & orderlist:: operator = (const orderlist& d){
+OrderList & OrderList:: operator = (const OrderList& d){
         std::cout<<"asss constructor for orderlist"<<std::endl;
 
     for(int i = 0;i< d.list.size();i++){
-        list.push_back(new order(*d.list[i]));
+        list.push_back(new Order(*d.list[i]));
     }
     return *this;
 }
 
 
 
-    order* orderlist::invoke(int k){
+    Order* OrderList::invoke(int k){
         return list[k];
     }
-    void orderlist::removal(int i){
+    void OrderList::removal(int i){
          
         if (i>list.size())
         std::cout<<"out of order"<<std::endl;
         else{ 
-           order* k = list[i-1];
+           Order* k = list[i-1];
            
            list.erase(list.begin()+i-1);
            std::cout<<"the order want to cancel is : "<<k<<std::endl;
@@ -253,10 +253,10 @@ orderlist & orderlist:: operator = (const orderlist& d){
            //<<"has been removed"<<std::endl;
         }
     }
-    int orderlist::listsize(){
+    int OrderList::listsize(){
         return list.size();
     }
-    void orderlist::move(int pos,int nextpos){//move part 
+    void OrderList::move(int pos,int nextpos){//move part 
         if(nextpos>pos){
            list.insert(list.begin()+nextpos-1,list[pos-1]);
            list.erase(list.begin()+pos-1);
@@ -270,7 +270,7 @@ orderlist & orderlist:: operator = (const orderlist& d){
            ;
         
     };
-    void orderlist::add(order* k1){
+    void OrderList::add(Order* k1){
     list.push_back(k1);
     }
  

@@ -14,6 +14,7 @@ using std::vector;
 using std::stringstream;
 #include <algorithm>
 using std::find;
+#include "Player.h"
 
 //default constructor
 Map::Map() {
@@ -330,14 +331,14 @@ Territory::Territory(string name)
 	this->numberOfArmies = 0;
 }
 
-//copy constructor, using shallow copy intentionally
+//copy constructor
 Territory::Territory(const Territory& t)
 {
 	this->name = t.name;
 	this->coordX = t.coordX;
 	this->coordY = t.coordY;
-	this->continent = t.continent;
-	this->owner = t.owner;
+	this->continent = new Continent(*t.continent);
+	this->owner = new Player(*t.owner);
 	this->numberOfArmies = t.numberOfArmies;
 }
 
@@ -351,14 +352,14 @@ Territory::Territory(string n, int x, int y, Continent* c) {
 	this->numberOfArmies = 0;
 }
 
-//assignment operator, using shallow copy intentionally
+//assignment operator
 Territory& Territory::operator=(const Territory& t)
 {
 	this->numberOfArmies = t.numberOfArmies;
 	this->coordX = t.coordX;
 	this->coordY = t.coordY;
-	this->owner = t.owner;
-	this->continent = t.continent;
+	this->continent = new Continent(*t.continent);
+	this->owner = new Player(*t.owner);
 	return *this;
 }
 

@@ -8,7 +8,7 @@ void testOrdersLists(){
     std::cout << "\nPart 3: Orders list" << std::endl;
     bool check = true;
     int orderfind;
-    orderlist* k= new orderlist();
+    OrderList* k= new OrderList();
     //std::cout<<"using copy constructor!"<<std::endl;
     std::cout<<*k<<std::endl;
     while(check){
@@ -24,35 +24,35 @@ void testOrdersLists(){
                }
         case 2:
                { 
-                deploy* jd=new deploy();
+                Deploy* jd=new Deploy();
                 jd->validate(jd);
                 k->add(jd);
                 break;
                }
         case 3:
                { 
-                bomb* jd=new bomb();
+                Bomb* jd=new Bomb();
                 jd->validate(jd);
                 k->add(jd);
                 break;
                }
         case 4:
                { 
-                blockade* jd=new blockade();
+                Blockade* jd=new Blockade();
                 jd->validate(jd);
                 k->add(jd);
                 break;
                }
         case 5:
                { 
-                airlift* jd=new airlift();
+                Airlift* jd=new Airlift();
                 jd->validate(jd);
                 k->add(jd);
                 break;
                }
         case 6:
                {
-                negotiate* jd=new negotiate();
+                Negotiate* jd=new Negotiate();
                 jd->validate(jd);
                 k->add(jd);
                 break;
@@ -71,7 +71,7 @@ void testOrdersLists(){
     for(int i=0;i<k->listsize();i++){
         std::cout<<k->invoke(i)<<std::endl;
     }    
-     orderlist* k1 =new orderlist(*k);
+     OrderList* k1 =new OrderList(*k);
      std::cout<<"the order of original pointer:"<<k<<std::endl;
      std::cout<<"the order of deep copyed pointer:"<<k1<<std::endl;
 

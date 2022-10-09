@@ -40,7 +40,7 @@ Player::Player(const Player& p)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
 	for (auto o : p.orderList)
-		this->orderList.push_back(new order(*o));
+		this->orderList.push_back(new Order(*o));
 }
 
 Player& Player::operator=(const Player& p)
@@ -50,11 +50,11 @@ Player& Player::operator=(const Player& p)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
 	for (auto o : p.orderList)
-		this->orderList.push_back(new order(*o));
+		this->orderList.push_back(new Order(*o));
 	return *this;
 }
 
-void Player::addOrder(order* o)
+void Player::addOrder(Order* o)
 {
 	this->orderList.push_back(o);
 }
@@ -79,20 +79,20 @@ void Player::issueOrder()
 {
 	Advance *a = new Advance();
 	orderList.push_back(a);
-	deploy* d = new deploy();
+	Deploy* d = new Deploy();
 	orderList.push_back(d);
-	bomb* b = new bomb();
+	Bomb* b = new Bomb();
 	orderList.push_back(b);
 }
 //Link to Orders.cpp
-vector<order*> Player::getlist()
+vector<Order*> Player::getlist()
 {
 	return orderList;
 }
 //For testPlayers
 void Player::printOrder()
 {
-	vector<order*>::iterator it = orderList.begin();
+	vector<Order*>::iterator it = orderList.begin();
 	for (; it != orderList.end(); it++)
 	{
 		cout << "" << (*it);

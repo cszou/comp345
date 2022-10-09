@@ -4,101 +4,101 @@
 #include<vector>
 #include<string>
 //using namespace std;
-class order {
+class Order {
     
     private:
     std::string name;
     public:
-    order();
-    virtual ~order();
+    Order();
+    virtual ~Order();
     virtual std::string call();
     std::string description();
-    virtual void execute(order* item);
+    virtual void execute(Order* item);
     void nameaccess(std::string newname);
-    order(const order& e);
-    order& operator=(const order& e);
-    friend std::ostream& operator<<(std::ostream &s,  order *i) ;
+    Order(const Order& e);
+    Order& operator=(const Order& e);
+    friend std::ostream& operator<<(std::ostream &s,  Order *i) ;
 };
      
-class Advance : public order{
+class Advance : public Order{
     public:
     Advance();
     ~Advance();
     std::string call();
-    void validate(order* item);
-    void execute(order* item);
+    void validate(Order* item);
+    void execute(Order* item);
     Advance(const Advance& s);
     Advance& operator=(const Advance& s);
 
 };
 
-class deploy : public order{
+class Deploy : public Order{
     public:
-    deploy();
-    ~deploy();
+    Deploy();
+    ~Deploy();
     std::string call();
-    void validate(order* item);
-    void execute(order* item);
-    deploy(const deploy& s);
-    deploy& operator=(const deploy& s);
+    void validate(Order* item);
+    void execute(Order* item);
+    Deploy(const Deploy& s);
+    Deploy& operator=(const Deploy& s);
 };
 
-class bomb : public order{
+class Bomb : public Order{
     public:
-    bomb();
-    ~bomb();
+    Bomb();
+    ~Bomb();
     std::string call();
-    void validate(order* item);
-    void execute(order* item);
-    bomb(const bomb& s);
-    bomb& /*bomb::*/operator=(const bomb& s);
+    void validate(Order* item);
+    void execute(Order* item);
+    Bomb(const Bomb& s);
+    Bomb& /*bomb::*/operator=(const Bomb& s);
 };
 
-class blockade : public order{
+class Blockade : public Order{
     public:
-    blockade();
-    ~blockade();
+    Blockade();
+    ~Blockade();
     std::string call();
-    void validate(order* item);
-    void execute(order* item);
-    blockade(const blockade& s);
-    blockade& operator=(const blockade& s);
+    void validate(Order* item);
+    void execute(Order* item);
+    Blockade(const Blockade& s);
+    Blockade& operator=(const Blockade& s);
 };
 
-class airlift : public order{
+class Airlift : public Order{
     public:
-    airlift();
-    ~airlift();
+    Airlift();
+    ~Airlift();
     std::string call();
-    void validate(order* item);
-    void execute(order* item);
-    airlift(const airlift& s);
-    airlift& operator=(const airlift& s);
+    void validate(Order* item);
+    void execute(Order* item);
+    Airlift(const Airlift& s);
+    Airlift& operator=(const Airlift& s);
 };
 
-class negotiate : public order{
+class Negotiate : public Order{
     public:
-    negotiate();
-    ~negotiate();
+    Negotiate();
+    ~Negotiate();
     std::string call();
-    void validate(order* item);
-    void execute(order* item);
-    negotiate(const negotiate& s);
-    negotiate& operator=(const negotiate& s);
+    void validate(Order* item);
+    void execute(Order* item);
+    Negotiate(const Negotiate& s);
+    Negotiate& operator=(const Negotiate& s);
 };
-class orderlist{
+class OrderList{
     private:
-        std::vector<order*>list;//list of order of pointer
+        std::vector<Order*>list;//list of order of pointer
     public:
     //std::vector<order*>list;//list of order of pointer
-    orderlist();
-    ~orderlist();
-    order* invoke(int k);
+    OrderList();
+    ~OrderList();
+    Order* invoke(int k);
     void removal(int i);
     int listsize();
     void move(int pos,int nextpos);
-    void add(order* k1);
-    orderlist(const orderlist& orderlistobj);
-    orderlist &  operator = (const orderlist& d);
-    friend std::ostream& operator<<(std::ostream& s, orderlist& ol);
+    void add(Order* k1);
+    OrderList(const OrderList& orderlistobj);
+    OrderList &  operator = (const OrderList& d);
+    friend std::ostream& operator<<(std::ostream& s, OrderList& ol);
 };
