@@ -8,7 +8,7 @@ class order {
     std::string name;
     public:
     order();
-    ~order();
+    virtual ~order();
     virtual std::string call();
     std::string description();
     virtual void execute(order* item);
@@ -44,6 +44,7 @@ class deploy : public order{
 class bomb : public order{
     public:
     bomb();
+    ~bomb();
     std::string call();
     void validate(order* item);
     void execute(order* item);
@@ -54,6 +55,7 @@ class bomb : public order{
 class blockade : public order{
     public:
     blockade();
+    ~blockade();
     std::string call();
     void validate(order* item);
     void execute(order* item);
@@ -64,6 +66,7 @@ class blockade : public order{
 class airlift : public order{
     public:
     airlift();
+    ~airlift();
     std::string call();
     void validate(order* item);
     void execute(order* item);
@@ -74,6 +77,7 @@ class airlift : public order{
 class negotiate : public order{
     public:
     negotiate();
+    ~negotiate();
     std::string call();
     void validate(order* item);
     void execute(order* item);
@@ -92,4 +96,6 @@ class orderlist{
     int listsize();
     void move(int pos,int nextpos);
     void add(order* k1);
+    orderlist(const orderlist& orderlistobj);
+    orderlist &  operator = (const orderlist& d);
 };
