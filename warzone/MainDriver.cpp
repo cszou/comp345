@@ -4,6 +4,7 @@
 //#include "CardsDriver.h"
 //#include "GameEngineDriver.h"
 
+#include "Card.h"
 
 int main() {
 	testLoadMaps();
@@ -11,4 +12,6 @@ int main() {
 	//testOrdersLists();
 	//testCards();
 	//testGameStates();
+}
+	testCards();
 }
