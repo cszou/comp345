@@ -5,7 +5,6 @@
 #include<string>
 //using namespace std;
 class Order {
-    
     private:
     std::string name;
     public:
@@ -15,9 +14,9 @@ class Order {
     std::string description();
     virtual void execute(Order* item);
     void nameaccess(std::string newname);
-    Order(const Order& e);
-    Order& operator=(const Order& e);
-    friend std::ostream& operator<<(std::ostream &s,  Order *i) ;
+    Order(const Order& e);//copy constructor
+    Order& operator=(const Order& e);//assignment operator
+    friend std::ostream& operator<<(std::ostream &s,  Order *i) ;//stream insertion operator
 };
      
 class Advance : public Order{
@@ -27,9 +26,9 @@ class Advance : public Order{
     std::string call();
     void validate(Order* item);
     void execute(Order* item);
-    Advance(const Advance& s);
-    Advance& operator=(const Advance& s);
-
+    Advance(const Advance& s);//copy constructor
+    Advance& operator=(const Advance& s);//assignment operator
+    friend std::ostream& operator<<(std::ostream &s,  Advance *i) ;//stream insertion operator
 };
 
 class Deploy : public Order{
@@ -39,8 +38,9 @@ class Deploy : public Order{
     std::string call();
     void validate(Order* item);
     void execute(Order* item);
-    Deploy(const Deploy& s);
-    Deploy& operator=(const Deploy& s);
+    Deploy(const Deploy& s);//copy constructor
+    Deploy& operator=(const Deploy& s);//assignment operator
+    friend std::ostream& operator<<(std::ostream &s,  Deploy *i) ;//stream insertion operator
 };
 
 class Bomb : public Order{
@@ -50,8 +50,9 @@ class Bomb : public Order{
     std::string call();
     void validate(Order* item);
     void execute(Order* item);
-    Bomb(const Bomb& s);
-    Bomb& /*bomb::*/operator=(const Bomb& s);
+    Bomb(const Bomb& s);//copy constructor
+    Bomb& operator=(const Bomb& s);//assignment operator
+    friend std::ostream& operator<<(std::ostream &s,  Bomb *i) ;//stream insertion operator
 };
 
 class Blockade : public Order{
@@ -61,8 +62,9 @@ class Blockade : public Order{
     std::string call();
     void validate(Order* item);
     void execute(Order* item);
-    Blockade(const Blockade& s);
-    Blockade& operator=(const Blockade& s);
+    Blockade(const Blockade& s);//copy constructor
+    Blockade& operator=(const Blockade& s);//assignment operator
+    friend std::ostream& operator<<(std::ostream &s,  Blockade *i) ;//stream insertion operator
 };
 
 class Airlift : public Order{
@@ -72,8 +74,10 @@ class Airlift : public Order{
     std::string call();
     void validate(Order* item);
     void execute(Order* item);
-    Airlift(const Airlift& s);
-    Airlift& operator=(const Airlift& s);
+    Airlift(const Airlift& s);//copy constructor
+    Airlift& operator=(const Airlift& s);//assignment operator
+    friend std::ostream& operator<<(std::ostream &s,  Airlift *i) ;//stream insertion operator
+
 };
 
 class Negotiate : public Order{
@@ -83,8 +87,10 @@ class Negotiate : public Order{
     std::string call();
     void validate(Order* item);
     void execute(Order* item);
-    Negotiate(const Negotiate& s);
-    Negotiate& operator=(const Negotiate& s);
+    Negotiate(const Negotiate& s);//copy constructor
+    Negotiate& operator=(const Negotiate& s);//assignment operator
+    friend std::ostream& operator<<(std::ostream &s,  Negotiate *i) ;//stream insertion operator
+
 };
 class OrderList{
     private:
@@ -97,7 +103,7 @@ class OrderList{
     int listsize();
     void move(int pos,int nextpos);
     void add(Order* k1);
-    OrderList(const OrderList& orderlistobj);
-    OrderList &  operator = (const OrderList& d);
-    friend std::ostream& operator<<(std::ostream& s, OrderList& ol);
+    OrderList(const OrderList& orderlistobj);//copy constructor
+    OrderList &  operator = (const OrderList& d);//assignment operator
+    friend std::ostream& operator<<(std::ostream& s, OrderList& ol);//stream insertion operator
 };

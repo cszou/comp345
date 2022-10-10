@@ -32,10 +32,7 @@
     return s << i->name;//string insertion operator
 }
 
-    std::ostream& operator<<(std::ostream& s, OrderList& ol)
-    {
-        return s << "This is a list of orders." << std::endl;
-    }
+
  
     Advance::Advance(){
        nameaccess("advance");
@@ -57,9 +54,12 @@
     }
     Advance::Advance(const Advance& s) : Order(s) {
 }
-    Advance& Advance::operator=(const Advance& s) {
+    Advance& Advance::operator=(const Advance& s) {//assignment operator
     Order::operator= (s);
     return *this;
+}
+    std::ostream& operator<<(std::ostream &s,  Advance *i) {
+    return s << "Advance order meaning: To move forward"<<std::endl;//string insertion operator
 }
 
     Deploy::Deploy(){
@@ -83,11 +83,13 @@
     }
     Deploy::Deploy(const Deploy& s) : Order(s) {
 }   
-    Deploy& Deploy::operator=(const Deploy& s) {
+    Deploy& Deploy::operator=(const Deploy& s) {//assignment operator
   Order::operator= (s);
   return *this;
 }
-
+    std::ostream& operator<<(std::ostream &s,  Deploy *i) {
+    return s << "Deploy order meaning: To deploy army "<<std::endl;//string insertion operator
+}
     Bomb::Bomb(){
        nameaccess("bomb");
        std::cout<<"initiate bomb!"<<std::endl;
@@ -107,9 +109,12 @@
     }
     Bomb::Bomb(const Bomb& s) : Order(s) {
 }
-    Bomb& Bomb::operator=(const Bomb& s) {
+    Bomb& Bomb::operator=(const Bomb& s) {//assignment operator
     Order::operator= (s);
     return *this;
+}
+    std::ostream& operator<<(std::ostream &s,  Bomb *i) {
+    return s << "Bomb order meaning: To air raid specific area"<<std::endl;//string insertion operator
 }
 
     Blockade::Blockade(){
@@ -131,11 +136,13 @@
     }
     Blockade::Blockade(const Blockade& s) : Order(s) {
 }
-    Blockade& Blockade::operator=(const Blockade& s) {
+    Blockade& Blockade::operator=(const Blockade& s) {//assignment operator
     Order::operator= (s);
     return *this;
 }
-   
+       std::ostream& operator<<(std::ostream &s,  Blockade *i) {
+    return s << "Blockade order meaning: To block a specific area"<<std::endl;//string insertion operator
+}
     Airlift::Airlift(){
        nameaccess("airlift");
        std::cout<<"initiate airlift!"<<std::endl;
@@ -156,10 +163,14 @@
     }
     Airlift::Airlift(const Airlift& s) : Order(s) {
     }
-    Airlift& Airlift::operator=(const Airlift& s) {
+    Airlift& Airlift::operator=(const Airlift& s) {//assignment operator
     Order::operator= (s);
     return *this;
     }
+    std::ostream& operator<<(std::ostream &s,  Airlift *i) {
+    return s << "Airlift order meaning: To move supply or army by air to a specific area"<<std::endl;//string insertion operator
+}
+    
 
     Negotiate::Negotiate(){
        nameaccess("negotiate");
@@ -181,9 +192,12 @@
     }
     Negotiate::Negotiate(const Negotiate& s) : Order(s) {
 }
-    Negotiate& Negotiate::operator=(const Negotiate& s) {
+    Negotiate& Negotiate::operator=(const Negotiate& s) {//assignment operator
     Order::operator= (s);
     return *this;
+}
+    std::ostream& operator<<(std::ostream &s,  Negotiate *i) {
+    return s << "Negotiate order meaning: To negociate with the rebel or other players"<<std::endl;//string insertion operator
 }
 
     OrderList::OrderList(){
@@ -226,7 +240,7 @@ OrderList::OrderList(const OrderList& orderlistobj)
   }
  }
 }
-OrderList & OrderList:: operator = (const OrderList& d){
+OrderList & OrderList:: operator = (const OrderList& d){//assignment operator
         std::cout<<"asss constructor for orderlist"<<std::endl;
 
     for(int i = 0;i< d.list.size();i++){
@@ -271,5 +285,9 @@ OrderList & OrderList:: operator = (const OrderList& d){
     };
     void OrderList::add(Order* k1){
     list.push_back(k1);
+    }
+        std::ostream& operator<<(std::ostream& s, OrderList& ol)//string insertion operator for orderlists
+    {
+        return s << "This is a list of orders." << std::endl;
     }
  
