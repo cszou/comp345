@@ -6,7 +6,7 @@ using namespace std;
 #include "LoggingObserver.h"
 
 
-class GameEngine {
+class GameEngine :public ILoggable, public Subject{
 private:
 	string state;
 	string state_start;
@@ -27,6 +27,7 @@ public:
 	string getState();
 	void setState(string newState);
 	friend ostream& operator << (ostream& out, const GameEngine& gameEngine);
+	string stringToLog();
 	
 };
 
