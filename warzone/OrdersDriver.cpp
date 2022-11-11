@@ -117,6 +117,3 @@ void testOrdersLists() {
 	k1 = NULL;//avoid memory leaks
 	std::cout << "Orders list demo end." << std::endl << std::endl;
 }
-int main(){
-	testOrdersLists();
-}

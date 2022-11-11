@@ -363,3 +363,9 @@ MigrationBackup/
 FodyWeavers.xsd
 /Map - Copy.cpp
 /Map - Copy.h
+/warzone/warzone.exe
+/warzone/executable.exe
+/warzone/.vscode/tasks.json
+/warzone/.vscode/launch.json
+/warzone/Team_N11.zip
+/warzone/MainDriver.exe
