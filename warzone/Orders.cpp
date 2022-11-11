@@ -418,8 +418,8 @@ OrderList & OrderList:: operator = (const OrderList& d){//assignment operator
     }
 	
 	string OrderList :: stringToLog(){
-
-		return  "Order added into OrderList: " + ;
+		Order* o = list.back();
+		return  "Order added into OrderList: " + o->getName();
 	}
 int main(){
     int NUMBEROFARMY =13;
