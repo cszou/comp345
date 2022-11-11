@@ -19,6 +19,10 @@
     }//no need maybe
     Order::Order(const Order& e) {//copy consrtuctor
 }
+
+	string stringToLog(){
+		return "Order: " +  getName() ;
+	}
 //------------------------------------------------    
     Deploy::Deploy(int* NUMBEROFARMY,Player* K,Territory* F){
         this->K=K;
@@ -46,7 +50,7 @@
         }else{
                         std::cout<<"Execute unsuccessful since validated false."<<std::endl;
         }
-        //notify();
+         Notify(this);
     }
     Deploy::Deploy(const Deploy& s){
          this->F=new Territory(*(s.F));
@@ -125,6 +129,7 @@
                 std::cout<<"dont know whats the condition"<<std::endl;
             }        
         std::cout<<"advance order validated!"<<std::endl;
+	 Notify(this);
     }
 
  //   Advance::Advance(const Advance& s){
@@ -180,7 +185,9 @@
     }
     std::ostream& operator<<(std::ostream &s,  Airlift *i) {
     return s << "Airlift order meaning: To move supply or army by air to a specific area"<<std::endl;//string insertion operator
-}
+	Notify(this);
+	
+    }
 //-----------------------------------BOMB---------------------------
     Bomb::Bomb(Player* player,Territory* target,int* army ){
        this->NUMBEROFARMY=army;
@@ -211,6 +218,7 @@
             std::cout<<"bomb order executed!Previous target army: "+record<<",Currently target terriotery army: "+target->getNumberOfArmies()<<std::endl;
         }
         std::cout<<"bomb order executed!"<<std::endl;
+	  Notify(this);
     }
     Bomb::Bomb(const Bomb& s) : Order(s) {
 }
@@ -238,6 +246,7 @@
     void Blockade::execute(Order* item){
         validate(item);
         std::cout<<"blockade order executed!"<<std::endl;
+	  Notify(this);
     }
     Blockade::Blockade(const Blockade& s) : Order(s) {
 }
@@ -250,7 +259,7 @@
 }
 
     
-
+//-----------------------------------Negotiate---------------------------
     Negotiate::Negotiate(){
        nameaccess("negotiate");
        std::cout<<"initiate negotiate!"<<std::endl;
@@ -268,6 +277,7 @@
     void Negotiate::execute(Order* item){
         validate(item);
         std::cout<<"negotiate order executed!"<<std::endl;
+	   Notify(this);
     }
     Negotiate::Negotiate(const Negotiate& s) : Order(s) {
 }
@@ -364,11 +374,16 @@ OrderList & OrderList:: operator = (const OrderList& d){//assignment operator
     };
     void OrderList::add(Order* k1){
     list.push_back(k1);
+	    Notify(this);
     }
         std::ostream& operator<<(std::ostream& s, OrderList& ol)//string insertion operator for orderlists
     {
         return s << "This is a list of orders." << std::endl;
     }
+	
+	string OrderList :: stringToLog(){
+   	 return  "Order Issued:" ;
+	}
 int main(){
     int NUMBEROFARMY =13;
     Territory* A1= new Territory("A1");
