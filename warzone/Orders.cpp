@@ -21,7 +21,7 @@
 }
 
 	string stringToLog(){
-		return "Order: " +  getName() ;
+	 return " ";
 	}
 //------------------------------------------------    
     Deploy::Deploy(int* NUMBEROFARMY,Player* K,Territory* F){
@@ -144,7 +144,9 @@
     std::ostream& operator<<(std::ostream &s,  Advance *i) {
     return s << "Advance order meaning: To move forward"<<std::endl;//string insertion operator
 }
-
+    string stringToLog(){
+		return "Order Executed: " + name;
+	{
 //-----------------------------------Airlift-----------------------
     Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW){
         this->OLD=OLD;
@@ -191,6 +193,9 @@
 	Notify(this);
 	
     }
+    string stringToLog(){
+	return "Order Executed: " + name;
+	{
 //-----------------------------------BOMB---------------------------
     Bomb::Bomb(Player* player,Territory* target,int* army ){
        this->NUMBEROFARMY=army;
@@ -223,6 +228,10 @@
         std::cout<<"bomb order executed!"<<std::endl;
 	  Notify(this);
     }
+     string stringToLog(){
+	return "Order Executed: " + name;
+	{
+		
     Bomb::Bomb(const Bomb& s) : Order(s) {
 }
     Bomb& Bomb::operator=(const Bomb& s) {//assignment operator
