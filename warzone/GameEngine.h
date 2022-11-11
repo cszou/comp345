@@ -3,10 +3,10 @@
 #ifndef GAME_ENGINE_H
 #define GAME_ENGINE_H
 using namespace std;
+#include "LoggingObserver.h"
 
 
-
-class GameEngine {
+class GameEngine :: public ILoggable, public Subject {
 private:
 	string state;
 	string state_start;
@@ -27,7 +27,8 @@ public:
 	string getState();
 	void setState(string newState);
 	friend ostream& operator << (ostream& out, const GameEngine& gameEngine);
-
+	//Define method from abstract base class Ilogggable
+	string stringToLog();
 };
 
 
