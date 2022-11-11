@@ -36,6 +36,8 @@ class Deploy : public Order{
     int *NUMBEROFARMY;
     Player *K;
     Territory *F;
+    string name = "Deploy";
+    
     public:
     Deploy(int* NUMBEROFARMY,Player *K,Territory *F);
     ~Deploy();
@@ -44,6 +46,7 @@ class Deploy : public Order{
     Deploy(const Deploy& s);//copy constructor
     Deploy& operator=(const Deploy& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Deploy *i) ;//stream insertion operator
+    string getName();
 };
      
 class Advance : public Order{
@@ -54,6 +57,7 @@ class Advance : public Order{
     Territory *OLD;
     Territory *NEW;
     static int numberoftime;
+    string name = "Advance";
  //   Deck *d = new Deck();
     public:    
     Advance(Territory *old,Territory *new1,Player *player,int* NUMBEROFARMY);
@@ -64,6 +68,7 @@ class Advance : public Order{
     Advance(const Advance& s);//copy constructor
     Advance& operator=(const Advance& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Advance *i) ;//stream insertion operator
+    string getName();
 };
 class Airlift : public Order{
     private:
@@ -71,6 +76,7 @@ class Airlift : public Order{
     Player *K;
     Territory *OLD;
     Territory *NEW;
+    string name = "Airlift";
     public:
     Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW);
     ~Airlift();
@@ -79,6 +85,7 @@ class Airlift : public Order{
     Airlift(const Airlift& s);//copy constructor
     Airlift& operator=(const Airlift& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Airlift *i) ;//stream insertion operator
+     string getName();
 
 };
 
@@ -88,6 +95,7 @@ class Bomb : public Order{
     int *NUMBEROFARMY;
     Player *K;
     Territory *target;
+     string name = "Bomb";
     public:
     Bomb(Player* player,Territory* target,int* army );
     ~Bomb();
@@ -96,12 +104,14 @@ class Bomb : public Order{
     Bomb(const Bomb& s);//copy constructor
     Bomb& operator=(const Bomb& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Bomb *i) ;//stream insertion operator
+    string getName();
 };
 
 class Blockade : public Order{
     private:
     Player *K;
     Territory *target;
+     string name = "Blockade";
     public:
     Blockade(Player* k,Territory* target);
     ~Blockade();
@@ -111,11 +121,14 @@ class Blockade : public Order{
     Blockade(const Blockade& s);//copy constructor
     Blockade& operator=(const Blockade& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Blockade *i) ;//stream insertion operator
+    string getName();
 };
 
 
 
 class Negotiate : public Order{
+    private:
+    string name = "Blockade";
     public:
     Negotiate();
     ~Negotiate();
@@ -125,6 +138,7 @@ class Negotiate : public Order{
     Negotiate(const Negotiate& s);//copy constructor
     Negotiate& operator=(const Negotiate& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Negotiate *i) ;//stream insertion operator
+    string getName();
 
 };
 class OrderList : public ILoggable, public Subjec{
