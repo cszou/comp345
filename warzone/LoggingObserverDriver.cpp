@@ -26,6 +26,23 @@ void testLoggingObserver(){
 
     //Testing the CommandProcessor
     //Testing the Order 
+	
+    // create  Territory object
+    Territory* A1= new Territory("A1");
+    Territory* A2= new Territory("A2");
+    Hand* h = new Hand();
+    Deck *d = new Deck();
+    Player* K =new Player({A2,A1},h,"Player1");
+	
+    Order* deploy = new Deploy(&NUMBEROFARMY,K,F);
+ // Order* advance= new Advance();
+ // Order* airlift= new Airlift(); 
+// Order* Bomb = new Bomb (); 
+// Order* Blockade= new Blockade(); 
+ // Order* Negotiate= new Negotiate(); 
+ OrderList* testOrderList =new OrderList();	
+
+	
 }
 
 /*
