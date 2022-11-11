@@ -10,20 +10,22 @@ void testLoggingObserver(){
     LoggingObserver *ob = new LoggingObserver();
     //Create ILoggable objects for testing
     CommandProcessor* commandprocessor = new CommandProcessor();
-    commandprocessor -> attach(ob);
-    Command command = new  Command();
-	
+    Command command = new  Command();	
     GameEngine* engine = new GameEngine();
+	
+    //Attach each object to the observer object
+    commandprocessor -> attach(ob);
     engine -> attach(ob);
+    command  -> attach(ob);
 	
     //Testing the GameEngine
     engine->setState("Start");
     engine->setState("Map Loaded");
     engine->setState("Assign Reinforcement");
-		
+    engine->setState("Win");	
 
     //Testing the CommandProcessor
-
+    //Testing the Order 
 }
 
 /*
