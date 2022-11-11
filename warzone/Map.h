@@ -78,6 +78,7 @@ public:
 	void setX(int x); //set X coordinate
 	void setY(int y); //set Y coordinate
 	void addNeighbour(Territory* t); //add a connected neighbour
+	bool Territory::checkNeighbours(Territory* k) ;
 	void showNeighbours(); //show all neighbours
 	vector<Territory*> getNeighbours(); //get the neighbours
 	friend std::ostream& operator<<(std::ostream&, const Territory&); //stream insertion
