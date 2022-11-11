@@ -454,6 +454,16 @@ void Territory::showNeighbours()
 vector<Territory*> Territory::getNeighbours() {
 	return this->neighbours;
 }
+bool Territory::checkNeighbours(Territory* k){
+	for (auto t : getNeighbours())
+	{
+		if (t == k)
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 //stream insertion for Map object
 std::ostream& operator<<(std::ostream& strm, const Map& m)
