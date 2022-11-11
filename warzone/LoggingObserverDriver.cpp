@@ -1,21 +1,26 @@
 #include "LoggingObserver.h"
 #include "LoggingObserverDriver.h"
-//#include "CommandProcessing.h"
-//#include "GameEngine.h"
-//#include "Orders.h"
+#include "CommandProcessing.h"
+#include "GameEngine.h"
+#include "Orders.h"
 using namespace std;
 
 void testLoggingObserver(){
     //Create a log observer object
     LoggingObserver *ob = new LoggingObserver();
     //Create ILoggable objects for testing
-    //CommandProcessor* commandprocessor = new CommandProcessor();
-    //GameEngine* engine = new GameEngine();
-
+    CommandProcessor* commandprocessor = new CommandProcessor();
+    commandprocessor -> attach(ob);
+    Command command = new  Command();
+	
+    GameEngine* engine = new GameEngine();
+    engine -> attach(ob);
+	
     //Testing the GameEngine
-    //engine->setState("Start");
-    //engine->setState("Map Loaded");
-    //engine->setState("Assign Reinforcement")
+    engine->setState("Start");
+    engine->setState("Map Loaded");
+    engine->setState("Assign Reinforcement");
+		
 
     //Testing the CommandProcessor
 
