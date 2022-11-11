@@ -29,6 +29,7 @@ class Order  : public ILoggable, public Subject{
     friend std::ostream& operator<<(std::ostream &s,  Order *i) ;//stream insertion operator
     //Define stringToLog method from abstract base class ILoggable
     string stringToLog();
+    string getName();
 };
 class Deploy : public Order{
     private:
@@ -48,6 +49,7 @@ class Deploy : public Order{
     friend std::ostream& operator<<(std::ostream &s,  Deploy *i) ;//stream insertion operator
      //Define stringToLog method from abstract base class ILoggable
     string stringToLog();
+    string getName();
 };
      
 class Advance : public Order{
@@ -70,6 +72,7 @@ class Advance : public Order{
     friend std::ostream& operator<<(std::ostream &s,  Advance *i) ;//stream insertion operator
      //Define stringToLog method from abstract base class ILoggable
     string stringToLog();
+    string getName();
 };
 class Airlift : public Order{
     private:
@@ -88,6 +91,7 @@ class Airlift : public Order{
     friend std::ostream& operator<<(std::ostream &s,  Airlift *i) ;//stream insertion operator
      //Define stringToLog method from abstract base class ILoggable
     string stringToLog();
+    string getName();
 
 };
 
@@ -108,6 +112,7 @@ class Bomb : public Order{
     friend std::ostream& operator<<(std::ostream &s,  Bomb *i) ;//stream insertion operator
      //Define stringToLog method from abstract base class ILoggable
     string stringToLog();
+    string getName();
 };
 
 class Blockade : public Order{
@@ -126,6 +131,7 @@ class Blockade : public Order{
     friend std::ostream& operator<<(std::ostream &s,  Blockade *i) ;//stream insertion operator
      //Define stringToLog method from abstract base class ILoggable
     string stringToLog();
+    string getName();
 };
 
 
@@ -144,11 +150,12 @@ class Negotiate : public Order{
     friend std::ostream& operator<<(std::ostream &s,  Negotiate *i) ;//stream insertion operator
      //Define stringToLog method from abstract base class ILoggable
     string stringToLog();
+    string getName();
 
 };
 class OrderList : public ILoggable, public Subjec{
     private:
-        std::vector<Order*>list;//list of order of pointer
+        std::vector<Order*> list;//list of order of pointer
     public:
     OrderList();
     ~OrderList();
