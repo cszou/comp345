@@ -46,6 +46,8 @@ class Deploy : public Order{
     Deploy(const Deploy& s);//copy constructor
     Deploy& operator=(const Deploy& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Deploy *i) ;//stream insertion operator
+     //Define stringToLog method from abstract base class ILoggable
+    string stringToLog();
 };
      
 class Advance : public Order{
@@ -66,6 +68,8 @@ class Advance : public Order{
     Advance(const Advance& s);//copy constructor
     Advance& operator=(const Advance& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Advance *i) ;//stream insertion operator
+     //Define stringToLog method from abstract base class ILoggable
+    string stringToLog();
 };
 class Airlift : public Order{
     private:
@@ -82,6 +86,8 @@ class Airlift : public Order{
     Airlift(const Airlift& s);//copy constructor
     Airlift& operator=(const Airlift& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Airlift *i) ;//stream insertion operator
+     //Define stringToLog method from abstract base class ILoggable
+    string stringToLog();
 
 };
 
@@ -100,6 +106,8 @@ class Bomb : public Order{
     Bomb(const Bomb& s);//copy constructor
     Bomb& operator=(const Bomb& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Bomb *i) ;//stream insertion operator
+     //Define stringToLog method from abstract base class ILoggable
+    string stringToLog();
 };
 
 class Blockade : public Order{
@@ -116,6 +124,8 @@ class Blockade : public Order{
     Blockade(const Blockade& s);//copy constructor
     Blockade& operator=(const Blockade& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Blockade *i) ;//stream insertion operator
+     //Define stringToLog method from abstract base class ILoggable
+    string stringToLog();
 };
 
 
@@ -132,6 +142,8 @@ class Negotiate : public Order{
     Negotiate(const Negotiate& s);//copy constructor
     Negotiate& operator=(const Negotiate& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Negotiate *i) ;//stream insertion operator
+     //Define stringToLog method from abstract base class ILoggable
+    string stringToLog();
 
 };
 class OrderList : public ILoggable, public Subjec{
