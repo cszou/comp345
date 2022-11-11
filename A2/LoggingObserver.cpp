@@ -8,13 +8,28 @@ ILoggable :: ILoggable(){
 ILoggable :: ~ILoggable(){
 
 } 
+ILoggable ::ILoggable(const ILoggable& logObj){
+
+};
+ILoggable :: ILoggable& operator=(const ILoggable& s){
+    retrun *this;
+}
+
 //------------------------------------------------
 //Class Observer
 Observer :: Observer(){
 }
 
 Observer :: ~Observer(){
+
 }
+Observer ::Observer(const Observer& s){
+
+}
+Observer ::Observer& operator=(const Observer& s){
+    return *this;
+}
+
 //------------------------------------------------
 //Class Subject (Superclass)
 Subject :: Subject(){
@@ -43,11 +58,12 @@ void Subject :: Notify(ILoggable* log){
         (*i) -> Update(log);
     }
 }
+
 //------------------------------------------------
 //Class LogObserver
 LogObserver :: LogObserver(){
-}
 
+}
 void LogObserver:: Update(ILoggable* log){
     //declare an output stream 
     fstream filestream;
@@ -57,6 +73,15 @@ void LogObserver:: Update(ILoggable* log){
     filestream <<log->stringToLog() <<endl;
     //close the file
     outputfilestream.close();
+}
+LogObserver::LogObserver() {
+
+}
+LogObserver::LogObserver(const LogObserver& s) {
+
+}
+LogObserver& LogObserver::operator=(const LogObserver& s) { 
+    return *this; 
 }
 
 
