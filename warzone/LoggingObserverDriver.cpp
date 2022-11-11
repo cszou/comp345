@@ -8,6 +8,7 @@ using namespace std;
 void testLoggingObserver(){
     //Create a log observer object
     LoggingObserver *ob = new LoggingObserver();
+	
     //Create ILoggable objects for testing
     CommandProcessor* commandprocessor = new CommandProcessor();
     Command command = new  Command();	
@@ -18,13 +19,13 @@ void testLoggingObserver(){
     engine -> attach(ob);
     command  -> attach(ob);
 	
-    //Testing the GameEngine
+    //Testing the GameEngine, when game engine change its state, the new state will be written to the log file
     engine->setState("Start");
     engine->setState("Map Loaded");
     engine->setState("Assign Reinforcement");
     engine->setState("Win");	
 
-    //Testing the CommandProcessor
+    //Testing the CommandProcessor, when a command is read, it is written in the log file
     //Testing the Order 
 	
     // create  Territory object
@@ -34,14 +35,46 @@ void testLoggingObserver(){
     Deck *d = new Deck();
     Player* K =new Player({A2,A1},h,"Player1");
 	
+    //create each order objects
     Order* deploy = new Deploy(&NUMBEROFARMY,K,F);
- // Order* advance= new Advance();
- // Order* airlift= new Airlift(); 
-// Order* Bomb = new Bomb (); 
-// Order* Blockade= new Blockade(); 
- // Order* Negotiate= new Negotiate(); 
- OrderList* testOrderList =new OrderList();	
+    Order* advance= new Advance();
+    Order* airlift= new Airlift(); 
+    Order* bomb = new Bomb (); 
+    Order* blockade= new Blockade(); 
+    Order* negotiate= new Negotiate();
+    //Attach each object to the observer object
+    deploy -> attach(ob);
+    advance -> attach(ob);
+    airlift -> attach(ob);
+    bomb -> attach(ob);
+    blockade -> attach(ob);
+    negotiate -> attach(ob);
+	
+    //Testing Order execute method, the exceuted order will be outputed to log file
+    deploy->execute();
+    advance->execute();
+    airlift->execute();
+    bomb->execute();
+    blockade->execute();
+    negotiate->execute();
 
+    //create orderlist object and attach it to the observer object 
+    OrderList* testOrderList =new OrderList();
+    testOrderList -> attach(ob);
+    //Testing orderlist addOrder, the added order will be outputed to log file
+    testOrderList -> add(deploy);
+    testOrderList -> add(advance);
+    testOrderList -> add(airlift);
+    testOrderList -> add(bomb);
+    testOrderList -> add(blockade); 
+    testOrderList -> add(negotiate);
+	
+  //Deleting pointers to prevent memory leak 
+    delete ob;
+    delete commandprocessor;
+    delete engine; 
+    delete A1, A2;
+    delete deploy, advance, airlift, bomb, blockade, negotiate;
 	
 }
 
