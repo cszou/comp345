@@ -27,6 +27,7 @@ public:
 	string getState();
 	void setState(string newState);
 	friend ostream& operator << (ostream& out, const GameEngine& gameEngine);
+	//define stringToLog method from abstract base class Iloggablie
 	string stringToLog();
 	
 };
