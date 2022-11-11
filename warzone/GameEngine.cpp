@@ -53,6 +53,7 @@ GameEngine&  GameEngine:: operator = (const GameEngine& copy) {
 string GameEngine::getState()
 {
 	return state;
+	Notify(this);
 }
 
 void GameEngine::setState(string newState)
@@ -65,3 +66,8 @@ void GameEngine::setState(string newState)
 	 out << "Game_Engine";
 	 return out;
 }
+string GameEngine::stringToLog() {
+	return "Game Engine New State: " + getState();
+}
+	{
+	
