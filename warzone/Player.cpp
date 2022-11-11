@@ -52,6 +52,14 @@ Player& Player::operator=(const Player& p)
 		this->orderList.push_back(new Order(*o));
 	return *this;
 }
+bool Player::ownsTerritory(Territory* t1){
+for(Territory* t:territories){
+	if(t==t1){
+		return true;
+	}
+}
+return false;
+}
 
 void Player::addOrder(Order* o)
 {
@@ -82,6 +90,9 @@ void Player::issueOrder()
 	orderList.push_back(d);
 	Bomb* b = new Bomb();
 	orderList.push_back(b);
+}
+Hand* Player::gethandofcard(){
+	return handOfCards;
 }
 //Link to Orders.cpp
 vector<Order*> Player::getlist()
