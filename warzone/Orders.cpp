@@ -20,9 +20,9 @@
     Order::Order(const Order& e) {//copy consrtuctor
 }
 
-	string stringToLog(){
+   string Order :: stringToLog(){
 	 return " ";
-	}
+   }
 //------------------------------------------------    
     Deploy::Deploy(int* NUMBEROFARMY,Player* K,Territory* F){
         this->K=K;
@@ -71,9 +71,12 @@
         else
           return s<<"This is a deploy order and it has not been executed."<<std::endl;
 }
-	string stringToLog(){
+     string Deploy:: stringToLog(){
 		return "Order Executed: " + name;
 	{
+	 string Deploy:: getName()	{
+		 return name;
+	 }
 	//-------------------------------ADVANCE-------------------------------------------------------
     Advance::Advance(Territory *old,Territory *new1,Player *player,int* NUMBEROFARMY){
         this->OLD=old;
@@ -144,9 +147,12 @@
     std::ostream& operator<<(std::ostream &s,  Advance *i) {
     return s << "Advance order meaning: To move forward"<<std::endl;//string insertion operator
 }
-    string stringToLog(){
+    string Advance:: stringToLog(){
 		return "Order Executed: " + name;
 	{
+    string Advance:: getName(){
+	    return name;
+    }
 //-----------------------------------Airlift-----------------------
     Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW){
         this->OLD=OLD;
@@ -193,9 +199,12 @@
 	Notify(this);
 	
     }
-    string stringToLog(){
+    string Airlift:: stringToLog(){
 	return "Order Executed: " + name;
 	{
+     string Airlift:: getName(){
+	     return name;
+     }
 //-----------------------------------BOMB---------------------------
     Bomb::Bomb(Player* player,Territory* target,int* army ){
        this->NUMBEROFARMY=army;
@@ -228,10 +237,7 @@
         std::cout<<"bomb order executed!"<<std::endl;
 	  Notify(this);
     }
-     string stringToLog(){
-	return "Order Executed: " + name;
-	{
-		
+    
     Bomb::Bomb(const Bomb& s) : Order(s) {
 }
     Bomb& Bomb::operator=(const Bomb& s) {//assignment operator
@@ -241,6 +247,12 @@
     std::ostream& operator<<(std::ostream &s,  Bomb *i) {
     return s << "Bomb order meaning: To air raid specific area"<<std::endl;//string insertion operator
 }
+    string  Bomb:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Bomb:: getName(){
+	     return name;
+     }		
 //---------------------------------------Blockade
     Blockade::Blockade(Player* k,Territory* target){
        nameaccess("blockade");
@@ -270,7 +282,12 @@
     return s << "Blockade order meaning: To block a specific area"<<std::endl;//string insertion operator
 }
 
-    
+     string  Blockade:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Blockade:: getName(){
+	     return name;
+     }
 //-----------------------------------Negotiate---------------------------
     Negotiate::Negotiate(){
        nameaccess("negotiate");
@@ -299,8 +316,15 @@
 }
     std::ostream& operator<<(std::ostream &s,  Negotiate *i) {
     return s << "Negotiate order meaning: To negociate with the rebel or other players"<<std::endl;//string insertion operator
-}
-
+	}
+   string Negotiate:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Negotiate:: getName(){
+	     return name;
+     }
+		
+//-----------------------------------OrderList---------------------------
     OrderList::OrderList(){
     }
     OrderList::~OrderList(){
@@ -394,7 +418,8 @@ OrderList & OrderList:: operator = (const OrderList& d){//assignment operator
     }
 	
 	string OrderList :: stringToLog(){
-   	 return  "Order Issued:" ;
+
+		return  "Order added into OrderList: " + ;
 	}
 int main(){
     int NUMBEROFARMY =13;
