@@ -25,6 +25,8 @@ public:
     void issueOrder();
     void printOrder();
     vector<Order*> getlist();
+    Hand* gethandofcard();
+    bool ownsTerritory(Territory* territory);//add
 private:
     vector<Territory*> territories;
     Hand* handOfCards;
