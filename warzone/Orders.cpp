@@ -71,7 +71,10 @@
         else
           return s<<"This is a deploy order and it has not been executed."<<std::endl;
 }
-//-------------------------------ADVANCE-------------------------------------------------------
+	string stringToLog(){
+		return "Order Executed: " + name;
+	{
+	//-------------------------------ADVANCE-------------------------------------------------------
     Advance::Advance(Territory *old,Territory *new1,Player *player,int* NUMBEROFARMY){
         this->OLD=old;
         this->NEW=new1;
