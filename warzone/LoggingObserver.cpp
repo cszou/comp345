@@ -40,11 +40,11 @@ Subject :: ~Subject(){
     delete observers;
 }
 
-void Subject :: Attach(Obcerver* o){
+void Subject :: Attach(Observer* o){
     observers -> push_back(o);
 }
 
-void Subject :: Detach(Obcerver* o){
+void Subject :: Detach(Observer* o){
     for (int i = 0; i < observers->size(); i++)
 	{
 		if (o == observers->at(i)) //They point to the same thing

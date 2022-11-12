@@ -18,7 +18,12 @@
          return "it use for";
     }//no need maybe
     Order::Order(const Order& e) {//copy consrtuctor
-}
+    }
+    string Order :: stringToLog(){
+	 return " ";
+    }
+
+
 //------------------------------------------------    
     Deploy::Deploy(int* NUMBEROFARMY,Player* K,Territory* F){
         this->K=K;
@@ -46,7 +51,7 @@
         }else{
                         std::cout<<"Execute unsuccessful since validated false."<<std::endl;
         }
-        //notify();
+        notify(this);
     }
     Deploy::Deploy(const Deploy& s){
          this->F=new Territory(*(s.F));
@@ -67,6 +72,12 @@
         else
           return s<<"This is a deploy order and it has not been executed."<<std::endl;
 }
+     string Deploy:: stringToLog(){
+		return "Order Executed: " + name;
+	{
+	 string Deploy:: getName()	{
+		 return name;
+	 }
 //-------------------------------ADVANCE-------------------------------------------------------
     Advance::Advance(Territory *old,Territory *new1,Player *player,int* NUMBEROFARMY){
         this->OLD=old;
@@ -125,6 +136,8 @@
                 std::cout<<"dont know whats the condition"<<std::endl;
             }        
         std::cout<<"advance order validated!"<<std::endl;
+	 Notify(this);
+
     }
 
  //   Advance::Advance(const Advance& s){
@@ -136,7 +149,12 @@
     std::ostream& operator<<(std::ostream &s,  Advance *i) {
     return s << "Advance order meaning: To move forward"<<std::endl;//string insertion operator
 }
-
+    string Advance:: stringToLog(){
+		return "Order Executed: " + name;
+	{
+    string Advance:: getName(){
+	    return name;
+    }
 //-----------------------------------Airlift-----------------------
     Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW){
         this->OLD=OLD;
@@ -180,7 +198,14 @@
     }
     std::ostream& operator<<(std::ostream &s,  Airlift *i) {
     return s << "Airlift order meaning: To move supply or army by air to a specific area"<<std::endl;//string insertion operator
-}
+	Notify(this);
+    }
+    string Airlift:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string Airlift:: getName(){
+	     return name;
+     }
 //-----------------------------------BOMB---------------------------
     Bomb::Bomb(Player* player,Territory* target,int* army ){
        this->NUMBEROFARMY=army;
@@ -211,6 +236,7 @@
             std::cout<<"bomb order executed!Previous target army: "+record<<",Currently target terriotery army: "+target->getNumberOfArmies()<<std::endl;
         }
         std::cout<<"bomb order executed!"<<std::endl;
+        Notify(this);
     }
     Bomb::Bomb(const Bomb& s) : Order(s) {
 }
@@ -221,6 +247,12 @@
     std::ostream& operator<<(std::ostream &s,  Bomb *i) {
     return s << "Bomb order meaning: To air raid specific area"<<std::endl;//string insertion operator
 }
+    string  Bomb:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Bomb:: getName(){
+	     return name;
+     }		
 //---------------------------------------Blockade
     Blockade::Blockade(Player* k,Territory* target){
       this->K=k;
@@ -247,6 +279,7 @@
             std::cout<<"blockade order executed!"<<std::endl;
         }
         std::cout<<"blockade order failed!"<<std::endl;
+	  Notify(this);
     }
     Blockade::Blockade(const Blockade& s) : Order(s) {
 }
@@ -257,8 +290,13 @@
        std::ostream& operator<<(std::ostream &s,  Blockade *i) {
     return s << "Blockade order meaning: To block a specific area"<<std::endl;//string insertion operator
 }
-
-
+     string  Blockade:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Blockade:: getName(){
+	     return name;
+     }
+//------------------------------------------negotiate
     Negotiate::Negotiate(Player *order,Player* rival){
         this->order=order;
         this->rival=rival;
@@ -281,6 +319,7 @@
             order->attackban.push_back(rival);
             rival->attackban.push_back(order);
         std::cout<<"negotiate order executed!"<<std::endl;
+        	   Notify(this);
         }
         std::cout<<"negotiate order failed!"<<std::endl;
     }
@@ -293,16 +332,23 @@
     std::ostream& operator<<(std::ostream &s,  Negotiate *i) {
     return s << "Negotiate order meaning: To negociate with the rebel or other players"<<std::endl;//string insertion operator
 }
+   string Negotiate:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Negotiate:: getName(){
+	     return name;
+     }
 //---------------------------------------ORDERLIST-------------------------------------
+    OrderList::OrderList(){
+    }
     OrderList::OrderList(vector<Order*>list){
         this->list=list;
-        this->playerr=gamer;
     }
     OrderList::~OrderList(){
 	std::cout << "Destroying OrdersList" << std::endl;
-	for (auto order : list) {
-		delete order;
-		order = NULL;
+	for (auto order1 : list) {
+		delete order1;
+		order1 = NULL;
 	}
     std::cout <<"pointers destroyed"<< std::endl;
 	list.clear();
@@ -313,39 +359,11 @@
     }
 
 
-
-//copy constructor:
-OrderList::OrderList(const OrderList& orderlistobj)
-{
-    std::cout<<"copy constructor for orderlist"<<std::endl;
-
- for (auto order : orderlistobj.list) {
-
-  if (Deploy* deploy1 = dynamic_cast<Deploy*>(order)) {
-   this->list.push_back(new Deploy(*deploy1));
-  }
-  else if (Advance* advance1 = dynamic_cast<Advance*>(order)) {
-   this->list.push_back(new Advance(*advance1));
-  }
-  else if(Bomb* bomb1 = dynamic_cast<Bomb*>(order)) {
-   this->list.push_back(new Bomb(*bomb1));
-  }
-  else if (Blockade* blockade1 = dynamic_cast<Blockade*>(order)) {
-   this->list.push_back(new Blockade(*blockade1));
-  }
-  else if (Airlift* airlift1 = dynamic_cast<Airlift*>(order)) {
-   this->list.push_back(new Airlift(*airlift1));
-  }
-  else if (Negotiate* negotiate1 = dynamic_cast<Negotiate*>(order)) {
-   this->list.push_back(new Negotiate(*negotiate1));
-  }
- }
-}
 OrderList & OrderList:: operator = (const OrderList& d){//assignment operator
         std::cout<<"asss constructor for orderlist"<<std::endl;
-
+         Order* o;
     for(int i = 0;i< d.list.size();i++){
-        list.push_back(new Order());
+        list.push_back(o);
     }
     return *this;
 }
@@ -354,39 +372,10 @@ void OrderList::addOrders(Order* o) {
     this->list.push_back(o);
    // Notify(this);
 }
+vector<Order*>OrderList:: getorderlist(){
+ return list;
+}
 
-    Order* OrderList::invoke(int k){
-        return list[k];
-    }
-    void OrderList::removal(int i){
-         
-        if (i>list.size())
-        std::cout<<"out of order"<<std::endl;
-        else{ 
-           Order* k = list[i-1];
-           
-           list.erase(list.begin()+i-1);
-           std::cout<<"the order want to cancel is : "<<k<<std::endl;
-           std::cout<<"cancel part finished\n"<<std::endl;
-        }
-    }
-    int OrderList::listsize(){
-        return list.size();
-    }
-    void OrderList::move(int pos,int nextpos){//move part 
-        if(nextpos>pos){
-           list.insert(list.begin()+nextpos-1,list[pos-1]);
-           list.erase(list.begin()+pos-1);
-           std::cout<<"next bigger"<<std::endl;
-        }
-        else if(nextpos<pos){
-           list.insert(list.begin()+nextpos-1,list[pos-1]);
-           list.erase(list.begin()+pos);
-           std::cout<<"next smaller"<<std::endl;
-        }else
-           ;
-        
-    };
     void OrderList::add(Order* k1){
     list.push_back(k1);
     }

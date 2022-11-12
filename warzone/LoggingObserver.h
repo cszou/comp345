@@ -40,9 +40,9 @@ class Subject{
     //default constructor
      Subject();
     //attach this class to observer object (add o to mumber of Subject class: list of observers)
-    virtual void Attach(Obcerver* o);
+    virtual void Attach(Observer* o);
     //detach this class to observer object 
-    virtual void Detach(Obcerver* o);
+    virtual void Detach(Observer* o);
     //once the notify is called on a loggable object, the update method will be called on every
     //observer objects in observer class, and then invoke stringToLod to write update state into files
     virtual void Notify(ILoggable* log);

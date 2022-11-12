@@ -61,10 +61,11 @@ void CommandProcessor::readCommand()
 void CommandProcessor::saveCommand(string command)
 {
 	this->lc.push_back(new Command(command));
+	Notify(this);
 }
 
-string CommandProcessor::stringToLog() {
-	return "Command: ....+ getCommand()?";
+string CommandProcessor::stringToLog(){
+	return "Command have just saved: " + lc.back ->getCommand();
 }
 
 Command::Command(string Command)
@@ -93,13 +94,16 @@ string Command::saveEffect()
 }
 
 string Command::stringToLog() {
-
-	return "Command issued: " + getEffect();
+	
+	return "Command's Effect: " + getEffect() + "\nCommand: " + getCommand();
 }
 
 string Command::getEffect()
 {
 	return effect;
+}
+string Command::getCommand(){
+	return command;
 }
 
 void Command::setEffect(string effect) {
