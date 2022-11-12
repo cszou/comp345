@@ -8,11 +8,6 @@
 
 
 int main() {
-	//testLoadMaps();
-	//testPlayers();
-	//testOrdersLists();
-	//testCards();
-	//testGameStates();
 	testCommandProcessor();
 	//testStartPhase();
 	//testMainGameLoop();
