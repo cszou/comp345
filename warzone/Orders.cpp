@@ -294,15 +294,16 @@
     return s << "Negotiate order meaning: To negociate with the rebel or other players"<<std::endl;//string insertion operator
 }
 //---------------------------------------ORDERLIST-------------------------------------
+    OrderList::OrderList(){
+    }
     OrderList::OrderList(vector<Order*>list){
         this->list=list;
-        this->playerr=gamer;
     }
     OrderList::~OrderList(){
 	std::cout << "Destroying OrdersList" << std::endl;
-	for (auto order : list) {
-		delete order;
-		order = NULL;
+	for (auto order1 : list) {
+		delete order1;
+		order1 = NULL;
 	}
     std::cout <<"pointers destroyed"<< std::endl;
 	list.clear();
@@ -313,39 +314,11 @@
     }
 
 
-
-//copy constructor:
-OrderList::OrderList(const OrderList& orderlistobj)
-{
-    std::cout<<"copy constructor for orderlist"<<std::endl;
-
- for (auto order : orderlistobj.list) {
-
-  if (Deploy* deploy1 = dynamic_cast<Deploy*>(order)) {
-   this->list.push_back(new Deploy(*deploy1));
-  }
-  else if (Advance* advance1 = dynamic_cast<Advance*>(order)) {
-   this->list.push_back(new Advance(*advance1));
-  }
-  else if(Bomb* bomb1 = dynamic_cast<Bomb*>(order)) {
-   this->list.push_back(new Bomb(*bomb1));
-  }
-  else if (Blockade* blockade1 = dynamic_cast<Blockade*>(order)) {
-   this->list.push_back(new Blockade(*blockade1));
-  }
-  else if (Airlift* airlift1 = dynamic_cast<Airlift*>(order)) {
-   this->list.push_back(new Airlift(*airlift1));
-  }
-  else if (Negotiate* negotiate1 = dynamic_cast<Negotiate*>(order)) {
-   this->list.push_back(new Negotiate(*negotiate1));
-  }
- }
-}
 OrderList & OrderList:: operator = (const OrderList& d){//assignment operator
         std::cout<<"asss constructor for orderlist"<<std::endl;
-
+         Order* o;
     for(int i = 0;i< d.list.size();i++){
-        list.push_back(new Order());
+        list.push_back(o);
     }
     return *this;
 }
@@ -354,39 +327,10 @@ void OrderList::addOrders(Order* o) {
     this->list.push_back(o);
    // Notify(this);
 }
+vector<Order*>OrderList:: getorderlist(){
+ return list;
+}
 
-    Order* OrderList::invoke(int k){
-        return list[k];
-    }
-    void OrderList::removal(int i){
-         
-        if (i>list.size())
-        std::cout<<"out of order"<<std::endl;
-        else{ 
-           Order* k = list[i-1];
-           
-           list.erase(list.begin()+i-1);
-           std::cout<<"the order want to cancel is : "<<k<<std::endl;
-           std::cout<<"cancel part finished\n"<<std::endl;
-        }
-    }
-    int OrderList::listsize(){
-        return list.size();
-    }
-    void OrderList::move(int pos,int nextpos){//move part 
-        if(nextpos>pos){
-           list.insert(list.begin()+nextpos-1,list[pos-1]);
-           list.erase(list.begin()+pos-1);
-           std::cout<<"next bigger"<<std::endl;
-        }
-        else if(nextpos<pos){
-           list.insert(list.begin()+nextpos-1,list[pos-1]);
-           list.erase(list.begin()+pos);
-           std::cout<<"next smaller"<<std::endl;
-        }else
-           ;
-        
-    };
     void OrderList::add(Order* k1){
     list.push_back(k1);
     }
