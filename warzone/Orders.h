@@ -37,7 +37,7 @@ class Deploy : public Order{
     int *NUMBEROFARMY;
     Player *K;
     Territory *F;
-    string name = "Deploy";
+    string name;
     public:
     Deploy(int* NUMBEROFARMY,Player *K,Territory *F);
     ~Deploy();
@@ -57,7 +57,7 @@ class Advance : public Order{
     Player *K;
     Territory *OLD;
     Territory *NEW;
-    string name = "Advance";
+    string name ;
     static int numberoftime;
  //   Deck *d = new Deck();
     public:    
@@ -78,7 +78,7 @@ class Airlift : public Order{
     Player *K;
     Territory *OLD;
     Territory *NEW;
-    string name = "Airlift";
+    string name ;
     public:
     Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW);
     ~Airlift();
@@ -97,7 +97,7 @@ class Bomb : public Order{
     int *NUMBEROFARMY;
     Player *K;
     Territory *target;
-    string name = "Bomb";
+    string name ;
     public:
     Bomb(Player* player,Territory* target,int* army );
     ~Bomb();
@@ -114,7 +114,7 @@ class Blockade : public Order{
     private:
     Player *K;
     Territory *target;
-    string name = "Blockade";
+    string name ;
     public:
     Blockade(Player* k,Territory* target);
     ~Blockade();
@@ -133,7 +133,7 @@ class Negotiate : public Order{
     private:
     Player *order;
     Player *rival;
-    string name = "Blockade";
+    string name ;
     public:
     Negotiate(Player *order,Player* rival);
     ~Negotiate();
