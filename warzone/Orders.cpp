@@ -18,7 +18,12 @@
          return "it use for";
     }//no need maybe
     Order::Order(const Order& e) {//copy consrtuctor
-}
+    }
+    string Order :: stringToLog(){
+	 return " ";
+    }
+
+
 //------------------------------------------------    
     Deploy::Deploy(int* NUMBEROFARMY,Player* K,Territory* F){
         this->K=K;
@@ -46,7 +51,7 @@
         }else{
                         std::cout<<"Execute unsuccessful since validated false."<<std::endl;
         }
-        //notify();
+        notify(this);
     }
     Deploy::Deploy(const Deploy& s){
          this->F=new Territory(*(s.F));
@@ -67,6 +72,12 @@
         else
           return s<<"This is a deploy order and it has not been executed."<<std::endl;
 }
+     string Deploy:: stringToLog(){
+		return "Order Executed: " + name;
+	{
+	 string Deploy:: getName()	{
+		 return name;
+	 }
 //-------------------------------ADVANCE-------------------------------------------------------
     Advance::Advance(Territory *old,Territory *new1,Player *player,int* NUMBEROFARMY){
         this->OLD=old;
@@ -125,6 +136,8 @@
                 std::cout<<"dont know whats the condition"<<std::endl;
             }        
         std::cout<<"advance order validated!"<<std::endl;
+	 Notify(this);
+
     }
 
  //   Advance::Advance(const Advance& s){
@@ -136,7 +149,12 @@
     std::ostream& operator<<(std::ostream &s,  Advance *i) {
     return s << "Advance order meaning: To move forward"<<std::endl;//string insertion operator
 }
-
+    string Advance:: stringToLog(){
+		return "Order Executed: " + name;
+	{
+    string Advance:: getName(){
+	    return name;
+    }
 //-----------------------------------Airlift-----------------------
     Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW){
         this->OLD=OLD;
@@ -180,7 +198,14 @@
     }
     std::ostream& operator<<(std::ostream &s,  Airlift *i) {
     return s << "Airlift order meaning: To move supply or army by air to a specific area"<<std::endl;//string insertion operator
-}
+	Notify(this);
+    }
+    string Airlift:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string Airlift:: getName(){
+	     return name;
+     }
 //-----------------------------------BOMB---------------------------
     Bomb::Bomb(Player* player,Territory* target,int* army ){
        this->NUMBEROFARMY=army;
@@ -211,6 +236,7 @@
             std::cout<<"bomb order executed!Previous target army: "+record<<",Currently target terriotery army: "+target->getNumberOfArmies()<<std::endl;
         }
         std::cout<<"bomb order executed!"<<std::endl;
+        Notify(this);
     }
     Bomb::Bomb(const Bomb& s) : Order(s) {
 }
@@ -221,6 +247,12 @@
     std::ostream& operator<<(std::ostream &s,  Bomb *i) {
     return s << "Bomb order meaning: To air raid specific area"<<std::endl;//string insertion operator
 }
+    string  Bomb:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Bomb:: getName(){
+	     return name;
+     }		
 //---------------------------------------Blockade
     Blockade::Blockade(Player* k,Territory* target){
       this->K=k;
@@ -247,6 +279,7 @@
             std::cout<<"blockade order executed!"<<std::endl;
         }
         std::cout<<"blockade order failed!"<<std::endl;
+	  Notify(this);
     }
     Blockade::Blockade(const Blockade& s) : Order(s) {
 }
@@ -257,8 +290,13 @@
        std::ostream& operator<<(std::ostream &s,  Blockade *i) {
     return s << "Blockade order meaning: To block a specific area"<<std::endl;//string insertion operator
 }
-
-
+     string  Blockade:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Blockade:: getName(){
+	     return name;
+     }
+//------------------------------------------negotiate
     Negotiate::Negotiate(Player *order,Player* rival){
         this->order=order;
         this->rival=rival;
@@ -281,6 +319,7 @@
             order->attackban.push_back(rival);
             rival->attackban.push_back(order);
         std::cout<<"negotiate order executed!"<<std::endl;
+        	   Notify(this);
         }
         std::cout<<"negotiate order failed!"<<std::endl;
     }
@@ -293,6 +332,12 @@
     std::ostream& operator<<(std::ostream &s,  Negotiate *i) {
     return s << "Negotiate order meaning: To negociate with the rebel or other players"<<std::endl;//string insertion operator
 }
+   string Negotiate:: stringToLog(){
+	return "Order Executed: " + name;
+	{
+     string  Negotiate:: getName(){
+	     return name;
+     }
 //---------------------------------------ORDERLIST-------------------------------------
     OrderList::OrderList(){
     }
