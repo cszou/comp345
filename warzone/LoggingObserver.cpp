@@ -10,7 +10,7 @@ ILoggable :: ~ILoggable(){
 } 
 ILoggable ::ILoggable(const ILoggable& logObj){
 
-};
+}
 
 //------------------------------------------------
 //Class Observer
