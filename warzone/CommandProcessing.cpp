@@ -69,6 +69,7 @@ string CommandProcessor::readCommand()
 void CommandProcessor::saveCommand(string command)
 {
 	this->lc.push_back(new Command(command));
+	Notify(this);
 }
 
 string CommandProcessor::stringToLog(){
