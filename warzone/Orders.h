@@ -2,11 +2,13 @@
 #include <iostream>
 #include<vector>
 #include<string>
-#include "LoggingObsever.h"
 //using namespace std;
+#include "LoggingObserver.h"
 class Player;
 class Territory;
 class Desk;
+class ILoggable;
+class Subject;
 class Order  : public ILoggable, public Subject{
     private:
  /* std::string name;
@@ -26,8 +28,8 @@ class Order  : public ILoggable, public Subject{
     Order(const Order& e);//copy constructor
     Order& operator=(const Order& e);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Order *i) ;//stream insertion operator
-    string stringToLog();
-    string getName();
+    virtual string stringToLog()=0;
+    virtual string getName()=0;
 };
 class Deploy : public Order{
     private:
@@ -35,6 +37,7 @@ class Deploy : public Order{
     int *NUMBEROFARMY;
     Player *K;
     Territory *F;
+    string name = "Deploy";
     public:
     Deploy(int* NUMBEROFARMY,Player *K,Territory *F);
     ~Deploy();
@@ -54,6 +57,7 @@ class Advance : public Order{
     Player *K;
     Territory *OLD;
     Territory *NEW;
+    string name = "Advance";
     static int numberoftime;
  //   Deck *d = new Deck();
     public:    
@@ -74,6 +78,7 @@ class Airlift : public Order{
     Player *K;
     Territory *OLD;
     Territory *NEW;
+    string name = "Airlift";
     public:
     Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW);
     ~Airlift();
@@ -92,6 +97,7 @@ class Bomb : public Order{
     int *NUMBEROFARMY;
     Player *K;
     Territory *target;
+    string name = "Bomb";
     public:
     Bomb(Player* player,Territory* target,int* army );
     ~Bomb();
@@ -108,6 +114,7 @@ class Blockade : public Order{
     private:
     Player *K;
     Territory *target;
+    string name = "Blockade";
     public:
     Blockade(Player* k,Territory* target);
     ~Blockade();
@@ -126,6 +133,7 @@ class Negotiate : public Order{
     private:
     Player *order;
     Player *rival;
+    string name = "Blockade";
     public:
     Negotiate(Player *order,Player* rival);
     ~Negotiate();
@@ -137,7 +145,7 @@ class Negotiate : public Order{
     string stringToLog();
     string getName();
 };
-class OrderList{
+class OrderList:public ILoggable, public Subject{
     private:
     std::vector<Order*>list;//list of order of pointer
     public:
