@@ -73,7 +73,7 @@ void CommandProcessor::saveCommand(string command)
 }
 
 string CommandProcessor::stringToLog(){
-	return "Command: ....+ getCommand()?";
+	return "Command have just saved: " + lc.back ->getCommand();
 }
 
 Command::Command(string Command)
@@ -101,12 +101,15 @@ string Command::saveEffect(string effect)
 
 string Command::stringToLog() {
 	
-	return "Command issued: " + getEffect();
+	return "Command's Effect: " + getEffect() + "\nCommand: " + getCommand();
 }
 
 string Command::getEffect()
 {
 	return effect;
+}
+string Command::getCommand(){
+	return command;
 }
 
 FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game, string file)
