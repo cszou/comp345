@@ -40,10 +40,10 @@
     }
     void Deploy::execute(){
         if(validate()){
-           std::cout<<"The terriotery is : "+F->getName()<<std::endl;
-           std::cout<<"Previously has army: "+F->getNumberOfArmies()<<std::endl;
+           std::cout<<"The terriotery is : "<<F->getName()<<std::endl;
+           std::cout<<"Previously has army: "<<F->getNumberOfArmies()<<std::endl;
             F->setNumberOfArmies(F->getNumberOfArmies()+*NUMBEROFARMY);
-            std::cout<<"Now has army: "+F->getNumberOfArmies()<<std::endl;
+            std::cout<<"Now has army: "<<F->getNumberOfArmies()<<std::endl;
             *check=true;
                 Notify(this);
         }else{
@@ -103,10 +103,10 @@
         if(validate())
         {
             if(OLD->getOwner()==NEW->getOwner()){
-            std::cout<<"ARMY FROM OLD PLACE:"+OLD->getNumberOfArmies()<<std::endl;
-            std::cout<<"ARMY FROM NEW PLACE:"+NEW->getNumberOfArmies()<<std::endl;
+            std::cout<<"ARMY FROM OLD PLACE:"<<OLD->getNumberOfArmies()<<std::endl;
+            std::cout<<"ARMY FROM NEW PLACE:"<<NEW->getNumberOfArmies()<<std::endl;
              NEW->setNumberOfArmies(NEW->getNumberOfArmies()+OLD->getNumberOfArmies());
-            std::cout<<"UPDATE! ARMY FROM NEW PLACE:"+NEW->getNumberOfArmies()<<std::endl;
+            std::cout<<"UPDATE! ARMY FROM NEW PLACE:"<<NEW->getNumberOfArmies()<<std::endl;
             }//SAME OWNER BETWEEN TEROIRO
             else/*OLD->getOwner()!=NEW->getOwner()*/{//attack
             if(OLD->getNumberOfArmies()*0.6>NEW->getNumberOfArmies()){
@@ -178,14 +178,14 @@
     }
     void Airlift::execute(){
         if(validate()){
-            std::cout<<"source terriotery,currently: "+OLD->getNumberOfArmies()<<std::endl;
-            std::cout<<"target terriotery,currently: "+NEW->getNumberOfArmies()<<std::endl;
+            std::cout<<"source terriotery,currently: "<<OLD->getNumberOfArmies()<<std::endl;
+            std::cout<<"target terriotery,currently: "<<NEW->getNumberOfArmies()<<std::endl;
             int number;
-            std::cout<<"choose the amount of army from source terriotery,currently: "+OLD->getNumberOfArmies()<<std::endl;
+            std::cout<<"choose the amount of army from source terriotery,currently: "<<OLD->getNumberOfArmies()<<std::endl;
             std::cin>>number;
             if(0<=number&&number<=OLD->getNumberOfArmies()){
                 NEW->setNumberOfArmies(NEW->getNumberOfArmies()+number);
-                std::cout<<"UPDATE! target terriotery : "+NEW->getNumberOfArmies()<<std::endl;
+                std::cout<<"UPDATE! target terriotery : "<<NEW->getNumberOfArmies()<<std::endl;
                 Notify(this);
             }else
             std::cout<<"cannot execute since validation failded"<<std::endl;            
@@ -235,7 +235,7 @@
         if(validate()){
             int record =target->getNumberOfArmies();
             target->setNumberOfArmies(target->getNumberOfArmies()/2);
-            std::cout<<"bomb order executed!Previous target army: "<< record<<",Currently target terriotery army: "+target->getNumberOfArmies()<<std::endl;
+            std::cout<<"bomb order executed!Previous target army: "<< record<<",Currently target terriotery army: "<<target->getNumberOfArmies()<<std::endl;
             Notify(this);
         }
         std::cout<<"bomb order executed!"<<std::endl;
