@@ -55,6 +55,7 @@ void Card:: play(Deck* deckCards,int* army, Player* player1,Player* player2,Terr
     deckCards->add_CardsToDeck(this);
     AddCardOrderToList(this->get_cardType(),army,player1,player2,OLD,NEW);
     }
+
 //Helper method that creates an order and adds it to the player's list of order
 void Card::void AddCardOrderToList(string cardType,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW){
     switch (cardType) {
@@ -65,15 +66,15 @@ void Card::void AddCardOrderToList(string cardType,int* army, Player* player1,Pl
         case "reinforcement":
         //A2 Part 2-----------------------------------------
         case "blockade":
-        player1->getOrdersList()->add(new Blockade(player1,OLD));
+        player1->getOrdersList()->add(new Blockade(player1 ,OLD));
 		break;
 
         case "airlift":
-        player1->getOrdersList()->add(new Airlift(player1,OLD,NEW));
+        player1->getOrdersList()->add(new Airlift(player1 ,OLD ,NEW));
 		break;
         
         case "diplomacy":
-        player1->getOrdersList()->add(new Negotiate(player1,player2));
+        player1->getOrdersList()->add(new Negotiate(player1 , player2));
 		break;
     }     
  } 
