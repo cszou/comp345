@@ -20,7 +20,6 @@ Command* CommandProcessor::getCommand() {
 	command = readCommand();
 	if (command == "eof") {
 		cout << "Error: End of file, no more lines";
-		return;
 	}
 	saveCommand(command);
 	return lc.back();
@@ -56,6 +55,7 @@ bool CommandProcessor::validate(Command* command)
 string CommandProcessor::readCommand()
 {
 	string command;
+	cout << "Enter next command: ";
 	cin >> command;
 	return command;
 }
@@ -114,55 +114,45 @@ string Command::getCommand()
 	return command;
 }
 
-FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game)
-{
-	CommandProcessor(new GameEngine());
-	string path;
-	cout << "Please enter the file name: ";
-	cin >> path;
-	this->flr = new FileLineReader(path);
-	this->fileEnd = false;
-}
-
-FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game)
-{
-	CommandProcessor(game);
-	string path;
-	cout << "Please enter the file name: ";
-	cin >> path;
-	this->flr = new FileLineReader(path);
-	this->fileEnd = false;
-}
-
-bool FileCommandProcessorAdapter::getFileState() {
-	return fileEnd;
-}
-
-void FileCommandProcessorAdapter::readCommand()
-{
-	string command;
-	command = flr->readLineFromFile();
-	if (command == "eof")
-		this->fileEnd = false;
-	saveCommand(command);
-}
-
-FileLineReader::FileLineReader(string path) {
-	this->commandReader.open(path);
-	while (!commandReader.is_open()) {
-		cout << "failed to open " << path << endl;
-		cout << "Please enter another file name: ";
-		cin >> path;
-	}
-}
-
-string FileLineReader::readLineFromFile()
-{
-	string line;
-	if (!this->commandReader.eof()) {
-		getline(commandReader, line, '\n');
-		return line;
-	}
-	commandReader.close();
-	return "eof";
-}
+//FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game)
+//{
+//	CommandProcessor(new GameEngine());
+//	string path;
+//	cout << "Please enter the file name: ";
+//	cin >> path;
+//	this->flr = new FileLineReader(path);
+//	this->fileEnd = false;
+//}
+//
+//bool FileCommandProcessorAdapter::getFileState() {
+//	return fileEnd;
+//}
+//
+//string FileCommandProcessorAdapter::readCommand()
+//{
+//	string command;
+//	command = flr->readLineFromFile();
+//	if (command == "eof")
+//		this->fileEnd = false;
+//	return command;
+//}
+//
+//FileLineReader::FileLineReader(string path) {
+//	this->commandReader.open(path);
+//	while (!commandReader.is_open()) {
+//		cout << "failed to open " << path << endl;
+//		cout << "Please enter another file name: ";
+//		cin >> path;
+//	}
+//}
+//
+//string FileLineReader::readLineFromFile()
+//{
+//	string line;
+//	if (!this->commandReader.eof()) {
+//		getline(commandReader, line, '\n');
+//		return line;
+//	}
+//	commandReader.close();
+//	return "eof";
+//}

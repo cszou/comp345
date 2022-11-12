@@ -2,12 +2,12 @@
 #include "LoggingObserver.h"
 #include "Map.h"
 #include "Player.h"
-//#include "LoggingObserverDriver.h"
-//#include "CommandProcessing.h"
-//#include "GameEngine.h"
+#include "LoggingObserverDriver.h"
+#include "CommandProcessing.h"
+#include "GameEngine.h"
 #include "Orders.h"
 #include "Card.h"
-using namespace std;
+//using namespace std;
 
 void testLoggingObserver(){
     //Create a log observer object

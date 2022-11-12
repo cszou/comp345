@@ -15,7 +15,7 @@ class ILoggable{
     //copy constructor
     ILoggable(const ILoggable& logObj);
     //assignment operator 
-    ILoggable& operator=(const ILoggable& s);
+    //ILoggable& operator=(const ILoggable& s);
 	//stream insertion operator (unused)
 	//friend ostream& operator<<(ostream& os, const ILoggable& s);
 };
@@ -30,7 +30,7 @@ class Observer{
     //copy constructor
 	Observer(const Observer& s);
 	//assignment operator
-	Observer& operator=(const Observer& s);
+	//Observer& operator=(const Observer& s);
 	//stream insertion operator
 	//friend ostream& operator<<(ostream& os, const Observer& s);
 };
@@ -48,9 +48,9 @@ class Subject{
     virtual void Notify(ILoggable* log);
     ~Subject();
     //copy constructor
-	Subject(const Subject &s);
+	//Subject(const Subject &s);
 	//assignment operator
-	Subject& operator=(const Subject& s);
+	//Subject& operator=(const Subject& s);
 	//stream insertion operator
 	//friend ostream& operator<<(ostream& os, const Subject& s);
 

@@ -1,5 +1,6 @@
 #include "GameEngine.h"
-using namespace std;
+#include "Player.h"
+//using namespace std;
 
 //Constructor
 GameEngine::GameEngine() {
@@ -71,10 +72,10 @@ string GameEngine::stringToLog() {
 	return "Game Engine New State: " + getState();
 }
 
-void GameEngine::addPlayer() {
-	cout << "Please enter player name: ";
-	string name;
-	cin >> name;
-	playerList.push_back(new Player(name));
-}
+//void GameEngine::addPlayer() {
+//	cout << "Please enter player name: ";
+//	string name;
+//	cin >> name;
+//	playerList.push_back(new Player(name));
+//}
 	

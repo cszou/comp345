@@ -5,8 +5,8 @@ using std::vector;
 using std::string;
 #include "LoggingObserver.h"
 #include "GameEngine.h"
-class FileLineReader;
 class Command;
+class FileLineReader;
 
 class CommandProcessor : public ILoggable, public Subject {
 public:
@@ -14,7 +14,6 @@ public:
 	CommandProcessor(GameEngine* game);
 	~CommandProcessor();
 	Command* getCommand();
-	void saveCommand(string command);
 	void setGameEngine(GameEngine* game);
 
 	//Define stringToLog method from abstract base class ILoggable
@@ -43,23 +42,23 @@ private:
 	string effect;
 };
 
-class FileCommandProcessorAdapter:public CommandProcessor{
-public:
-	FileCommandProcessorAdapter();
-	FileCommandProcessorAdapter(GameEngine* game);
-	~FileCommandProcessorAdapter();
-	bool getFileState();
-private:
-	void readCommand();
-	FileLineReader* flr;
-	bool fileEnd;
-};
-
-class FileLineReader {
-public:
-	FileLineReader(string path);
-	~FileLineReader();
-	string readLineFromFile();
-private:
-	ifstream commandReader;
-};
+//class FileCommandProcessorAdapter:public CommandProcessor{
+//public:
+//	FileCommandProcessorAdapter();
+//	FileCommandProcessorAdapter(GameEngine* game);
+//	~FileCommandProcessorAdapter();
+//	bool getFileState();
+//private:
+//	string readCommand();
+//	FileLineReader* flr;
+//	bool fileEnd;
+//};
+//
+//class FileLineReader {
+//public:
+//	FileLineReader(string path);
+//	~FileLineReader();
+//	string readLineFromFile();
+//private:
+//	ifstream commandReader;
+//};

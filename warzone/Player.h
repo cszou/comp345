@@ -9,7 +9,7 @@
 #include "Map.h"
 #include "Card.h"
 #include "Orders.h"
-using namespace std;
+//using namespace std;
 class Territory;
 class Hand; 
 class OrderList;

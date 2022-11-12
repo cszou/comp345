@@ -9,7 +9,7 @@
 #include <sstream>
 void testPlayers() 
 {
-    cout<<"\nPart 2: Player"<<endl;
+   /* cout<<"\nPart 2: Player"<<endl;
     cout<<"----------------------------------------------------------------------"<<endl;
     vector<Territory*> t;
 	t.push_back(new Territory("NB"));
@@ -32,5 +32,5 @@ void testPlayers()
     cout << "Player now has " << p1->getlist().size() << " orders." << endl;
     delete p1;
     p1 = nullptr;
-    cout << "Player demo end." << endl << endl;
+    cout << "Player demo end." << endl << endl;*/
 }
