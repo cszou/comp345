@@ -158,7 +158,6 @@ class OrderList:public ILoggable, public Subject{
     void removal(int i);
     int listsize();
     void move(int pos,int nextpos);
-    void add(Order* k1);
     OrderList(const OrderList& orderlistobj);//copy constructor
     OrderList &  operator = (const OrderList& d);//assignment operator
     friend std::ostream& operator<<(std::ostream& s, OrderList& ol);//stream insertion operator
