@@ -80,7 +80,7 @@ class Airlift : public Order{
     Territory *NEW;
     string name ;
     public:
-    Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW);
+    Airlift(Player *K,Territory *OLD,Territory *NEW);
     ~Airlift();
     bool validate();
     void execute();
