@@ -31,6 +31,7 @@ public:
 	//Define stringToLog method from abstract base class ILoggable
 	string stringToLog();
 	string getEffect();
+	string getCommand();
 private:
 	string command;
 	string effect;
