@@ -59,20 +59,20 @@ void Card:: play(Deck* deckCards,int* army, Player* player1,Player* player2,Terr
 //Helper method that creates an order and adds it to the player's list of order
 void Card:: AddCardOrderToList(string const cardTypeAdd,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW){
     if(cardTypeAdd == "bomb"){
-        player1->getlist()->add(new Bomb(player1,OLD,army));
+        player1->getlist()->addOrders(new Bomb(player1,OLD,army));
     }
     else if(cardTypeAdd == "reinforcement"){
         cout<<"   "<<endl;
         //A2 Part 2-----------------------------------------
     }
     else if(cardTypeAdd == "blockade"){
-         player1->getlist()->add(new Blockade(player1 ,OLD));
+         player1->getlist()->addOrders(new Blockade(player1 ,OLD));
     }
     else if(cardTypeAdd == "airlift"){
-         player1->getlist()->add(new Airlift(player1 ,OLD ,NEW));
+         player1->getlist()->addOrders(new Airlift(player1 ,OLD ,NEW));
     }
     else if(cardTypeAdd == "diplomacy"){
-         player1->getlist()->add(new Negotiate(player1 , player2));
+         player1->getlist()->addOrders(new Negotiate(player1 , player2));
     }
     else{
         cout<<"Invalid card"<<endl;

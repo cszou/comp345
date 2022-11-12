@@ -6,7 +6,7 @@
 #include "LoggingObserver.h"
 class Player;
 class Territory;
-class Desk;
+class Deck;
 class ILoggable;
 class Subject;
 class Order  : public ILoggable, public Subject{
@@ -80,7 +80,7 @@ class Airlift : public Order{
     Territory *NEW;
     string name ;
     public:
-    Airlift::Airlift(Player *K,Territory *OLD,Territory *NEW);
+    Airlift(Player *K,Territory *OLD,Territory *NEW);
     ~Airlift();
     bool validate();
     void execute();
