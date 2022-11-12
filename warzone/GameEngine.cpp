@@ -53,12 +53,13 @@ GameEngine&  GameEngine:: operator = (const GameEngine& copy) {
 string GameEngine::getState()
 {
 	return state;
-	Notify(this);
+	
 }
 
 void GameEngine::setState(string newState)
 {
 	this->state = newState;
+	Notify(this);
 }
 
 //Stream insersion operator
