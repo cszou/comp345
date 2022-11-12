@@ -10,6 +10,10 @@
 #include "Card.h"
 #include "Orders.h"
 using namespace std;
+class Territory;
+class Hand; 
+class OrderList;
+class Order;
 
 class Player {
 
