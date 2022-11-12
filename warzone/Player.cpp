@@ -87,6 +87,7 @@ vector<Territory*> Player::toDefend()
 	return tDefend;
 }
 //Create order object and puts it in the player’s list of orders
+/*
 void Player::issueOrder()
 {
 	Advance *a = new Advance();
@@ -95,7 +96,7 @@ void Player::issueOrder()
 	this->orderList->add(d);
 	Bomb* b = new Bomb();
 	this->orderList->add(b);
-}
+}*/
 Hand* Player::gethandofcard(){
 	return handOfCards;
 }
