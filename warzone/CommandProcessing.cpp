@@ -1,6 +1,9 @@
 #include "CommandProcessing.h"
 #include "GameEngine.h"
 #include <iostream>
+#include <fstream>
+using std::ifstream;
+using std::getline;
 
 
 CommandProcessor::CommandProcessor()
@@ -14,9 +17,11 @@ CommandProcessor::CommandProcessor(GameEngine* game) {
 
 void CommandProcessor::getCommand() {
 	string command;
-	command = readCommand();
-	if(validate(command))
-		saveCommand(command);
+	readCommand();
+	if (validate(lc.back()))
+		lc.back()->saveEffect();
+	else
+		lc.back()->saveEffect();
 }
 
 void CommandProcessor::setGameEngine(GameEngine* game)
@@ -24,46 +29,33 @@ void CommandProcessor::setGameEngine(GameEngine* game)
 	this->game = game;
 }
 
-bool CommandProcessor::validate(string command)
+bool CommandProcessor::validate(Command* command)
 {
 	string state = game->getState();
-	if (command == "loadmap")
-		if (state == "Start" || state == "Map Loaded")
-			return true;
-		else
-			return false;
-	if (command == "validatemap")
-		if (state == "Map Loaded")
-			return true;
-		else
-			return false;
-	if (command == "addplayer")
-		if (state == "Map Validated" || state =="Players Added")
-			return true;
-		else
-			return false;
-	if (command == "gamestart")
-		if (state == "Players Added")
-			return true;
-		else
-			return false;
-	if (command == "replay")
-		if (state == "Win")
-			return true;
-		else
-			return false;
-	if (command == "quit")
-		if (state == "Win")
-			return true;
-		else
-			return false;
+	string c = command->getCommand();
+	if ((c == "loadmap") && (state == "Start" || state == "Map Loaded"))
+		return true;
+	else if ((c == "validatemap") && (state == "Map Loaded"))
+		return true;
+	else if ((c == "addplayer") && (state == "Map Validated" || state == "Players Added"))
+		return true;
+	else if ((c == "gamestart") && (state == "Players Added"))
+		return true;
+	else if ((c == "replay") && (state == "Win"))
+		return true;
+	else if ((c == "quit") && (state == "Win"))
+		return true;
+	else {
+		command->setEffect("Invalid Command.");
+		return false;
+	}
 }
 
-string CommandProcessor::readCommand()
+void CommandProcessor::readCommand()
 {
 	string command;
 	cin >> command;
-	return command;
+	saveCommand(command);
 }
 
 void CommandProcessor::saveCommand(string command)
@@ -71,7 +63,7 @@ void CommandProcessor::saveCommand(string command)
 	this->lc.push_back(new Command(command));
 }
 
-string CommandProcessor::stringToLog(){
+string CommandProcessor::stringToLog() {
 	return "Command: ....+ getCommand()?";
 }
 
@@ -80,26 +72,28 @@ Command::Command(string Command)
 	this->command = command;
 }
 
-string Command::saveEffect(string effect)
+string Command::saveEffect()
 {
 	if (command == "loadmap")
 		effect = "Map is loaded.";
-	if (command == "validatemap")
+	else if (command == "validatemap")
 		effect = "Map is validated.";
-	if (command == "addplayer")
+	else if (command == "addplayer")
 		effect = "Player is added.";
-	if (command == "gamestart")
+	else if (command == "gamestart")
 		effect = "Game is started.";
-	if (command == "replay")
+	else if (command == "replay")
 		effect = "Replay the game.";
-	if (command == "quit")
+	else if (command == "quit")
 		effect = "Game is terminated.";
+	else
+		effect = "Invalid command.";
 	Notify(this);
 	return effect;
 }
 
 string Command::stringToLog() {
-	
+
 	return "Command issued: " + getEffect();
 }
 
@@ -108,17 +102,44 @@ string Command::getEffect()
 	return effect;
 }
 
-FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game, string file)
+void Command::setEffect(string effect) {
+	this->effect = effect;
+}
+
+string Command::getCommand()
+{
+	return command;
+}
+
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game, string path)
 {
 	CommandProcessor(game);
+	this->flr = new FileLineReader(path);
 }
 
 void FileCommandProcessorAdapter::readCommand()
 {
-	
+	string command;
+	command = flr->readLineFromFile();
+	saveCommand(command);
 }
 
-void FileLineReader::readLineFromFile()
-{
+FileLineReader::FileLineReader(string path) {
+	this->commandReader.open(path);
+	while (!commandReader.is_open()) {
+		cout << "failed to open " << path << endl;
+		cout << "Please enter another file name: ";
+		cin >> path;
+	}
+}
 
+string FileLineReader::readLineFromFile()
+{
+	string line;
+	while (!this->commandReader.eof()) {
+		getline(commandReader, line, '\n');
+		return line;
+	}
+	commandReader.close();
+	return "eof";
 }
