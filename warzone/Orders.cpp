@@ -1,10 +1,10 @@
+#include"LoggingObserver.h"
 #include <iostream>
 #include<vector>
 #include<string>
 #include"Orders.h"
 #include"Player.h"
 #include"Map.h"
-
     Order::Order(){
         std::cout<<"order created..."<<std::endl;
     }
@@ -18,11 +18,7 @@
          return "it use for";
     }//no need maybe
     Order::Order(const Order& e) {//copy consrtuctor
-    }
-    string Order :: stringToLog(){
-	 return " ";
-    }
-
+}
 
 //------------------------------------------------    
     Deploy::Deploy(int* NUMBEROFARMY,Player* K,Territory* F){
@@ -48,10 +44,10 @@
             F->setNumberOfArmies(F->getNumberOfArmies()+*NUMBEROFARMY);
             std::cout<<"Now has army: "+F->getNumberOfArmies()<<std::endl;
             *check=true;
+                Notify(this);
         }else{
                         std::cout<<"Execute unsuccessful since validated false."<<std::endl;
         }
-        notify(this);
     }
     Deploy::Deploy(const Deploy& s){
          this->F=new Territory(*(s.F));
@@ -72,12 +68,13 @@
         else
           return s<<"This is a deploy order and it has not been executed."<<std::endl;
 }
-     string Deploy:: stringToLog(){
-		return "Order Executed: " + name;
-	{
 	 string Deploy:: getName()	{
 		 return name;
 	 }
+     string Deploy:: stringToLog(){
+		return "Order Executed: " + name;
+     }
+
 //-------------------------------ADVANCE-------------------------------------------------------
     Advance::Advance(Territory *old,Territory *new1,Player *player,int* NUMBEROFARMY){
         this->OLD=old;
@@ -119,6 +116,7 @@
                 else
                 std::cout<<"no new card will give,since more than one advance sofar!"<<std::endl;
                 std::cout<<"advance successfully,swonp in!"<<std::endl;
+                    Notify(this);
             }else if(NEW->getNumberOfArmies()*0.7<OLD->getNumberOfArmies()&&OLD->getNumberOfArmies()*0.6<NEW->getNumberOfArmies())
             {
                 //old 150 new 200
@@ -127,17 +125,17 @@
                 OLD->setNumberOfArmies(nold-nnew*0.7);
                 NEW->setNumberOfArmies(nnew-nold*0.6);
                 std::cout<<"half half both got damaged"<<std::endl;
+                    Notify(this);
             }else if(NEW->getNumberOfArmies()*0.7>=OLD->getNumberOfArmies()){
                 //new 20 old 130
                 NEW->setNumberOfArmies(NEW->getNumberOfArmies()-OLD->getNumberOfArmies()*0.6);
                 OLD->setNumberOfArmies(0);
                 std::cout<<"target cant make,own tero become 0"<<std::endl;
+                    Notify(this);
             }else
                 std::cout<<"dont know whats the condition"<<std::endl;
             }        
         std::cout<<"advance order validated!"<<std::endl;
-	 Notify(this);
-
     }
 
  //   Advance::Advance(const Advance& s){
@@ -151,7 +149,7 @@
 }
     string Advance:: stringToLog(){
 		return "Order Executed: " + name;
-	{
+    }
     string Advance:: getName(){
 	    return name;
     }
@@ -185,6 +183,7 @@
             if(0<=number&&number<=OLD->getNumberOfArmies()){
                 NEW->setNumberOfArmies(NEW->getNumberOfArmies()+number);
                 std::cout<<"UPDATE! target terriotery : "+NEW->getNumberOfArmies()<<std::endl;
+                Notify(this);
             }else
             std::cout<<"cannot execute since validation failded"<<std::endl;            
         }
@@ -198,14 +197,14 @@
     }
     std::ostream& operator<<(std::ostream &s,  Airlift *i) {
     return s << "Airlift order meaning: To move supply or army by air to a specific area"<<std::endl;//string insertion operator
-	Notify(this);
-    }
+}
     string Airlift:: stringToLog(){
 	return "Order Executed: " + name;
-	{
+    }
      string Airlift:: getName(){
 	     return name;
      }
+
 //-----------------------------------BOMB---------------------------
     Bomb::Bomb(Player* player,Territory* target,int* army ){
        this->NUMBEROFARMY=army;
@@ -234,9 +233,9 @@
             int record =target->getNumberOfArmies();
             target->setNumberOfArmies(target->getNumberOfArmies()/2);
             std::cout<<"bomb order executed!Previous target army: "+record<<",Currently target terriotery army: "+target->getNumberOfArmies()<<std::endl;
+            Notify(this);
         }
         std::cout<<"bomb order executed!"<<std::endl;
-        Notify(this);
     }
     Bomb::Bomb(const Bomb& s) : Order(s) {
 }
@@ -247,12 +246,12 @@
     std::ostream& operator<<(std::ostream &s,  Bomb *i) {
     return s << "Bomb order meaning: To air raid specific area"<<std::endl;//string insertion operator
 }
-    string  Bomb:: stringToLog(){
+    string Bomb:: stringToLog(){
 	return "Order Executed: " + name;
-	{
-     string  Bomb:: getName(){
+    }
+     string Bomb:: getName(){
 	     return name;
-     }		
+     }
 //---------------------------------------Blockade
     Blockade::Blockade(Player* k,Territory* target){
       this->K=k;
@@ -277,9 +276,9 @@
             target->setNumberOfArmies(target->getNumberOfArmies()*2);//double the army amount
             target->setOwner(nullptr);//set owner to null
             std::cout<<"blockade order executed!"<<std::endl;
+                Notify(this);
         }
         std::cout<<"blockade order failed!"<<std::endl;
-	  Notify(this);
     }
     Blockade::Blockade(const Blockade& s) : Order(s) {
 }
@@ -290,13 +289,13 @@
        std::ostream& operator<<(std::ostream &s,  Blockade *i) {
     return s << "Blockade order meaning: To block a specific area"<<std::endl;//string insertion operator
 }
-     string  Blockade:: stringToLog(){
+    string Blockade:: stringToLog(){
 	return "Order Executed: " + name;
-	{
-     string  Blockade:: getName(){
+    }
+     string Blockade:: getName(){
 	     return name;
      }
-//------------------------------------------negotiate
+//negotiator----------------------------------------------------------
     Negotiate::Negotiate(Player *order,Player* rival){
         this->order=order;
         this->rival=rival;
@@ -319,7 +318,7 @@
             order->attackban.push_back(rival);
             rival->attackban.push_back(order);
         std::cout<<"negotiate order executed!"<<std::endl;
-        	   Notify(this);
+            Notify(this);
         }
         std::cout<<"negotiate order failed!"<<std::endl;
     }
@@ -332,10 +331,10 @@
     std::ostream& operator<<(std::ostream &s,  Negotiate *i) {
     return s << "Negotiate order meaning: To negociate with the rebel or other players"<<std::endl;//string insertion operator
 }
-   string Negotiate:: stringToLog(){
+    string Negotiate:: stringToLog(){
 	return "Order Executed: " + name;
-	{
-     string  Negotiate:: getName(){
+    }
+     string Negotiate:: getName(){
 	     return name;
      }
 //---------------------------------------ORDERLIST-------------------------------------
@@ -370,7 +369,7 @@ OrderList & OrderList:: operator = (const OrderList& d){//assignment operator
 //------------------------------
 void OrderList::addOrders(Order* o) {
     this->list.push_back(o);
-   // Notify(this);
+    Notify(this);
 }
 vector<Order*>OrderList:: getorderlist(){
  return list;
