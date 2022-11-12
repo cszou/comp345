@@ -10,6 +10,7 @@
 using namespace std;
 
 void testLoggingObserver(){
+     cout<< "----------------------------------------------------------------\nTesting For Part 5"<<endl;
     //Create a log observer object
     LogObserver *ob = new LogObserver();
 	/*
