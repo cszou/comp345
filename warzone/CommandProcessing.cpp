@@ -1,20 +1,64 @@
 #include "CommandProcessing.h"
+#include "GameEngine.h"
 #include <iostream>
+
+
+CommandProcessor::CommandProcessor(GameEngine* game) {
+	this->game = game;
+}
 
 void CommandProcessor::getCommand() {
 	string command;
-	std::cin >> command;
-	lc.push_back(new Command(command));
-	validate(command);
+	command = readCommand();
+	if(validate(command))
+		saveCommand(command);
 }
 
 bool CommandProcessor::validate(string command)
 {
-	return false;
+	string state = game->getState();
+	if (command == "loadmap")
+		if (state == "Start" || state == "Map Loaded")
+			return true;
+		else
+			return false;
+	if (command == "validatemap")
+		if (state == "Map Loaded")
+			return true;
+		else
+			return false;
+	if (command == "addplayer")
+		if (state == "Map Validated" || state =="Players Added")
+			return true;
+		else
+			return false;
+	if (command == "gamestart")
+		if (state == "Players Added")
+			return true;
+		else
+			return false;
+	if (command == "reply")
+		if (state == "Win")
+			return true;
+		else
+			return false;
+	if (command == "quit")
+		if (state == "Win")
+			return true;
+		else
+			return false;
 }
 
-void CommandProcessor::readCommand()
+string CommandProcessor::readCommand()
 {
+	string command;
+	cin >> command;
+	return command;
+}
+
+void CommandProcessor::saveCommand(string command)
+{
+	this->lc.push_back(new Command(command));
 }
 
 string CommandProcessor::stringToLog(){
@@ -23,19 +67,16 @@ string CommandProcessor::stringToLog(){
 
 Command::Command(string Command)
 {
+
 }
 
 void Command::sideEffect()
 {
-}
 
-void Command::saveCommand(string command)
-{
 }
 
 void Command::saveEffect(string effect)
 {
-	
 	Notify(this);
 }
 
@@ -46,8 +87,10 @@ string Command::stringToLog() {
 
 void FileCommandProcessorAdapter::getCommand()
 {
+
 }
 
 void FileLineReader::readLineFromFile()
 {
+
 }

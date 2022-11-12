@@ -69,5 +69,11 @@ void GameEngine::setState(string newState)
 string GameEngine::stringToLog() {
 	return "Game Engine New State: " + getState();
 }
-	{
+
+void GameEngine::addPlayer() {
+	cout << "Please enter player name: ";
+	string name;
+	cin >> name;
+	playerList.push_back(new Player(name));
+}
 	

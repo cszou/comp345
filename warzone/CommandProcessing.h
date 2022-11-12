@@ -4,15 +4,20 @@ using std::vector;
 #include <string>
 using std::string;
 #include "LoggingObserver.h"
+#include "GameEngine.h"
+
 class CommandProcessor : public ILoggable, public Subject {
 public:
+	CommandProcessor(GameEngine* game);
 	void getCommand();
 	
 	//Define stringToLog method from abstract base class ILoggable
 	string stringToLog();
 private:
 	bool validate(string command);
-	void readCommand();
+	string readCommand();
+	void saveCommand(string command);
+	GameEngine* game;
 	vector<Command*> lc;
 };
 
@@ -20,7 +25,6 @@ class Command : public ILoggable, public Subject{
 public:
 	Command(string Command);
 	void sideEffect();
-	void saveCommand(string command);
 	void saveEffect(string effect);
 	
 	//Define stringToLog method from abstract base class ILoggable

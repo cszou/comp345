@@ -15,6 +15,7 @@ class Player {
 
 public:
     Player();//Default constructor
+    Player(string name); //constructor with name
     Player(vector<Territory*> territories, Hand* hand, string name);//Constructor 3 params
     ~Player();//Desturctor
     Player(const Player&);//Copy constructor

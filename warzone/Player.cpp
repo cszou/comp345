@@ -15,6 +15,12 @@ Player::Player()
 {
 	handOfCards = new Hand();
 }
+
+Player::Player(string name) {
+	this->name = name;
+	this->handOfCards = new Hand();
+}
+
 //Cons 4 params
 Player::Player(vector<Territory*> territories, Hand* hand, string name)
 {

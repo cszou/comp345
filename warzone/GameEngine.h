@@ -4,6 +4,9 @@
 #define GAME_ENGINE_H
 using namespace std;
 #include "LoggingObserver.h"
+#include "Player.h"
+#include <vector>
+using std::vector;
 
 
 class GameEngine :public ILoggable, public Subject{
@@ -29,7 +32,8 @@ public:
 	friend ostream& operator << (ostream& out, const GameEngine& gameEngine);
 	//define stringToLog method from abstract base class Iloggable
 	string stringToLog();
-	
+	void addPlayer();
+	vector<Player*> playerList;
 };
 
 
