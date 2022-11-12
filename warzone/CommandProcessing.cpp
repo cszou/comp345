@@ -8,20 +8,22 @@ using std::getline;
 
 CommandProcessor::CommandProcessor()
 {
-	this->game = nullptr;
+	this->game = new GameEngine();
 }
 
 CommandProcessor::CommandProcessor(GameEngine* game) {
 	this->game = game;
 }
 
-void CommandProcessor::getCommand() {
+Command* CommandProcessor::getCommand() {
 	string command;
-	readCommand();
-	if (validate(lc.back()))
-		lc.back()->saveEffect();
-	else
-		lc.back()->saveEffect();
+	command = readCommand();
+	if (command == "eof") {
+		cout << "Error: End of file, no more lines";
+		return;
+	}
+	saveCommand(command);
+	return lc.back();
 }
 
 void CommandProcessor::setGameEngine(GameEngine* game)
@@ -51,11 +53,11 @@ bool CommandProcessor::validate(Command* command)
 	}
 }
 
-void CommandProcessor::readCommand()
+string CommandProcessor::readCommand()
 {
 	string command;
 	cin >> command;
-	saveCommand(command);
+	return command;
 }
 
 void CommandProcessor::saveCommand(string command)
@@ -65,7 +67,7 @@ void CommandProcessor::saveCommand(string command)
 }
 
 string CommandProcessor::stringToLog(){
-	return "Command have just saved: " + lc.back ->getCommand();
+	return "Command have just saved: " + lc.back()->getCommand();
 }
 
 Command::Command(string Command)
@@ -102,9 +104,6 @@ string Command::getEffect()
 {
 	return effect;
 }
-string Command::getCommand(){
-	return command;
-}
 
 void Command::setEffect(string effect) {
 	this->effect = effect;
@@ -115,16 +114,36 @@ string Command::getCommand()
 	return command;
 }
 
-FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game, string path)
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game)
+{
+	CommandProcessor(new GameEngine());
+	string path;
+	cout << "Please enter the file name: ";
+	cin >> path;
+	this->flr = new FileLineReader(path);
+	this->fileEnd = false;
+}
+
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game)
 {
 	CommandProcessor(game);
+	string path;
+	cout << "Please enter the file name: ";
+	cin >> path;
 	this->flr = new FileLineReader(path);
+	this->fileEnd = false;
+}
+
+bool FileCommandProcessorAdapter::getFileState() {
+	return fileEnd;
 }
 
 void FileCommandProcessorAdapter::readCommand()
 {
 	string command;
 	command = flr->readLineFromFile();
+	if (command == "eof")
+		this->fileEnd = false;
 	saveCommand(command);
 }
 
@@ -140,7 +159,7 @@ FileLineReader::FileLineReader(string path) {
 string FileLineReader::readLineFromFile()
 {
 	string line;
-	while (!this->commandReader.eof()) {
+	if (!this->commandReader.eof()) {
 		getline(commandReader, line, '\n');
 		return line;
 	}

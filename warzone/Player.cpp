@@ -3,12 +3,19 @@
 #include "Card.h"
 #include "Map.h"
 #include <iostream>
+using std::cout;
+using std::cin;
+using std::endl;
 #include <fstream>
+using std::ifstream;
+using std::getline;
 #include <string>
+using std::string;
 #include <vector>
-#include <algorithm> 
+using std::vector;
+//#include <algorithm>
 #include <sstream>
-using namespace std;
+using std::stringstream;
 
 //Default cons
 Player::Player()
@@ -69,7 +76,7 @@ return false;
 
 void Player::addOrder(Order* o)
 {
-	this->orderList->add(o);
+	this->orderList->addOrders(o);
 }
 //Establish an arbitrary list of territories to be attacked
 vector<Territory*> Player::toAttack()

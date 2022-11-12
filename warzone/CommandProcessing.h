@@ -5,20 +5,22 @@ using std::vector;
 using std::string;
 #include "LoggingObserver.h"
 #include "GameEngine.h"
+class FileLineReader;
+class Command;
 
 class CommandProcessor : public ILoggable, public Subject {
 public:
 	CommandProcessor();
 	CommandProcessor(GameEngine* game);
 	~CommandProcessor();
-	void getCommand();
+	Command* getCommand();
 	void saveCommand(string command);
 	void setGameEngine(GameEngine* game);
-	
+
 	//Define stringToLog method from abstract base class ILoggable
 	string stringToLog();
 private:
-	void readCommand();
+	string readCommand();
 	bool validate(Command* command);
 	void saveCommand(string command);
 	GameEngine* game;
@@ -43,12 +45,14 @@ private:
 
 class FileCommandProcessorAdapter:public CommandProcessor{
 public:
-	FileCommandProcessorAdapter(GameEngine* game, string file);
+	FileCommandProcessorAdapter();
+	FileCommandProcessorAdapter(GameEngine* game);
 	~FileCommandProcessorAdapter();
-	void getCommand();
+	bool getFileState();
 private:
 	void readCommand();
 	FileLineReader* flr;
+	bool fileEnd;
 };
 
 class FileLineReader {
