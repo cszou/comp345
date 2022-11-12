@@ -22,11 +22,13 @@ Player::Player(string name) {
 }
 
 //Cons 4 params
-Player::Player(vector<Territory*> territories, Hand* hand, string name)
+Player::Player(vector<Territory*> territories, Hand* hand, string name, OrderList* orderList)
 {
-	this->territories = territories;
-	this->handOfCards = hand;
+	for (auto t : territories)
+		this->territories.push_back(new Territory(*t));
+	this->handOfCards = new Hand(*hand);
 	this->name = name;
+	this->orderList = new OrderList(*orderList);
 }
 //Destructor
 Player::~Player()
@@ -34,8 +36,7 @@ Player::~Player()
 	for (auto t : territories)
 		delete t;
 	delete handOfCards;
-	for (auto o : orderList)
-		delete o;
+	delete orderList;
 }
 //Copy cons
 Player::Player(const Player& p)
@@ -44,8 +45,7 @@ Player::Player(const Player& p)
 	for (auto t : p.territories)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
-	for (auto o : p.orderList)
-		this->orderList.push_back(new Order(*o));
+	this->orderList = new OrderList(*p.orderList);
 }
 
 Player& Player::operator=(const Player& p)
@@ -54,8 +54,7 @@ Player& Player::operator=(const Player& p)
 	for (auto t : p.territories)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
-	for (auto o : p.orderList)
-		this->orderList.push_back(new Order(*o));
+	this->orderList = new OrderList(*p.orderList);
 	return *this;
 }
 bool Player::ownsTerritory(Territory* t1){
@@ -69,7 +68,7 @@ return false;
 
 void Player::addOrder(Order* o)
 {
-	this->orderList.push_back(o);
+	this->orderList->add(o);
 }
 //Establish an arbitrary list of territories to be attacked
 vector<Territory*> Player::toAttack()
@@ -91,32 +90,25 @@ vector<Territory*> Player::toDefend()
 void Player::issueOrder()
 {
 	Advance *a = new Advance();
-	orderList.push_back(a);
+	this->orderList->add(a);
 	Deploy* d = new Deploy();
-	orderList.push_back(d);
+	this->orderList->add(d);
 	Bomb* b = new Bomb();
-	orderList.push_back(b);
+	this->orderList->add(b);
 }
 Hand* Player::gethandofcard(){
 	return handOfCards;
 }
 //Link to Orders.cpp
-vector<Order*> Player::getlist()
+OrderList* Player::getlist()
 {
 	return orderList;
 }
 //For testPlayers
 void Player::printOrder()
 {
-	vector<Order*>::iterator it = orderList.begin();
-	for (; it != orderList.end(); it++)
-	{
-		cout << "" << (*it);
-	}
-	cout << endl;
+	cout << orderList;
 }
-
-
 
 std::ostream& operator<<(ostream& os, Player& p1)
 {

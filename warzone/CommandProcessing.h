@@ -8,14 +8,16 @@ using std::string;
 
 class CommandProcessor : public ILoggable, public Subject {
 public:
+	CommandProcessor();
 	CommandProcessor(GameEngine* game);
 	void getCommand();
+	void setGameEngine(GameEngine* game);
 	
 	//Define stringToLog method from abstract base class ILoggable
 	string stringToLog();
 private:
-	bool validate(string command);
 	string readCommand();
+	bool validate(string command);
 	void saveCommand(string command);
 	GameEngine* game;
 	vector<Command*> lc;
@@ -24,11 +26,11 @@ private:
 class Command : public ILoggable, public Subject{
 public:
 	Command(string Command);
-	void sideEffect();
-	void saveEffect(string effect);
+	string saveEffect(string effect);
 	
 	//Define stringToLog method from abstract base class ILoggable
 	string stringToLog();
+	string getEffect();
 private:
 	string command;
 	string effect;
@@ -36,14 +38,15 @@ private:
 
 class FileCommandProcessorAdapter:public CommandProcessor{
 public:
-	void getCommand();
+	FileCommandProcessorAdapter(GameEngine* game, string file);
 private:
-	bool validate();
 	void readCommand();
-	vector<Command*> lc;
-	FileLineReader flr;
+	FileLineReader* flr;
 };
 
 class FileLineReader {
+public:
+	FileLineReader();
+private:
 	void readLineFromFile();
 };

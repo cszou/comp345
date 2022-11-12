@@ -3,6 +3,11 @@
 #include <iostream>
 
 
+CommandProcessor::CommandProcessor()
+{
+	this->game = nullptr;
+}
+
 CommandProcessor::CommandProcessor(GameEngine* game) {
 	this->game = game;
 }
@@ -12,6 +17,11 @@ void CommandProcessor::getCommand() {
 	command = readCommand();
 	if(validate(command))
 		saveCommand(command);
+}
+
+void CommandProcessor::setGameEngine(GameEngine* game)
+{
+	this->game = game;
 }
 
 bool CommandProcessor::validate(string command)
@@ -37,7 +47,7 @@ bool CommandProcessor::validate(string command)
 			return true;
 		else
 			return false;
-	if (command == "reply")
+	if (command == "replay")
 		if (state == "Win")
 			return true;
 		else
@@ -67,27 +77,45 @@ string CommandProcessor::stringToLog(){
 
 Command::Command(string Command)
 {
-
+	this->command = command;
 }
 
-void Command::sideEffect()
+string Command::saveEffect(string effect)
 {
-
-}
-
-void Command::saveEffect(string effect)
-{
+	if (command == "loadmap")
+		effect = "Map is loaded.";
+	if (command == "validatemap")
+		effect = "Map is validated.";
+	if (command == "addplayer")
+		effect = "Player is added.";
+	if (command == "gamestart")
+		effect = "Game is started.";
+	if (command == "replay")
+		effect = "Replay the game.";
+	if (command == "quit")
+		effect = "Game is terminated.";
 	Notify(this);
+	return effect;
 }
 
 string Command::stringToLog() {
 	
-	return "Command issued: "<< getEffect();
+	return "Command issued: " + getEffect();
 }
 
-void FileCommandProcessorAdapter::getCommand()
+string Command::getEffect()
 {
+	return effect;
+}
 
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game, string file)
+{
+	CommandProcessor(game);
+}
+
+void FileCommandProcessorAdapter::readCommand()
+{
+	
 }
 
 void FileLineReader::readLineFromFile()
