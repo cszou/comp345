@@ -1,5 +1,5 @@
 #include "Card.h"
-//#include "Order.h"
+#include "Order.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -51,9 +51,32 @@ void Card:: set_cardType(int num){
 }
 //Play method that creates an order and adds it to the player's list of order
 //Then return the card the the deck
-void Card:: play(Deck* deckCards, Hand* handCards){
-    deckCards->add_CardsToDeck(this);      
+void Card:: play(Deck* deckCards,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW ){
+    deckCards->add_CardsToDeck(this);
+    AddCardOrderToList(this->get_cardType(),army,player1,player2,OLD,NEW);
     }
+//Helper method that creates an order and adds it to the player's list of order
+void Card::void AddCardOrderToList(string cardType,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW){
+    switch (cardType) {
+        case "bomb":
+        player1->getOrdersList()->add(new Bomb(player1,OLD,army));
+        break;
+
+        case "reinforcement":
+        //A2 Part 2-----------------------------------------
+        case "blockade":
+        player1->getOrdersList()->add(new Blockade(player1,OLD));
+		break;
+
+        case "airlift":
+        player1->getOrdersList()->add(new Airlift(player1,OLD,NEW));
+		break;
+        
+        case "diplomacy":
+        player1->getOrdersList()->add(new Negotiate(player1,player2));
+		break;
+    }     
+ } 
 //Stream insertion operator 
 ostream& operator << (ostream & strm, const Card &c){
     return strm << c.cardType;
