@@ -5,9 +5,11 @@
 #include <string>
 #include <vector>
 #include <algorithm> 
+#include "Player.h"
+#include "Orders.h"
+#include "Map.h"
 using namespace std;
 class Deck;
-class Hand;
 
 class Card{
 public:
@@ -20,8 +22,10 @@ public:
     string get_cardType();//Get card type
     //Play method that creates an order and adds it to the player's list of order
     //Then return the card the the deck
-    void play(Deck* deckCards,Hand* handCards);
-
+    void play(Deck* deckCards,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW);
+    //Helper method that creates an order and adds it to the player's list of order
+    void AddCardOrderToList(string cardType,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW, GameEngine* gameEngine)
+        
 private:
     friend ostream & operator << (ostream &out, const Card &c);//Stream insertion operator 
     string cardType;//Storing type of the card
