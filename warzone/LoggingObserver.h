@@ -17,7 +17,7 @@ class ILoggable{
     //assignment operator 
     ILoggable& operator=(const ILoggable& s);
 	//stream insertion operator (unused)
-	friend ostream& operator<<(ostream& os, const ILoggable& s);
+	//friend ostream& operator<<(ostream& os, const ILoggable& s);
 };
 
 class Observer{
@@ -32,7 +32,7 @@ class Observer{
 	//assignment operator
 	Observer& operator=(const Observer& s);
 	//stream insertion operator
-	friend ostream& operator<<(ostream& os, const Observer& s);
+	//friend ostream& operator<<(ostream& os, const Observer& s);
 };
 
 class Subject{
@@ -52,7 +52,7 @@ class Subject{
 	//assignment operator
 	Subject& operator=(const Subject& s);
 	//stream insertion operator
-	friend ostream& operator<<(ostream& os, const Subject& s);
+	//friend ostream& operator<<(ostream& os, const Subject& s);
 
     private:
     list<Observer*> *observers;
@@ -69,6 +69,6 @@ class LogObserver: public Observer{
 	//assignment operator
 	LogObserver& operator=(const LogObserver& s);
 	//stream insertion operator
-	friend ostream& operator<<(ostream& os, const LogObserver& s);
+	//friend ostream& operator<<(ostream& os, const LogObserver& s);
 
 };
