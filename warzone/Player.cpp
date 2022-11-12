@@ -69,7 +69,7 @@ return false;
 
 void Player::addOrder(Order* o)
 {
-	this->orderList->add(o);
+	this->orderList->addOrders(o);
 }
 //Establish an arbitrary list of territories to be attacked
 vector<Territory*> Player::toAttack()
