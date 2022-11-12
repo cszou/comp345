@@ -42,23 +42,23 @@ private:
 	string effect;
 };
 
-//class FileCommandProcessorAdapter:public CommandProcessor{
-//public:
-//	FileCommandProcessorAdapter();
-//	FileCommandProcessorAdapter(GameEngine* game);
-//	~FileCommandProcessorAdapter();
-//	bool getFileState();
-//private:
-//	string readCommand();
-//	FileLineReader* flr;
-//	bool fileEnd;
-//};
-//
-//class FileLineReader {
-//public:
-//	FileLineReader(string path);
-//	~FileLineReader();
-//	string readLineFromFile();
-//private:
-//	ifstream commandReader;
-//};
+class FileCommandProcessorAdapter:public CommandProcessor{
+public:
+	FileCommandProcessorAdapter();
+	FileCommandProcessorAdapter(GameEngine* game);
+	~FileCommandProcessorAdapter();
+	bool getFileState();
+private:
+	string readCommand();
+	FileLineReader* flr;
+	bool fileEnd;
+};
+
+class FileLineReader {
+public:
+	FileLineReader(string path);
+	~FileLineReader();
+	string readLineFromFile();
+private:
+	ifstream commandReader;
+};
