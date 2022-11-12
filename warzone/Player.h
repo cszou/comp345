@@ -23,11 +23,12 @@ public:
     void addOrder(Order* o);
     vector<Territory*> toAttack();
     vector<Territory*> toDefend();
-    void issueOrder();
+    void issueOrder(Order* o);
     void printOrder();
     OrderList* getlist();
     Hand* gethandofcard();
     bool ownsTerritory(Territory* territory);//add
+    vector<Player*> attackban; 
 private:
     vector<Territory*> territories;
     Hand* handOfCards;
