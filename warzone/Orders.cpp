@@ -379,10 +379,6 @@ void OrderList::addOrders(Order* o) {
 vector<Order*>OrderList:: getorderlist(){
  return list;
 }
-
-    void OrderList::add(Order* k1){
-    list.push_back(k1);
-    }
         std::ostream& operator<<(std::ostream& s, OrderList& ol)//string insertion operator for orderlists
     {
         return s << "This is a list of orders." << std::endl;
