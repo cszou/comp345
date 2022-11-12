@@ -15,23 +15,23 @@ class Player {
 
 public:
     Player();//Default constructor
-    Player(vector<Territory*> territories, Hand* hand, string name);//Constructor 3 params
+    Player(string name); //constructor with name
+    Player(vector<Territory*> territories, Hand* hand, string name, OrderList* orderList);//Constructor 3 params
     ~Player();//Desturctor
     Player(const Player&);//Copy constructor
     Player& operator =(const Player& p); //assigment operator
     void addOrder(Order* o);
     vector<Territory*> toAttack();
     vector<Territory*> toDefend();
-    void issueOrder(Order* o);
+    void issueOrder();
     void printOrder();
-    vector<Order*> getlist();
+    OrderList* getlist();
     Hand* gethandofcard();
     bool ownsTerritory(Territory* territory);//add
-    vector<Player*> attackban; 
 private:
     vector<Territory*> territories;
     Hand* handOfCards;
-    vector<Order*> orderList;
+    OrderList* orderList;
     string name; 
     friend std::ostream & operator << (ostream &os, Player &p1);
 };
