@@ -6,7 +6,7 @@
 #include "LoggingObserver.h"
 class Player;
 class Territory;
-class Desk;
+class Deck;
 class ILoggable;
 class Subject;
 class Order  : public ILoggable, public Subject{
