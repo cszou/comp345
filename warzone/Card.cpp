@@ -57,26 +57,26 @@ void Card:: play(Deck* deckCards,int* army, Player* player1,Player* player2,Terr
     }
 
 //Helper method that creates an order and adds it to the player's list of order
-void Card::void AddCardOrderToList(string cardType,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW){
-    switch (cardType) {
-        case "bomb":
-        player1->getOrdersList()->add(new Bomb(player1,OLD,army));
-        break;
-
-        case "reinforcement":
+void Card:: AddCardOrderToList(string const cardTypeAdd,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW){
+    if(cardTypeAdd == "bomb"){
+        player1->getlist()->add(new Bomb(player1,OLD,army));
+    }
+    else if(cardTypeAdd == "reinforcement"){
+        cout<<"   "<<endl;
         //A2 Part 2-----------------------------------------
-        case "blockade":
-        player1->getOrdersList()->add(new Blockade(player1 ,OLD));
-		break;
-
-        case "airlift":
-        player1->getOrdersList()->add(new Airlift(player1 ,OLD ,NEW));
-		break;
-        
-        case "diplomacy":
-        player1->getOrdersList()->add(new Negotiate(player1 , player2));
-		break;
-    }     
+    }
+    else if(cardTypeAdd == "blockade"){
+         player1->getlist()->add(new Blockade(player1 ,OLD));
+    }
+    else if(cardTypeAdd == "airlift"){
+         player1->getlist()->add(new Airlift(player1 ,OLD ,NEW));
+    }
+    else if(cardTypeAdd == "diplomacy"){
+         player1->getlist()->add(new Negotiate(player1 , player2));
+    }
+    else{
+        cout<<"Invalid card"<<endl;
+    }
  } 
 //Stream insertion operator 
 ostream& operator << (ostream & strm, const Card &c){
