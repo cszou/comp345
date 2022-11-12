@@ -11,9 +11,6 @@ ILoggable :: ~ILoggable(){
 ILoggable ::ILoggable(const ILoggable& logObj){
 
 };
-ILoggable :: ILoggable& operator=(const ILoggable& s){
-    retrun *this;
-}
 
 //------------------------------------------------
 //Class Observer
@@ -25,9 +22,6 @@ Observer :: ~Observer(){
 }
 Observer ::Observer(const Observer& s){
 
-}
-Observer ::Observer& operator=(const Observer& s){
-    return *this;
 }
 
 //------------------------------------------------
@@ -45,11 +39,7 @@ void Subject :: Attach(Observer* o){
 }
 
 void Subject :: Detach(Observer* o){
-    for (int i = 0; i < observers->size(); i++)
-	{
-		if (o == observers->at(i)) //They point to the same thing
-			observers->erase(observers->begin() + i); //Remove the Observer from the list
-	}
+     observers -> remove(o);
 }
 
 void Subject :: Notify(ILoggable* log){
@@ -72,7 +62,7 @@ void LogObserver:: Update(ILoggable* log){
     //output the the string returned from stringToLog method to the file
     filestream <<log->stringToLog() <<endl;
     //close the file
-    outputfilestream.close();
+    filestream.close();
 }
 LogObserver::LogObserver() {
 
