@@ -10,6 +10,9 @@
 #include "Map.h"
 using namespace std;
 class Deck;
+class Player;
+class Territory;
+class OrdersList;
 
 class Card{
 public:
@@ -24,7 +27,7 @@ public:
     //Then return the card the the deck
     void play(Deck* deckCards,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW);
     //Helper method that creates an order and adds it to the player's list of order
-    void AddCardOrderToList(string cardType,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW, GameEngine* gameEngine)
+    void AddCardOrderToList(string cardType,int* army, Player* player1,Player* player2,Territory* OLD,Territory* NEW)
         
 private:
     friend ostream & operator << (ostream &out, const Card &c);//Stream insertion operator 
