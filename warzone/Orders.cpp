@@ -25,6 +25,7 @@
         this->K=K;
         this->F=F;
         this->NUMBEROFARMY=NUMBEROFARMY;
+	name = "Deploy";
        std::cout<<"initiate deploy!"<<std::endl;
     }
     Deploy::~Deploy(){
@@ -81,6 +82,7 @@
         this->NEW=new1;
         this->NUMBEROFARMY=NUMBEROFARMY;
         this->K=player;
+	 name = "Advance";
         std::cout<<"initiate advance!"<<std::endl;
     }
     Advance::~Advance(){
@@ -158,6 +160,7 @@
         this->OLD=OLD;
         this->NEW=NEW;
         this->K=K;
+	name = "Airlift";
        std::cout<<"initiate airlift!"<<std::endl;
     }
     Airlift::~Airlift(){
@@ -210,7 +213,7 @@
        this->NUMBEROFARMY=army;
        this->target=target;
        this->K=player;
-
+       name = "Bomb";
        std::cout<<"initiate bomb!"<<std::endl;
     }
     Bomb::~Bomb(){
@@ -256,6 +259,7 @@
     Blockade::Blockade(Player* k,Territory* target){
       this->K=k;
       this->target=target;
+      name = "Blockade";
       std::cout<<"initiate blockade!"<<std::endl;
     }
     Blockade::~Blockade(){
@@ -299,6 +303,7 @@
     Negotiate::Negotiate(Player *order,Player* rival){
         this->order=order;
         this->rival=rival;
+	name = "Negotiate";
         std::cout<<"initiate negotiate!"<<std::endl;
     }
     Negotiate::~Negotiate(){
