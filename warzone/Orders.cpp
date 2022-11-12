@@ -235,7 +235,7 @@
         if(validate()){
             int record =target->getNumberOfArmies();
             target->setNumberOfArmies(target->getNumberOfArmies()/2);
-            std::cout<<"bomb order executed!Previous target army: "+record<<",Currently target terriotery army: "+target->getNumberOfArmies()<<std::endl;
+            std::cout<<"bomb order executed!Previous target army: "<< record<<",Currently target terriotery army: "+target->getNumberOfArmies()<<std::endl;
             Notify(this);
         }
         std::cout<<"bomb order executed!"<<std::endl;
