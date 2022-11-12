@@ -1,13 +1,13 @@
 #pragma once
-
 #include <iostream>
 #include<vector>
 #include<string>
+#include "LoggingObsever.h"
 //using namespace std;
 class Player;
 class Territory;
 class Desk;
-class Order {
+class Order  : public ILoggable, public Subject{
     private:
  /* std::string name;
     std::string nameofterio;
@@ -26,6 +26,8 @@ class Order {
     Order(const Order& e);//copy constructor
     Order& operator=(const Order& e);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Order *i) ;//stream insertion operator
+    string stringToLog();
+    string getName();
 };
 class Deploy : public Order{
     private:
@@ -41,6 +43,8 @@ class Deploy : public Order{
     Deploy(const Deploy& s);//copy constructor
     Deploy& operator=(const Deploy& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Deploy *i) ;//stream insertion operator
+    string stringToLog();
+    string getName();
 };
      
 class Advance : public Order{
@@ -61,6 +65,8 @@ class Advance : public Order{
     Advance(const Advance& s);//copy constructor
     Advance& operator=(const Advance& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Advance *i) ;//stream insertion operator
+    string stringToLog();
+    string getName();
 };
 class Airlift : public Order{
     private:
@@ -76,7 +82,8 @@ class Airlift : public Order{
     Airlift(const Airlift& s);//copy constructor
     Airlift& operator=(const Airlift& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Airlift *i) ;//stream insertion operator
-
+    string stringToLog();
+    string getName();
 };
 
 class Bomb : public Order{
@@ -93,6 +100,8 @@ class Bomb : public Order{
     Bomb(const Bomb& s);//copy constructor
     Bomb& operator=(const Bomb& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Bomb *i) ;//stream insertion operator
+    string stringToLog();
+    string getName();
 };
 
 class Blockade : public Order{
@@ -107,6 +116,8 @@ class Blockade : public Order{
     Blockade(const Blockade& s);//copy constructor
     Blockade& operator=(const Blockade& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Blockade *i) ;//stream insertion operator
+    string stringToLog();
+    string getName();
 };
 
 
@@ -123,13 +134,16 @@ class Negotiate : public Order{
     Negotiate(const Negotiate& s);//copy constructor
     Negotiate& operator=(const Negotiate& s);//assignment operator
     friend std::ostream& operator<<(std::ostream &s,  Negotiate *i) ;//stream insertion operator
-
+    string stringToLog();
+    string getName();
 };
 class OrderList{
+    private:
+    std::vector<Order*>list;//list of order of pointer
     public:
+    OrderList();
     OrderList(vector<Order*>list);
     void addOrders(Order* o);
-    std::vector<Order*>list;//list of order of pointer
     void setorderlist(vector<Order*>list);
     vector<Order*> getorderlist();
     ~OrderList();
@@ -140,4 +154,5 @@ class OrderList{
     OrderList(const OrderList& orderlistobj);//copy constructor
     OrderList &  operator = (const OrderList& d);//assignment operator
     friend std::ostream& operator<<(std::ostream& s, OrderList& ol);//stream insertion operator
+    string stringToLog();
 };
