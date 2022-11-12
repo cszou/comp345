@@ -15,18 +15,18 @@ Player::Player()
 {
 	handOfCards = new Hand();
 }
-
 Player::Player(string name) {
 	this->name = name;
 	this->handOfCards = new Hand();
 }
-
 //Cons 4 params
 Player::Player(vector<Territory*> territories, Hand* hand, string name, OrderList* orderList)
 {
 	for (auto t : territories)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*hand);
+	this->territories = territories;
+	this->handOfCards = hand;
 	this->name = name;
 	this->orderList = new OrderList(*orderList);
 }
@@ -46,6 +46,7 @@ Player::Player(const Player& p)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
 	this->orderList = new OrderList(*p.orderList);
+
 }
 
 Player& Player::operator=(const Player& p)
@@ -87,16 +88,11 @@ vector<Territory*> Player::toDefend()
 	return tDefend;
 }
 //Create order object and puts it in the player’s list of orders
-/*
-void Player::issueOrder()
+void Player::issueOrder(Order* o)
 {
-	Advance *a = new Advance();
-	this->orderList->add(a);
-	Deploy* d = new Deploy();
-	this->orderList->add(d);
-	Bomb* b = new Bomb();
-	this->orderList->add(b);
-}*/
+	std::cout<<"no method"<<std::endl;
+
+}
 Hand* Player::gethandofcard(){
 	return handOfCards;
 }
@@ -108,8 +104,16 @@ OrderList* Player::getlist()
 //For testPlayers
 void Player::printOrder()
 {
-	cout << orderList;
+	orderList->getorderlist();
+	vector<Order*>::iterator it =orderList->getorderlist().begin();
+	for (it;it < orderList->getorderlist().end(); it++)
+	{
+		std::cout<<*it<<std::endl;
+	}
+	cout << endl;
 }
+
+
 
 std::ostream& operator<<(ostream& os, Player& p1)
 {
