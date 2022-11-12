@@ -64,7 +64,7 @@ void LogObserver:: Update(ILoggable* log){
     //close the file
     filestream.close();
 }
-LogObserver::LogObserver() {
+LogObserver::~LogObserver() {
 
 }
 LogObserver::LogObserver(const LogObserver& s) {
