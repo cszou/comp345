@@ -407,6 +407,7 @@ std::ostream& operator<<(std::ostream& s, OrderList& ol)//string insertion opera
 string OrderList::stringToLog() {
 	return "this is an order lsit";
 }
+/*
 int main(){
  int NUMBEROFARMY =13;
     Territory* A1= new Territory("A1");
@@ -421,4 +422,4 @@ int main(){
     Deploy* deploy = new Deploy(&NUMBEROFARMY,P1,A1);
     deploy->execute();
 
-}
+}*/
