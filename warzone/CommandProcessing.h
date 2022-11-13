@@ -15,12 +15,12 @@ public:
 	~CommandProcessor();
 	Command* getCommand();
 	void setGameEngine(GameEngine* game);
+	bool validate(Command* command);
 
 	//Define stringToLog method from abstract base class ILoggable
 	string stringToLog();
 private:
-	string readCommand();
-	bool validate(Command* command);
+	virtual string readCommand();
 	void saveCommand(string command);
 	GameEngine* game;
 	vector<Command*> lc;
@@ -36,7 +36,7 @@ public:
 	string stringToLog();
 	string getEffect();
 	void setEffect(string effect);
-	string getCommand();
+	string getCommandString();
 private:
 	string command;
 	string effect;

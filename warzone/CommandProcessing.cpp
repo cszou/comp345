@@ -21,6 +21,7 @@ CommandProcessor::~CommandProcessor() {
 }
 
 Command* CommandProcessor::getCommand() {
+	cout << "this is getCommand() from cp" << endl;
 	string command;
 	command = readCommand();
 	if (command == "eof") {
@@ -38,20 +39,39 @@ void CommandProcessor::setGameEngine(GameEngine* game)
 bool CommandProcessor::validate(Command* command)
 {
 	string state = game->getState();
-	string c = command->getCommand();
+	string c = command->getCommandString();
 	if ((c == "loadmap") && (state == "Start" || state == "Map Loaded"))
+	{
+		cout << "This is a valid command." << endl;
 		return true;
+	}
 	else if ((c == "validatemap") && (state == "Map Loaded"))
+	{
+		cout << "This is a valid command." << endl;
 		return true;
+	}
 	else if ((c == "addplayer") && (state == "Map Validated" || state == "Players Added"))
+	{
+		cout << "This is a valid command." << endl;
 		return true;
+	}
 	else if ((c == "gamestart") && (state == "Players Added"))
+	{
+		cout << "This is a valid command." << endl;
 		return true;
+	}
 	else if ((c == "replay") && (state == "Win"))
+	{
+		cout << "This is a valid command." << endl;
 		return true;
+	}
 	else if ((c == "quit") && (state == "Win"))
+	{
+		cout << "This is a valid command." << endl;
 		return true;
+	}
 	else {
+		cout << "This is not a valid command." << endl;
 		command->setEffect("Invalid Command.");
 		return false;
 	}
@@ -59,6 +79,7 @@ bool CommandProcessor::validate(Command* command)
 
 string CommandProcessor::readCommand()
 {
+	cout << "this is readCommand() from cp" << endl;
 	string command;
 	cout << "Enter next command: ";
 	cin >> command;
@@ -71,11 +92,11 @@ void CommandProcessor::saveCommand(string command)
 	Notify(this);
 }
 
-string CommandProcessor::stringToLog(){
-	return "Command have just saved: " + lc.back()->getCommand();
+string CommandProcessor::stringToLog() {
+	return "Command have just saved: " + lc.back()->getCommandString();
 }
 
-Command::Command(string Command)
+Command::Command(string command)
 {
 	this->command = command;
 }
@@ -104,8 +125,8 @@ string Command::saveEffect()
 }
 
 string Command::stringToLog() {
-	
-	return "Command's Effect: " + getEffect() + "\nCommand: " + getCommand();
+
+	return "Command's Effect: " + getEffect() + "\nCommand: " + getCommandString();
 }
 
 string Command::getEffect()
@@ -117,14 +138,13 @@ void Command::setEffect(string effect) {
 	this->effect = effect;
 }
 
-string Command::getCommand()
+string Command::getCommandString()
 {
 	return command;
 }
 
-FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game)
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game) :CommandProcessor(game)
 {
-	//CommandProcessor(game);
 	string path;
 	cout << "Please enter the file name: ";
 	cin >> path;
@@ -136,6 +156,9 @@ bool FileCommandProcessorAdapter::getFileState() {
 	return fileEnd;
 }
 
+FileCommandProcessorAdapter::~FileCommandProcessorAdapter() {
+}
+
 string FileCommandProcessorAdapter::readCommand()
 {
 	string command;
@@ -143,6 +166,9 @@ string FileCommandProcessorAdapter::readCommand()
 	if (command == "eof")
 		this->fileEnd = false;
 	return command;
+}
+
+FileLineReader::~FileLineReader() {
 }
 
 FileLineReader::FileLineReader(string path) {
