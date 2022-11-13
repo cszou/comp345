@@ -126,7 +126,7 @@ string Command::saveEffect()
 
 string Command::stringToLog() {
 
-	return "Command's Effect: " + getEffect() + "\nCommand: " + getCommandString();
+	return "Command: " + getCommandString()+ "\nCommand's Effect: " + getEffect() ;
 }
 
 string Command::getEffect()
