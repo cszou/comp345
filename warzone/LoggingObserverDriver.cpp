@@ -106,8 +106,10 @@ cout<<"----------------------Part 5 Driver--------------------------------------
 //--------------------------Deleting Pointers------------------------------------------
   //Deleting pointers to prevent memory leak 
    // delete ob;
-    //delete commandprocessor;
    // delete engine; 
+   // delete game; delete cp; delete fcp;
+   
+   
    // delete A1, A2;
    // delete deploy, advance, airlift, bomb, blockade ;//negotiate;
 	
