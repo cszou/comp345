@@ -29,8 +29,9 @@ Player::Player(string name) {
 //Cons 4 params
 Player::Player(vector<Territory*> territories, Hand* hand, string name, OrderList* orderList)
 {
-	for (auto t : territories)
+	for (auto t : territories) {
 		this->territories.push_back(new Territory(*t));
+	}
 	this->handOfCards = new Hand(*hand);
 	this->territories = territories;
 	this->handOfCards = hand;
@@ -112,7 +113,7 @@ OrderList* Player::getlist()
 void Player::printOrder()
 {
 	orderList->getorderlist();
-	vector<Order*>::iterator it =orderList->getorderlist().begin();
+	vector<Order*>::iterator it = orderList->getorderlist().begin();
 	for (it;it < orderList->getorderlist().end(); it++)
 	{
 		std::cout<<*it<<std::endl;

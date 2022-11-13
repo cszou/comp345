@@ -337,8 +337,14 @@ Territory::Territory(const Territory& t)
 	this->name = t.name;
 	this->coordX = t.coordX;
 	this->coordY = t.coordY;
-	this->continent = new Continent(*t.continent);
-	this->owner = new Player(*t.owner);
+	if (t.continent != nullptr)
+		this->continent = new Continent(*t.continent);
+	else
+		this->continent = nullptr;
+	if (t.owner != nullptr)
+		this->owner = new Player(*t.owner);
+	else
+		this->owner = nullptr;
 	this->numberOfArmies = t.numberOfArmies;
 }
 
@@ -358,8 +364,14 @@ Territory& Territory::operator=(const Territory& t)
 	this->numberOfArmies = t.numberOfArmies;
 	this->coordX = t.coordX;
 	this->coordY = t.coordY;
-	this->continent = new Continent(*t.continent);
-	this->owner = new Player(*t.owner);
+	if (t.continent != nullptr)
+		this->continent = new Continent(*t.continent);
+	else
+		this->continent = nullptr;
+	if (t.owner != nullptr)
+		this->owner = new Player(*t.owner);
+	else
+		this->owner = nullptr;
 	return *this;
 }
 

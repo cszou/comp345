@@ -124,7 +124,7 @@ void testOrdersLists() {
 void testOrderExecution() {
 	int NUMBEROFARMY = 13;
 	//Creating objects for testing  
-//    Territory* A1= new Territory("A1");
+//    Territory* A1= new Territory("A1
 	Territory* A2 = new Territory("A2");
 	OrderList* OL1 = new OrderList();
 	vector <Territory*> T1;

@@ -290,6 +290,10 @@ void OrderList::setorderlist(vector<Order*>list) {
     this->list = list;
 }
 
+OrderList::OrderList(const OrderList& orderlistobj) {
+    for (auto o : orderlistobj.list)
+        this->list.push_back(o);
+}
 
 OrderList& OrderList:: operator = (const OrderList& d) {//assignment operator
     std::cout << "asss constructor for orderlist" << std::endl;
