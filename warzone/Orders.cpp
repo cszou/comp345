@@ -407,27 +407,18 @@ std::ostream& operator<<(std::ostream& s, OrderList& ol)//string insertion opera
 string OrderList::stringToLog() {
 	return "this is an order lsit";
 }
-//int main(){
-//    int NUMBEROFARMY =13;
-//    Territory* A1= new Territory("A1");
-//    Territory* A2= new Territory("A2");
-//    Territory* A3= new Territory("A3");
-//    Territory* A4= new Territory("A4");
-//    A1->addNeighbour(A2);
-//    A1->addNeighbour(A3);
-//    A2->addNeighbour(A1);
-//    A2->addNeighbour(A4);
-//    Deck *d = new Deck();
-//    Hand* h = new Hand();
-//    Player* K =new Player({A2,A1},h,"SB");
-//    //add new one to hand ;
-//    h->add_CardinHand(d->draw());
-//
-//    Territory* F;
-//
-//
-//    Order* k = new Deploy(&NUMBEROFARMY,K,F);
-//    OrderList* k1 =new OrderList();
-//    k1->add(k);
-//
-//}
+int main(){
+ int NUMBEROFARMY =13;
+    Territory* A1= new Territory("A1");
+    Territory* A2= new Territory("A2");
+     vector<Territory*> t1;
+    t1.push_back(A1);
+	t1.push_back(A2);
+    Hand* h = new Hand();
+    OrderList* o1 =new OrderList();
+    Player* P1 =new Player(t1,h,"Player1",o1);
+
+    Deploy* deploy = new Deploy(&NUMBEROFARMY,P1,A1);
+    deploy->execute();
+
+}
