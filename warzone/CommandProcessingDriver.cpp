@@ -13,4 +13,6 @@ void testCommandProcessor() {
 	fcp->validate(c2);
 	Command* c3 = fcp->getCommand();
 	fcp->validate(c3);
+	delete cp;
+	delete fcp;
 }
