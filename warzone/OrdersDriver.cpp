@@ -2,6 +2,9 @@
 #include<vector>
 #include<string>
 #include"Orders.h"
+#include"Player.h"
+#include"Map.h"
+#include "Card.h"
 
 void testOrdersLists() {
 
@@ -116,4 +119,26 @@ void testOrdersLists() {
 	//delete k1;
 	//k1 = NULL;//avoid memory leaks
 	//std::cout << "Orders list demo end." << std::endl << std::endl;
+}
+
+void testOrderExecution() {
+	int NUMBEROFARMY = 13;
+	//Creating objects for testing  
+//    Territory* A1= new Territory("A1");
+	Territory* A2 = new Territory("A2");
+	OrderList* OL1 = new OrderList();
+	vector <Territory*> T1;
+	//   T1.push_back(A1);
+	T1.push_back(A2);
+	Hand* H = new Hand();
+	Player* P1 = new Player(T1, H, "P1", OL1);
+	// creating orders:
+	Deploy* deploy = new Deploy(&NUMBEROFARMY, P1, A2);
+	/*    Advance* advance= new Advance(A1,A2,P1,&NUMBEROFARMY);
+		Airlift* airlift= new Airlift(P1, A1,A2);
+		Bomb* bomb = new Bomb (P1, A1,&NUMBEROFARMY);
+		Blockade* blockade= new Blockade(P1,A1);
+		Order* negotiate= new Negotiate(P1,P2);
+	*/
+
 }

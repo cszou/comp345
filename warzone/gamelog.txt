@@ -1,0 +1,7 @@
+Game Engine New State: Start
+Game Engine New State: Map Loaded
+Game Engine New State: Assign Reinforcement
+Game Engine New State: Win
+Command have just saved: 1
+Command: 1
+Command's Effect: Invalid command.

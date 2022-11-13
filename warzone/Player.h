@@ -38,5 +38,5 @@ private:
     Hand* handOfCards;
     OrderList* orderList;
     string name; 
-    friend std::ostream & operator << (ostream &os, Player &p1);
+    friend std::ostream & operator << (std::ostream &os, Player &p1);
 };

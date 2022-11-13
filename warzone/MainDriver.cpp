@@ -11,6 +11,6 @@ int main() {
 	testCommandProcessor();
 	//testStartPhase();
 	//testMainGameLoop();
-	//testOrderExecution();
+	testOrderExecution();
 	testLoggingObserver();
 }

@@ -6,7 +6,7 @@
 #include "GameEngine.h"
 #include "Orders.h"
 #include "Card.h"
-#include "loggableObject.h"
+//#include "loggableObject.h"
 using namespace std;
 
 void testLoggingObserver(){
