@@ -469,7 +469,7 @@ void OrderList::add(Order *k1)
      Notify(this);
 }
 string OrderList::stringToLog(){
-    retrun "Order have just added: "+ list.back()->getName();
+    return "Order have just added: "+ list.back()->getName();
 }
 std::ostream &operator<<(std::ostream &s, OrderList &ol) // string insertion operator for orderlists
 {
