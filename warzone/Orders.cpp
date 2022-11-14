@@ -457,6 +457,7 @@ void OrderList::setorderlist(vector<Order *> list)
 void OrderList::addOrders(Order *o)
 {
     this->list.push_back(o);
+    Notify(this);
 }
 vector<Order *> OrderList::getorderlist()
 {
