@@ -197,6 +197,15 @@ void Map::traverse(Territory* t, vector<bool>& v) {
 	}
 }
 
+vector<Territory*> Map::getAllTerritories() {
+	return this->territories;
+}
+
+vector<Continent*> Map:: getAllContinents() {
+	return this->continents;
+}
+
+
 //default constructor
 Continent::Continent() {
 	this->numberOfTerritory = 0;
@@ -231,6 +240,9 @@ Continent& Continent::operator=(Continent& c)
 	return *this;
 }
 
+int Continent::getBonus() {
+	return this->bonus;
+}
 //get total number of territories
 int Continent::getTerritoryNumber() const
 {
