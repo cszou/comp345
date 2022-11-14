@@ -69,48 +69,46 @@ cout<<"----------------------Part 5 Driver--------------------------------------
     Player* P1 =new Player(t1,h,"Player1",o1);
     Player* P2 =new Player(t2,h,"Player2",o2);
 	
-    //create each order objects
-    Deploy* deploy = new Deploy(&NUMBEROFARMY,P1,A1);
-    Advance* advance= new Advance(A1,A2,P1,&NUMBEROFARMY);
-   // Airlift* airlift= new Airlift(P1, A1,A2); 
-    Bomb* bomb = new Bomb (P1, A1,&NUMBEROFARMY); 
-    Blockade* blockade= new Blockade(P1,A1); 
-    //Order* negotiate= new Negotiate(P1,P2);
-
-    //Attach each object to the observer object
-    deploy -> Attach(ob);
-    advance -> Attach(ob);
-    //airlift -> Attach(ob);
-    bomb -> Attach(ob);
-    blockade -> Attach(ob);
-    //negotiate -> Attach(ob);
-	
-    //Testing Order execute method, the exceuted order will be outputed to log file
-    deploy->execute();
-    advance->execute();
-    //airlift->execute();
-    bomb->execute();
-    blockade->execute();
-    //negotiate->execute();
-
     //create orderlist object and attach it to the observer object 
     OrderList* testOrderList =new OrderList();
     testOrderList -> Attach(ob);
+	
+    //create each order objects
+    Deploy* deploy = new Deploy(&NUMBEROFARMY,P1,A1);
+    Airlift* airlift= new Airlift(P1, A1,A2); 
+    Bomb* bomb = new Bomb (P1, A1,&NUMBEROFARMY); 
+    Blockade* blockade= new Blockade(P1,A1);
+    
+    
+    //Attach each object to the observer object
+    deploy -> Attach(ob);
+    airlift -> Attach(ob);
+    bomb -> Attach(ob);
+    blockade -> Attach(ob);
+    
     //Testing orderlist addOrder, the added order will be outputed to log file
     testOrderList -> addOrders(deploy);
-    testOrderList -> addOrders(advance);
-    //testOrderList -> addOrders(airlift);
+    testOrderList -> addOrders(airlift);
     testOrderList -> addOrders(bomb);
     testOrderList -> addOrders(blockade); 
-    //testOrderList -> add(negotiate);
+    
+
+    //Testing Order execute method, the exceuted order will be outputed to log file
+ 
+    advance->execute();
+    airlift->execute();
+    bomb->execute();
+    blockade->execute()
+    
 //--------------------------Deleting Pointers------------------------------------------
   //Deleting pointers to prevent memory leak 
    // delete ob;
    // delete engine; 
    // delete game; delete cp; delete fcp;
    
-   
-   // delete A1, A2;
-   // delete deploy, advance, airlift, bomb, blockade ;//negotiate;
+   // delete A1; delete A2; delete A3; delete A4;
+   // delete h; delete d; delete o1; delete 02; delete P1; delete P2; 
+   // delete testOrderList; 
+   // delete deploy; delete airlift; delete bomb; delete blockade;
 	
 }*/
