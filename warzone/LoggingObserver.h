@@ -24,7 +24,7 @@ class Observer{
     public:
     Observer(); 
     ~Observer();
-    //update() method that will call string to lod to update new states into logfile
+    //update() method that will call string to lod to update new states into logfile 
     //will be define by subclass LogObserver
     virtual void Update(ILoggable* log) = 0;
     //copy constructor
