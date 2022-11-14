@@ -24,7 +24,7 @@ Observer ::Observer(const Observer& s){
 
 }
 
-//-------------------------------------------------
+//--------------------------------------------------
 //Class Subject (Superclass)
 Subject :: Subject(){
     observers = new list<Observer*>;
