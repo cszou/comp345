@@ -26,6 +26,8 @@ public:
 	int getContinentNum() const; //get total continent number
 	bool validate(); //validate map
 	friend std::ostream& operator<<(std::ostream&, const Map&); //stream insertion
+	vector<Territory*> getAllTerritories();
+	vector<Continent*> getAllContinents();
 private:
 	vector<Territory*> territories; //vector to store the territories
 	vector<Continent*> continents; //vector to store the continents
@@ -48,6 +50,7 @@ public:
 	vector<Territory*> getTerritories(); //get territories
 	bool validate(); //validate the continent in connected
 	friend std::ostream& operator<<(std::ostream&, const Continent&); //stream insertion
+	int getBonus();
 private:
 	int numberOfTerritory; //total number of territories
 	int bonus; //bonus if all territories are controlled by one player
