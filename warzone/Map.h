@@ -95,7 +95,7 @@ private:
 //MapLoader class to load the map
 class MapLoader {
 public:
-	static Map* readMap(); //read map file and return a pointer to the loaded map
+	static Map* readMap(string mapPath); //read map file and return a pointer to the loaded map
 private:
 	static Map* map;
 };

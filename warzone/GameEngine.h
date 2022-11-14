@@ -21,6 +21,7 @@ private:
 	string state_execute_orders;
 	string state_win;
 	string state_Terminated;
+	Map* gameMap;
 
 public:
 
@@ -32,7 +33,8 @@ public:
 	friend ostream& operator << (ostream& out, const GameEngine& gameEngine);
 	//define stringToLog method from abstract base class Iloggable
 	string stringToLog();
-	void addPlayer();
+	void addPlayer(string playerName);
+	void readMap(string mapName);
 	vector<Player*> playerList;
 };
 

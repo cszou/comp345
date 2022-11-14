@@ -72,10 +72,13 @@ string GameEngine::stringToLog() {
 	return "Game Engine New State: " + getState();
 }
 
-//void GameEngine::addPlayer() {
-//	cout << "Please enter player name: ";
-//	string name;
-//	cin >> name;
-//	playerList.push_back(new Player(name));
-//}
+void GameEngine::addPlayer(string playerName) {
+	playerList.push_back(new Player(playerName));
+}
+
+void GameEngine::readMap(string mapName)
+{
+	MapLoader mapLoader;
+	this->gameMap = mapLoader.readMap(mapName);
+}
 	

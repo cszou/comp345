@@ -15,18 +15,18 @@ CommandProcessor::CommandProcessor(GameEngine* game) {
 	this->game = game;
 }
 
+CommandProcessor::CommandProcessor(const CommandProcessor& cp) {
+	this->game = new GameEngine(*cp.game);
+}
+
 CommandProcessor::~CommandProcessor() {
 	for (auto c : lc)
 		delete c;
 }
 
 Command* CommandProcessor::getCommand() {
-	cout << "this is getCommand() from cp" << endl;
 	string command;
 	command = readCommand();
-	if (command == "eof") {
-		cout << "Error: End of file, no more lines";
-	}
 	saveCommand(command);
 	return lc.back();
 }
@@ -43,35 +43,47 @@ bool CommandProcessor::validate(Command* command)
 	if ((c == "loadmap") && (state == "Start" || state == "Map Loaded"))
 	{
 		cout << "This is a valid command." << endl;
+		game->setState("Map Loaded");
+		cout << "Transitions to maploaded state" << endl << endl;
 		return true;
 	}
 	else if ((c == "validatemap") && (state == "Map Loaded"))
 	{
 		cout << "This is a valid command." << endl;
+		game->setState("Map Validated");
+		cout << "Transitions to mapvalidated state" << endl << endl;
 		return true;
 	}
 	else if ((c == "addplayer") && (state == "Map Validated" || state == "Players Added"))
 	{
 		cout << "This is a valid command." << endl;
+		game->setState("Players Added");
+		cout << "Transitions to playersadded state" << endl << endl;
 		return true;
 	}
 	else if ((c == "gamestart") && (state == "Players Added"))
 	{
 		cout << "This is a valid command." << endl;
+		game->setState("Assign Reinforcement");
+		cout << "Transitions to assignreinforcement state" << endl << endl;
 		return true;
 	}
 	else if ((c == "replay") && (state == "Win"))
 	{
 		cout << "This is a valid command." << endl;
+		game->setState("Start");
+		cout << "Transitions to start state" << endl << endl;
 		return true;
 	}
 	else if ((c == "quit") && (state == "Win"))
 	{
 		cout << "This is a valid command." << endl;
+		game->setState("Terminated");
+		cout << "Exit Program" << endl << endl;
 		return true;
 	}
 	else {
-		cout << "This is not a valid command." << endl;
+		cout << "This is not a valid command." << endl << endl;
 		command->setEffect("Invalid Command.");
 		return false;
 	}
@@ -79,10 +91,23 @@ bool CommandProcessor::validate(Command* command)
 
 string CommandProcessor::readCommand()
 {
-	cout << "this is readCommand() from cp" << endl;
 	string command;
 	cout << "Enter next command: ";
 	cin >> command;
+	if (command == "loadmap") {
+		string mapName;
+		cout << "please enter map name: ";
+		cin >> mapName;
+		game->readMap(mapName);
+		command = command;
+	}
+	else if (command == "addplayer") {
+		cout << "Please enter player name: ";
+		string playerName;
+		cin >> playerName;
+		game->addPlayer(playerName);
+		command = command;
+	}
 	return command;
 }
 
@@ -99,6 +124,12 @@ string CommandProcessor::stringToLog() {
 Command::Command(string command)
 {
 	this->command = command;
+}
+
+Command::Command(const Command& c)
+{
+	this->command = c.command;
+	this->effect = c.effect;
 }
 
 Command::~Command() {
@@ -152,6 +183,11 @@ FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game) :Comm
 	this->fileEnd = false;
 }
 
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(const FileCommandProcessorAdapter& fcp): CommandProcessor(fcp.game) {
+	this->fileEnd = fcp.fileEnd;
+	this->flr = fcp.flr;
+}
+
 bool FileCommandProcessorAdapter::getFileState() {
 	return fileEnd;
 }
@@ -163,8 +199,21 @@ string FileCommandProcessorAdapter::readCommand()
 {
 	string command;
 	command = flr->readLineFromFile();
-	if (command == "eof")
+	cout << command << endl;
+	if (command == "eof") {
 		this->fileEnd = false;
+		cout << "Error: End of file, no more lines";
+	}
+	else if (command == "loadmap") {
+		string mapName = flr->readLineFromFile();
+		game->readMap(mapName);
+		command = command;
+	}
+	else if (command == "addplayer") {
+		string playerName = flr->readLineFromFile();
+		game->addPlayer(playerName);
+		command = command;
+	}
 	return command;
 }
 

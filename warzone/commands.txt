@@ -1,7 +1,10 @@
-loadmap europe.map
+loadmap
+europe.map
 validatemap
 validatemap
-addplayer p1
-addplayer p2
+addplayer
+a1
+addplayer
+a2
 loadmap lp.map
 game start

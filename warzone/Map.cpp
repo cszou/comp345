@@ -502,29 +502,30 @@ std::ostream& operator<<(std::ostream& strm, const Territory& t)
 * can read any file
 * return a pointer to the loaded map
 */
-Map* MapLoader::readMap()
+Map* MapLoader::readMap(string mapPath)
 {
 	Map* gameMap = new Map();
 	string line;
-	string path;
 	string s;
 	string name;
 	string q = "y";
 	ifstream mapReader;
+	mapReader.open(mapPath);
 	//get the file name and open the file for read
-	while (q == "y")
-	{
-		cout << "Please emter the map name: ";
-		cin >> path;
-		mapReader.open(path);
-		if (!mapReader.is_open()) {
-			cout << "failed to open " << path << endl;
-			cout << "Do you want to try again? (y/n) ";
-			cin >> q;
+	if (!mapReader.is_open())
+		while (q == "y")
+		{
+			cout << "Please enter the map name: ";
+			cin >> mapPath;
+			mapReader.open(mapPath);
+			if (!mapReader.is_open()) {
+				cout << "failed to open " << mapPath << endl;
+				cout << "Do you want to try again? (y/n) ";
+				cin >> q;
+			}
+			else
+				q = "n";
 		}
-		else
-			q = "n";
-	}
 	if (!mapReader.is_open()) {
 		cout << "Program ended" << endl;
 		exit(0);
@@ -607,18 +608,5 @@ Map* MapLoader::readMap()
 	*/
 	else {
 		cout << "All loaded." << endl;
-		gameMap->showAllContinents();
-		cout << endl << "******************Validating map******************" << endl;
-		if (gameMap->validate())
-		{
-			cout << "This is a valid map." << endl;
-			return gameMap;
-		}
-		else
-		{
-			cout << "The map is invalid." << endl;
-			delete gameMap;
-			return nullptr;
-		}
 	}
 }
