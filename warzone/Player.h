@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,14 +8,13 @@
 #include "Map.h"
 #include "Card.h"
 #include "Orders.h"
-//using namespace std;
+using namespace std;
+class Command;
 class Territory;
-class Hand; 
-class OrderList;
 class Order;
-
+class OrderList;
+class Hand;
 class Player {
-
 public:
     Player();//Default constructor
     Player(string name); //constructor with name
@@ -27,16 +25,20 @@ public:
     void addOrder(Order* o);
     vector<Territory*> toAttack();
     vector<Territory*> toDefend();
-    void issueOrder(Order* o);
     void printOrder();
+    void issueOrder(Order* o);
     OrderList* getlist();
+    string getname();
     Hand* gethandofcard();
     bool ownsTerritory(Territory* territory);//add
     vector<Player*> attackban; 
+ vector<Territory*>getTerriotory();
+  void addTerriotory(Territory *o);
+
 private:
     vector<Territory*> territories;
     Hand* handOfCards;
     OrderList* orderList;
     string name; 
-    friend std::ostream & operator << (std::ostream &os, Player &p1);
+    friend std::ostream & operator << (ostream &os, Player &p1);
 };
