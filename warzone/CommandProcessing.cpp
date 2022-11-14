@@ -5,25 +5,29 @@
 using std::ifstream;
 using std::getline;
 
-
+// constructor with no arguments
 CommandProcessor::CommandProcessor()
 {
 	this->game = new GameEngine();
 }
 
+// connect with existing game engine
 CommandProcessor::CommandProcessor(GameEngine* game) {
 	this->game = game;
 }
 
+// copy constructor
 CommandProcessor::CommandProcessor(const CommandProcessor& cp) {
 	this->game = new GameEngine(*cp.game);
 }
 
+// destructor
 CommandProcessor::~CommandProcessor() {
 	for (auto c : lc)
 		delete c;
 }
 
+// get a command from console
 Command* CommandProcessor::getCommand() {
 	string command;
 	command = readCommand();
@@ -31,11 +35,14 @@ Command* CommandProcessor::getCommand() {
 	return lc.back();
 }
 
+//set a geme engine
 void CommandProcessor::setGameEngine(GameEngine* game)
 {
 	this->game = game;
 }
 
+/*validate a command compare with the game state
+if valid, change the game state*/
 bool CommandProcessor::validate(Command* command)
 {
 	string state = game->getState();
@@ -89,6 +96,7 @@ bool CommandProcessor::validate(Command* command)
 	}
 }
 
+// read the command got from getCommand() also get map and palyer if required
 string CommandProcessor::readCommand()
 {
 	string command;
@@ -109,36 +117,43 @@ string CommandProcessor::readCommand()
 	return command;
 }
 
+// save the command
 void CommandProcessor::saveCommand(string command)
 {
 	this->lc.push_back(new Command(command));
 	Notify(this);
 }
 
+// stringToLog method from abstract base class ILoggable
 string CommandProcessor::stringToLog() {
 	return "Command have just saved: " + lc.back()->getCommandString();
 }
 
+//default constructor
 Command::Command()
 {
 	this->effect = "";
 	this->command = "";
 }
 
+// constructor with command name
 Command::Command(string command)
 {
 	this->command = command;
 }
 
+// copy constructor
 Command::Command(const Command& c)
 {
 	this->command = c.command;
 	this->effect = c.effect;
 }
 
+// destructor
 Command::~Command() {
 }
 
+// save the effect of the command
 string Command::saveEffect()
 {
 	if (command == "loadmap")
@@ -159,25 +174,30 @@ string Command::saveEffect()
 	return effect;
 }
 
+// stringToLog method from abstract base class ILoggable
 string Command::stringToLog() {
 
 	return "Command: " + getCommandString()+ "\nCommand's Effect: " + getEffect() ;
 }
 
+// get the efffect of the command
 string Command::getEffect()
 {
 	return effect;
 }
 
+// set command effect
 void Command::setEffect(string effect) {
 	this->effect = effect;
 }
 
+//get the command name
 string Command::getCommandString()
 {
 	return command;
 }
 
+//default constructor
 FileCommandProcessorAdapter::FileCommandProcessorAdapter()
 {
 	this->game = new GameEngine();
@@ -188,6 +208,7 @@ FileCommandProcessorAdapter::FileCommandProcessorAdapter()
 	this->fileEnd = false;
 }
 
+// connect with existing game engine
 FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game) :CommandProcessor(game)
 {
 	string path;
@@ -197,18 +218,22 @@ FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game) :Comm
 	this->fileEnd = false;
 }
 
+//copy constructor
 FileCommandProcessorAdapter::FileCommandProcessorAdapter(const FileCommandProcessorAdapter& fcp): CommandProcessor(fcp.game) {
 	this->fileEnd = fcp.fileEnd;
 	this->flr = fcp.flr;
 }
 
+//get the file state
 bool FileCommandProcessorAdapter::getFileState() {
 	return fileEnd;
 }
 
+// desctructor
 FileCommandProcessorAdapter::~FileCommandProcessorAdapter() {
 }
 
+//overriding read the command from getCommand(), get command from file
 string FileCommandProcessorAdapter::readCommand()
 {
 	string command;
@@ -229,9 +254,11 @@ string FileCommandProcessorAdapter::readCommand()
 	return command;
 }
 
+//destructor
 FileLineReader::~FileLineReader() {
 }
 
+// constructor with the file path
 FileLineReader::FileLineReader(string path) {
 	this->commandReader.open(path);
 	while (!commandReader.is_open()) {
@@ -241,6 +268,7 @@ FileLineReader::FileLineReader(string path) {
 	}
 }
 
+//read line by line
 string FileLineReader::readLineFromFile()
 {
 	string line;
@@ -252,6 +280,7 @@ string FileLineReader::readLineFromFile()
 	return "eof";
 }
 
+//stream insertion
 ostream& operator<<(ostream& strm, const CommandProcessor& cp)
 {
 	return strm << "this is a command processor." << endl;
