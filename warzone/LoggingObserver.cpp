@@ -11,9 +11,7 @@ ILoggable :: ~ILoggable(){
 ILoggable ::ILoggable(const ILoggable& logObj){
 
 }
-ILoggable& ILoggable ::operator=(const ILoggable& s){
-    return *this;
-}
+
 
 //------------------------------------------------
 //Class Observer
@@ -26,9 +24,7 @@ Observer :: ~Observer(){
 Observer ::Observer(const Observer& s){
 
 }
-Observer& Observer :: operator=(const Observer& s){
-    return *this;
-}
+
 
 //--------------------------------------------------
 //Class Subject (Superclass)
@@ -41,10 +37,6 @@ Subject :: ~Subject(){
 }
 Subject ::Subject(const Subject &s){
       observers = s.observers;
-}
-Subject& operator=(const Subject& s){
-     observers = s.observers;
-    return *this;
 }
 void Subject :: Attach(Observer* o){
     observers -> push_back(o);
@@ -82,8 +74,6 @@ LogObserver::~LogObserver() {
 LogObserver::LogObserver(const LogObserver& s) {
     
 }
-LogObserver& LogObserver::operator=(const LogObserver& s) { 
-    return *this; 
-}
+
 
 
