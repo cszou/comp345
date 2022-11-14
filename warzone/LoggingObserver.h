@@ -15,9 +15,8 @@ class ILoggable{
     //copy constructor
     ILoggable(const ILoggable& logObj);
     //assignment operator 
-    //ILoggable& operator=(const ILoggable& s);
-	//stream insertion operator (unused)
-	//friend ostream& operator<<(ostream& os, const ILoggable& s);
+    ILoggable& operator=(const ILoggable& s);
+	
 };
 
 class Observer{
@@ -28,11 +27,10 @@ class Observer{
     //will be define by subclass LogObserver
     virtual void Update(ILoggable* log) = 0;
     //copy constructor
-	Observer(const Observer& s);
-	//assignment operator
-	//Observer& operator=(const Observer& s);
-	//stream insertion operator
-	//friend ostream& operator<<(ostream& os, const Observer& s);
+    Observer(const Observer& s);
+    //assignment operator
+    Observer& operator=(const Observer& s);
+	
 };
 
 class Subject{
@@ -48,11 +46,9 @@ class Subject{
     virtual void Notify(ILoggable* log);
     ~Subject();
     //copy constructor
-	//Subject(const Subject &s);
-	//assignment operator
-	//Subject& operator=(const Subject& s);
-	//stream insertion operator
-	//friend ostream& operator<<(ostream& os, const Subject& s);
+    Subject(const Subject &s);
+    //assignment operator
+    Subject& operator=(const Subject& s);
 
     private:
     list<Observer*> *observers;
@@ -65,10 +61,8 @@ class LogObserver: public Observer{
     void Update(ILoggable* log);
     ~LogObserver();
     //copy constructor
-	LogObserver(const LogObserver& s);
-	//assignment operator
-	LogObserver& operator=(const LogObserver& s);
-	//stream insertion operator
-	//friend ostream& operator<<(ostream& os, const LogObserver& s);
+    LogObserver(const LogObserver& s);
+    //assignment operator
+    LogObserver& operator=(const LogObserver& s);
 
 };
