@@ -26,14 +26,14 @@ public:
     vector<Territory*> toAttack();
     vector<Territory*> toDefend();
     void printOrder();
-    void issueOrder(Order* o);
+    bool issueOrder(string s);
     OrderList* getlist();
     string getname();
     Hand* gethandofcard();
     bool ownsTerritory(Territory* territory);//add
     vector<Player*> attackban; 
- vector<Territory*>getTerriotory();
-  void addTerriotory(Territory *o);
+    vector<Territory*>getTerriotory();
+    void addTerriotory(Territory *o);
     
     //Newly added methods
     void setTerritories(vector<Territory*> &t);
