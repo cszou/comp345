@@ -8,16 +8,17 @@ using std::string;
 class Command;
 class FileLineReader;
 
+// command processor, get command from console
 class CommandProcessor : public ILoggable, public Subject {
 public:
-	CommandProcessor();
-	CommandProcessor(GameEngine* game);
-	CommandProcessor(const CommandProcessor& cp);
-	~CommandProcessor();
-	Command* getCommand();
-	void setGameEngine(GameEngine* game);
-	bool validate(Command* command);
-	friend ostream& operator << (ostream& ostream, const CommandProcessor& cp);
+	CommandProcessor(); // constructor with no arguments
+	CommandProcessor(GameEngine* game); // connect with existing game engine
+	CommandProcessor(const CommandProcessor& cp); // copy constructor
+	~CommandProcessor(); //destructor
+	Command* getCommand(); // get a command from console
+	void setGameEngine(GameEngine* game); //set a geme engine
+	bool validate(Command* command); //validate a command
+	friend ostream& operator << (ostream& ostream, const CommandProcessor& cp); //stream insertion
 
 	//Define stringToLog method from abstract base class ILoggable
 	string stringToLog();

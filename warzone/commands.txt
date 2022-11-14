@@ -7,4 +7,4 @@ a1
 addplayer
 a2
 loadmap lp.map
-game start
+gamestart

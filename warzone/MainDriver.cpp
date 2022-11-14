@@ -11,5 +11,5 @@ int main() {
 	//testStartPhase();
 	//testMainGameLoop();
 	testOrderExecution();
-	//testLoggingObserver();
+	testLoggingObserver();
 }
