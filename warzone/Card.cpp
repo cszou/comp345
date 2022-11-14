@@ -205,3 +205,12 @@ ostream& operator << (ostream & strm, const Hand &h){
     return strm;
     }
 }
+
+void Hand::remove_CardinHand_ByType(string type) {
+    for (int i = 0; i < CardsinHand.size(); i++) {
+        if (CardsinHand[i]->get_cardType() == type) {
+            CardsinHand.erase(CardsinHand.begin() + i);
+        }
+    }
+
+}
