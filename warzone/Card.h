@@ -63,6 +63,7 @@ class Hand{
     vector<Card*> get_VectorOfHand();//get the vector of cards in hand
     void add_CardinHand(Card* cardFromDeck);//add cards into hand from the deck of cards
     void remove_CardinHand();
+    void remove_CardinHand_ByType(string type); // remove the first card in hand that has the input type
 
 private:
     vector<Card*> CardsinHand;
