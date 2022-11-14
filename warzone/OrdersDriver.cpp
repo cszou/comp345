@@ -101,8 +101,4 @@ void testOrderExecution()
     std::cout<<"The attackban list of P1: " <<P1->attackban.at(0)->getname()  << endl;
      //g++ -std=c++11  Orders.cpp Player.cpp Card.cpp Orderdriver.cpp Map.cpp
      
-}/*
-int main()
-{
-    testOrderExecution();
-}*/
+}

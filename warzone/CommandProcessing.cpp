@@ -265,6 +265,7 @@ FileLineReader::FileLineReader(string path) {
 		cout << "failed to open " << path << endl;
 		cout << "Please enter another file name: ";
 		cin >> path;
+		this->commandReader.open(path);
 	}
 }
 
