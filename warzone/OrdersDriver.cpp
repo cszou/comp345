@@ -73,7 +73,7 @@ void testOrderExecution()
     std::cout << "*************Airlift*************" << endl;
     Airlift *airlift = new Airlift(P1, A1, A2);
     std::cout << &airlift << endl;
-    std::cout << &fet << endl;
+    std::cout << &fe << endl;
     A1->setOwner(P1);
     airlift->execute();
     

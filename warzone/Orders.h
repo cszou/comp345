@@ -14,11 +14,9 @@ class Territory;
 class Deck;
 class ILoggable;
 class Subject;
-class Order : public ILoggable, public Subject{
-    private:
 class GameEngine;
 
-class Order {
+class Order : public ILoggable, public Subject {
     protected:
     GameEngine* game;
     public:
