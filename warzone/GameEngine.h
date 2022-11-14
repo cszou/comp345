@@ -6,6 +6,13 @@ using namespace std;
 #include "LoggingObserver.h"
 #include "Player.h"
 #include <vector>
+#include "Orders.h"
+#include <algorithm>
+#include <random>
+#include "Utilities.h"
+#include "Map.h"
+#include <map>
+#include <iterator>
 using std::vector;
 
 
@@ -21,8 +28,12 @@ private:
 	string state_execute_orders;
 	string state_win;
 	string state_Terminated;
-	Map* gameMap;
+	Map* gameMap; //Another Map ... ?
 	Player* neutralPlayer;
+	vector<Player*> playersList;
+	Map* map; 
+	Deck* deck;
+	bool startupFinished;
 
 public:
 
@@ -36,8 +47,10 @@ public:
 	string stringToLog();
 	void addPlayer(string playerName);
 	void readMap(string mapName);
-	vector<Player*> playerList;
+	vector<Player*> playerList; // Public playerList ...? 
 	Player* getNeutralPlayer();
+	void startupPhase();
+	void mainGameLoop();
 };
 
 
