@@ -329,6 +329,8 @@ Territory::Territory(string name)
 	this->continent = nullptr;
 	this->owner = nullptr;
 	this->numberOfArmies = 0;
+	cout << "inistiated terriotery" << endl;
+
 }
 
 //copy constructor
@@ -446,11 +448,13 @@ void Territory::setY(int y)
 }
 
 //add a connected neighbour
-void Territory::addNeighbour(Territory* t)
+void Territory::addNeighbour(Territory *t)
 {
-	this->neighbours.push_back(t);
+	if (!this->checkNeighbours(t)){
+		this->neighbours.push_back(t);
+		t->addNeighbour(this);
+	}
 }
-
 //show all neighbours
 void Territory::showNeighbours()
 {
