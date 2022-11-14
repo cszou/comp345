@@ -83,6 +83,10 @@ cout<<"----------------------Part 5 Driver--------------------------------------
     bomb->execute();
     advance->execute();
 
+    OL1->add(deploy);
+    OL1->add(airlift);
+    OL1->add(bomb);
+    OL1->add(advance);
 
   //Deleting pointers to prevent memory leak 
     delete ob;
@@ -91,6 +95,6 @@ cout<<"----------------------Part 5 Driver--------------------------------------
    
     delete A1; delete A2;
     delete OL1; delete OL2;
-    delete H; delete P1; delete P2; 
+    delete H; delete P1; delete P2;
     delete deploy; delete airlift; delete bomb; delete advance;
 }
