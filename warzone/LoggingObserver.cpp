@@ -66,6 +66,7 @@ void LogObserver:: Update(ILoggable* log){
     //output the the string returned from stringToLog method to the file
     filestream <<log->stringToLog() <<endl;
     //close the file
+    filestream <<"-----------------------------------------\n"<<endl;
     filestream.close();
 }
 LogObserver::~LogObserver() {
