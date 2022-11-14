@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include "Utilities.h"
 using namespace std;
 
 // Default cons
