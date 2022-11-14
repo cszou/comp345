@@ -34,6 +34,19 @@ public:
     vector<Player*> attackban; 
  vector<Territory*>getTerriotory();
   void addTerriotory(Territory *o);
+    
+    //Newly added methods
+    void setTerritories(vector<Territory*> &t);
+    void setReinforcement(int reinforcement);
+    int getReinforcement();
+    bool assignReinforcement(int num);
+    void set_Deploy_Territories();
+    void set_Available_Territories();
+    void clear_Deploy_Territories();
+    void clear_Available_Territories();
+    void set_all_territories(vector<Territory*> all);
+    void set_players_Map(vector<Player*> players);
+    
 
 private:
     vector<Territory*> territories;
@@ -41,4 +54,12 @@ private:
     OrderList* orderList;
     string name; 
     friend std::ostream & operator << (ostream &os, Player &p1);
+    
+    //Newly added variables
+    int reinforcement;
+    std::map<string, Territory*> deploy_territories;
+    std::map<string, Territory*> available_territories;
+    std::map<string, Territory*> all_territories;
+    vector<Player*> attackBan;
+    std::map<string, Player*> players_Map;
 };
