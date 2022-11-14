@@ -13,7 +13,7 @@ class Territory;
 class Deck;
 class ILoggable;
 class Subject;
-class Order {
+class Order : public ILoggable, public Subject{
     private:
     public:
     Deck *d ;
@@ -130,7 +130,7 @@ class Negotiate : public Order{
     string stringToLog();
     string getName();
 };
-class OrderList {
+class OrderList : public ILoggable, public Subject{
     private:
     std::vector<Order*>list;//list of order of pointer
     public:
@@ -142,6 +142,7 @@ class OrderList {
     ~OrderList();
     void removal(int i);
     void add(Order* k1);
+    string stringToLog();
     friend std::ostream& operator<<(std::ostream& s, OrderList& ol);//stream insertion operator
 
 };
