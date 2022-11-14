@@ -9,7 +9,6 @@ using namespace std;
 
 void testOrderExecution()
 {
-    //    std::cout << "ass big aiyushan" << std::endl;
     int NUMBEROFARMY = 10; // add army
     Territory *A1 = new Territory("A1");
     int ownarmy = 150;
