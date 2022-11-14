@@ -95,6 +95,7 @@ cout<<"----------------------Part 5 Driver--------------------------------------
    
     delete A1; delete A2;
     delete OL1; delete OL2;
-    delete H; delete P1; delete P2;
-    delete deploy; delete airlift; delete bomb; delete advance;
+    delete H; 
+    //delete P1; delete P2;
+    //delete deploy; delete airlift; delete bomb; delete advance;
 }
