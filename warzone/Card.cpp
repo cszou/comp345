@@ -61,10 +61,6 @@ void Card:: AddCardOrderToList(string const cardTypeAdd,int* army, Player* playe
     if(cardTypeAdd == "bomb"){
         player1->getlist()->addOrders(new Bomb(player1,OLD,army));
     }
-    else if(cardTypeAdd == "reinforcement"){
-        cout<<"   "<<endl;
-        //A2 Part 2-----------------------------------------
-    }
     else if(cardTypeAdd == "blockade"){
          player1->getlist()->addOrders(new Blockade(player1 ,OLD));
     }
