@@ -21,6 +21,8 @@ class Order : public ILoggable, public Subject{
     virtual bool validate()=0;
     virtual ~Order();
     virtual void execute()=0;
+    virtual string getName()=0;
+    
   
 };
 class Deploy : public Order{
