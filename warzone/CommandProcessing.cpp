@@ -99,14 +99,12 @@ string CommandProcessor::readCommand()
 		cout << "please enter map name: ";
 		cin >> mapName;
 		game->readMap(mapName);
-		command = command;
 	}
 	else if (command == "addplayer") {
 		cout << "Please enter player name: ";
 		string playerName;
 		cin >> playerName;
 		game->addPlayer(playerName);
-		command = command;
 	}
 	return command;
 }
@@ -119,6 +117,12 @@ void CommandProcessor::saveCommand(string command)
 
 string CommandProcessor::stringToLog() {
 	return "Command have just saved: " + lc.back()->getCommandString();
+}
+
+Command::Command()
+{
+	this->effect = "";
+	this->command = "";
 }
 
 Command::Command(string command)
@@ -174,6 +178,16 @@ string Command::getCommandString()
 	return command;
 }
 
+FileCommandProcessorAdapter::FileCommandProcessorAdapter()
+{
+	this->game = new GameEngine();
+	string path;
+	cout << "Please enter the file name: ";
+	cin >> path;
+	this->flr = new FileLineReader(path);
+	this->fileEnd = false;
+}
+
 FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game) :CommandProcessor(game)
 {
 	string path;
@@ -207,12 +221,10 @@ string FileCommandProcessorAdapter::readCommand()
 	else if (command == "loadmap") {
 		string mapName = flr->readLineFromFile();
 		game->readMap(mapName);
-		command = command;
 	}
 	else if (command == "addplayer") {
 		string playerName = flr->readLineFromFile();
 		game->addPlayer(playerName);
-		command = command;
 	}
 	return command;
 }
@@ -238,4 +250,19 @@ string FileLineReader::readLineFromFile()
 	}
 	commandReader.close();
 	return "eof";
+}
+
+ostream& operator<<(ostream& strm, const CommandProcessor& cp)
+{
+	return strm << "this is a command processor." << endl;
+}
+
+ostream& operator<<(ostream& strm, const Command& c)
+{
+	return strm << "this is a" << c.command << "command." << endl;
+}
+
+ostream& operator<<(ostream& strm, const FileCommandProcessorAdapter& fcp)
+{
+	return strm << "this is a command processor from file." << endl;
 }

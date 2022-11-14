@@ -22,6 +22,7 @@ private:
 	string state_win;
 	string state_Terminated;
 	Map* gameMap;
+	Player* neutralPlayer;
 
 public:
 
@@ -36,6 +37,7 @@ public:
 	void addPlayer(string playerName);
 	void readMap(string mapName);
 	vector<Player*> playerList;
+	Player* getNeutralPlayer();
 };
 
 

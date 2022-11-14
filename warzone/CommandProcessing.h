@@ -31,6 +31,7 @@ protected:
 
 class Command : public ILoggable, public Subject{
 public:
+	Command();
 	Command(string Command);
 	Command(const Command& c);
 	~Command();

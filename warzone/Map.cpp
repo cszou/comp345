@@ -329,8 +329,6 @@ Territory::Territory(string name)
 	this->continent = nullptr;
 	this->owner = nullptr;
 	this->numberOfArmies = 0;
-	cout << "inistiated terriotery" << endl;
-
 }
 
 //copy constructor

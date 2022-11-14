@@ -5,6 +5,7 @@
 
 Order::Order()
 {
+    this->game = new GameEngine();
     std::cout << "order created..." << std::endl;
 }
 Order::~Order()
@@ -348,7 +349,7 @@ void Blockade::execute()
     if (validate())
     {
         target->setNumberOfArmies(target->getNumberOfArmies() * 2); // double the army amount
-        target->setOwner(nullptr);                                  // set owner to null
+        target->setOwner(game->getNeutralPlayer());                                  // set owner to null
         std::cout << "blockade order executed!" << std::endl;
     }
     std::cout << "blockade order failed!" << std::endl;

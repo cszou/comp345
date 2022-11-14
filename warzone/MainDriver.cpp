@@ -10,6 +10,6 @@ int main() {
 	testCommandProcessor();
 	//testStartPhase();
 	//testMainGameLoop();
-	//testOrderExecution();
-	//testLoggingObserver();
+	testOrderExecution();
+	testLoggingObserver();
 }

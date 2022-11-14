@@ -5,16 +5,20 @@
 //using namespace std;
 #include "Card.h"
 #include "LoggingObserver.h"
-#include"Player.h"
-#include"Map.h"
+#include "Player.h"
+#include "Map.h"
+#include "GameEngine.h"
 
 class Player;
 class Territory;
 class Deck;
 class ILoggable;
 class Subject;
+class GameEngine;
+
 class Order {
-    private:
+    protected:
+    GameEngine* game;
     public:
     Deck *d ;
     Order();

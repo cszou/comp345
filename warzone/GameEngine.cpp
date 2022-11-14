@@ -15,7 +15,8 @@ GameEngine::GameEngine() {
 	state_win = "Win";
 	state_Terminated = "Terminated";
 	state = state_start;
-
+	gameMap = nullptr;
+	neutralPlayer = nullptr;
 
 }
 //Copy constructor
@@ -31,6 +32,8 @@ GameEngine::GameEngine(const GameEngine& copy) {
 	state_win = copy.state_win;
 	state_Terminated = copy.state_Terminated;
 	state = copy.state;
+	gameMap = new Map(*copy.gameMap);
+	neutralPlayer = new Player(*copy.neutralPlayer);
 
 }
 
@@ -46,6 +49,8 @@ GameEngine&  GameEngine:: operator = (const GameEngine& copy) {
 	state_win = copy.state_win;
 	state_Terminated = copy.state_Terminated;
 	state = copy.state;
+	gameMap = new Map(*copy.gameMap);
+	neutralPlayer = new Player(*copy.neutralPlayer);
 
 	return *this;
 
@@ -80,5 +85,13 @@ void GameEngine::readMap(string mapName)
 {
 	MapLoader mapLoader;
 	this->gameMap = mapLoader.readMap(mapName);
+}
+
+Player* GameEngine::getNeutralPlayer()
+{
+	if (this->neutralPlayer == nullptr)
+		return new Player("Neutral");
+	else
+		return this->neutralPlayer;
 }
 	

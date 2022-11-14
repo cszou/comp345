@@ -26,14 +26,13 @@ void testCommandProcessor() {
 			// read from file
 		{
 			GameEngine* game = new GameEngine();
-			Command* temp;
+			Command* temp = new Command();
 			cout << "********************read commands from console********************" << endl;
 			CommandProcessor* fcp = new FileCommandProcessorAdapter(game);
-			temp = fcp->getCommand();
-			Command* c2 = fcp->getCommand();
-			fcp->validate(c2);
-			Command* c3 = fcp->getCommand();
-			fcp->validate(c3);
+			while (temp->getCommandString() != "eof") {
+				temp = fcp->getCommand();
+				fcp->validate(temp);
+			}
 			delete fcp;
 			delete game;
 		}
