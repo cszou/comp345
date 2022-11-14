@@ -6,7 +6,6 @@
 #include "GameEngine.h"
 #include "Orders.h"
 #include "Card.h"
-//#include "loggableObject.h"
 using namespace std;
 
 void testLoggingObserver(){
@@ -27,6 +26,7 @@ cout<<"----------------------Part 5 Driver--------------------------------------
 //-----------------------CommandProcessor&Command---------------------------------------------
     //Create CommandProcessor objects for testing
     GameEngine *game  = new GameEngine();
+    game->setState("Win");
 	// read from console
 	CommandProcessor* cp = new CommandProcessor(game);
     cp -> Attach(ob);
@@ -46,69 +46,52 @@ cout<<"----------------------Part 5 Driver--------------------------------------
     c3->Attach(ob);
     c3->saveEffect();
 	fcp->validate(c3);
-}
-   
 //--------------------Order&OrderList------------------------------------------------
-/*
-    // create  Territory object
-    int NUMBEROFARMY =13;
-    Territory* A1= new Territory("A1");
-    Territory* A2= new Territory("A2");
-    Territory* A3= new Territory("A3");
-    Territory* A4= new Territory("A4");
-    vector<Territory*> t1;
-    t1.push_back(A1);
-	t1.push_back(A2);
-    vector<Territory*> t2;
-    t2.push_back(A3);
-	t2.push_back(A4);
-    Hand* h = new Hand();
-    Deck *d = new Deck();
-    OrderList* o1 =new OrderList();
-    OrderList* o2 =new OrderList();
-    Player* P1 =new Player(t1,h,"Player1",o1);
-    Player* P2 =new Player(t2,h,"Player2",o2);
-	
-    //create orderlist object and attach it to the observer object 
-    OrderList* testOrderList =new OrderList();
-    testOrderList -> Attach(ob);
-	
-    //create each order objects
-    Deploy* deploy = new Deploy(&NUMBEROFARMY,P1,A1);
-    Airlift* airlift= new Airlift(P1, A1,A2); 
-    Bomb* bomb = new Bomb (P1, A1,&NUMBEROFARMY); 
-    Blockade* blockade= new Blockade(P1,A1);
-    
-    
-    //Attach each object to the observer object
+     int NUMBEROFARMY = 10; // add army
+    Territory *A1 = new Territory("A1");
+    int ownarmy = 150;
+    int targetarmy = 200;
+    A1->setNumberOfArmies(targetarmy);
+    Territory *A2 = new Territory("A2");
+    A2->setNumberOfArmies(ownarmy);
+    OrderList *OL1 = new OrderList();
+    OL1->Attach(ob);
+    OrderList *OL2 = new OrderList();
+     OL2->Attach(ob);
+    vector<Territory *> T1;
+    T1.push_back(A2);
+    vector<Territory *> T2;
+    T2.push_back(A1);
+    Hand *H = new Hand();
+    Player *P1 = new Player(T1, H, "P1", OL1);
+    Player *P2 = new Player(T2, H, "P2", OL2);
+   
+    A2->setOwner(P1);
+    A1->setOwner(P2);
+
+    Deploy *deploy = new Deploy(NUMBEROFARMY, P1, A2);
+    Advance *advance = new Advance(A2, A1, P1, NUMBEROFARMY);
+    Airlift *airlift = new Airlift(P1, A1, A2);
+    Bomb *bomb = new Bomb(P1, A1, &NUMBEROFARMY);
     deploy -> Attach(ob);
     airlift -> Attach(ob);
+    advance -> Attach(ob);
     bomb -> Attach(ob);
-    blockade -> Attach(ob);
-    
-    //Testing orderlist addOrder, the added order will be outputed to log file
-    testOrderList -> addOrders(deploy);
-    testOrderList -> addOrders(airlift);
-    testOrderList -> addOrders(bomb);
-    testOrderList -> addOrders(blockade); 
-    
 
-    //Testing Order execute method, the exceuted order will be outputed to log file
- 
-    advance->execute();
+    deploy -> execute();
     airlift->execute();
     bomb->execute();
-    blockade->execute()
-    
-//--------------------------Deleting Pointers------------------------------------------
+    advance->execute();
+
+
   //Deleting pointers to prevent memory leak 
-   // delete ob;
-   // delete engine; 
-   // delete game; delete cp; delete fcp;
+    delete ob;
+    delete engine; 
+    delete game; delete cp; delete fcp;
    
-   // delete A1; delete A2; delete A3; delete A4;
-   // delete h; delete d; delete o1; delete 02; delete P1; delete P2; 
-   // delete testOrderList; 
-   // delete deploy; delete airlift; delete bomb; delete blockade;
-	
-}*/
+    delete A1; delete A2;
+    delete OL1; delete OL2;
+    delete H; delete P1; delete P2; 
+    delete testOrderList; 
+    delete deploy; delete airlift; delete bomb; delete advance;
+}
