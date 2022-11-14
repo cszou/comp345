@@ -57,6 +57,7 @@ void Deploy::execute()
     {
         std::cout << "Execute unsuccessful since validated false." << std::endl;
     }
+    Notify(this);
 }
 Deploy &Deploy::operator=(const Deploy &s)
 { // assignment operator
@@ -169,8 +170,7 @@ void Advance::execute()
         }
         std::cout << "advance order validated!" << std::endl;
     }
-
-    //   Advance::Advance(const Advance& s){
+    Notify(this);
 }
 std::ostream &operator<<(std::ostream &s, Advance *i)
 {
@@ -261,6 +261,7 @@ void Airlift::execute()
             std::cout << "cannot execute since validation failded" << std::endl;
     }
     std::cout << "airlift order executed!" << std::endl;
+    Notify(this);
 }
 std::ostream &operator<<(std::ostream &s, Airlift *i)
 {
@@ -313,11 +314,20 @@ void Bomb::execute()
     else
         std::cout << "verification failed" << std::endl;
     std::cout << "bomb execute method finished !" << std::endl;
+     Notify(this);
 }
 
 std::ostream &operator<<(std::ostream &s, Bomb *i)
 {
     return s << "Bomb order meaning: To air raid specific area" << std::endl; // string insertion operator
+}
+string Bomb::getName()
+{
+    return name;
+}
+string Bomb::stringToLog()
+{
+    return "Order Executed: " + name;
 }
 
 //---------------------------------------Blockade-----------------
@@ -353,13 +363,21 @@ void Blockade::execute()
         std::cout << "blockade order executed!" << std::endl;
     }
     std::cout << "blockade order failed!" << std::endl;
+     Notify(this);
 }
 
 std::ostream &operator<<(std::ostream &s, Blockade *i)
 {
     return s << "Blockade order meaning: To block a specific area" << std::endl; // string insertion operator
 }
-
+string Blockade::getName()
+{
+    return name;
+}
+string Blockade::stringToLog()
+{
+    return "Order Executed: " + name;
+}
 // negotiator----------------------------------------------------------
 Negotiate::Negotiate(Player *order, Player *rival)
 {
@@ -402,7 +420,14 @@ std::ostream &operator<<(std::ostream &s, Negotiate *i)
 {
     return s << "Negotiate order meaning: To negociate with the rebel or other players" << std::endl; // string insertion operator
 }
-
+string Negotiate::getName()
+{
+    return name;
+}
+string Negotiate::stringToLog()
+{
+    return "Order Executed: " + name;
+}
 //---------------------------------------ORDERLIST-------------------------------------
 OrderList::OrderList()
 {
@@ -441,6 +466,10 @@ vector<Order *> OrderList::getorderlist()
 void OrderList::add(Order *k1)
 {
     list.push_back(k1);
+     Notify(this);
+}
+string OrderList::stringToLog(){
+    retrun "Order have just added: "+ list.back()->getName();
 }
 std::ostream &operator<<(std::ostream &s, OrderList &ol) // string insertion operator for orderlists
 {

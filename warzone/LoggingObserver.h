@@ -14,8 +14,6 @@ class ILoggable{
     ~ILoggable();
     //copy constructor
     ILoggable(const ILoggable& logObj);
-    //assignment operator 
-    ILoggable& operator=(const ILoggable& s);
 	
 };
 
@@ -28,8 +26,6 @@ class Observer{
     virtual void Update(ILoggable* log) = 0;
     //copy constructor
     Observer(const Observer& s);
-    //assignment operator
-    Observer& operator=(const Observer& s);
 	
 };
 
@@ -47,8 +43,6 @@ class Subject{
     ~Subject();
     //copy constructor
     Subject(const Subject &s);
-    //assignment operator
-    Subject& operator=(const Subject& s);
 
     private:
     list<Observer*> *observers;
@@ -62,7 +56,5 @@ class LogObserver: public Observer{
     ~LogObserver();
     //copy constructor
     LogObserver(const LogObserver& s);
-    //assignment operator
-    LogObserver& operator=(const LogObserver& s);
 
 };
