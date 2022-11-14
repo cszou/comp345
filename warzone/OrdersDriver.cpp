@@ -9,6 +9,7 @@ using namespace std;
 
 void testOrderExecution()
 {
+    //    std::cout << "ass big aiyushan" << std::endl;
     int NUMBEROFARMY = 10; // add army
     Territory *A1 = new Territory("A1");
     int ownarmy = 150;
@@ -34,10 +35,10 @@ void testOrderExecution()
     // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
     //***********when TERROR NOT BELOG TO THE PLAYER
-        Deploy *deploy = new Deploy(NUMBEROFARMY, P2, A2);
+  /*      Deploy *deploy = new Deploy(NUMBEROFARMY, P2, A2);
         OL1->addOrders(deploy);
         deploy->execute();
-        deploy->~Deploy();
+        deploy->~Deploy();*/
     //**********when belongs to
         std::cout << "*************Deploy class******************"<<std::endl;
         Deploy *deploy = new Deploy(NUMBEROFARMY, P1, A2);
@@ -71,9 +72,9 @@ void testOrderExecution()
     
     std::cout << "*************Airlift*************" << endl;
     Airlift *airlift = new Airlift(P1, A1, A2);
-    Airlift *fe = new Airlift(*airlift); // cannot make it
+    Airlift *fet = new Airlift(*airlift); // cannot make it
     std::cout << &airlift << endl;
-    std::cout << &fe << endl;
+    std::cout << &fet << endl;
     A1->setOwner(P1);
     airlift->execute();
     
@@ -98,7 +99,7 @@ void testOrderExecution()
     std::cout << "*************Bomb*************" << endl;
     Negotiate *negotiate = new Negotiate(P1, P2);
     negotiate->execute();
-    std::cout<<"The attackban list of P1" <<P1->attackban.at(0)->getname()  << endl;
+    std::cout<<"The attackban list of P1: " <<P1->attackban.at(0)->getname()  << endl;
      //g++ -std=c++11  Orders.cpp Player.cpp Card.cpp Orderdriver.cpp Map.cpp
      
 }
