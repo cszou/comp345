@@ -62,7 +62,7 @@ void testOrderExecution()
     std::cout << "*****************************" << std::endl;
     std::cout << "number of terriotories in the Player: " << P1->getTerriotory().size() << std::endl;
     fe->execute();
-    std::cout << "Name of target terory now belongs to : " << A1->getOwner()->getname() << std::endl;
+    std::cout << "Name of target terory now belongs to : " << A1->getOwner()->getName() << std::endl;
     std::cout << "***outcome***" << std::endl;
     std::cout << "own tero previously has: " << ownarmy << ",now has: " << A2->getNumberOfArmies() << std::endl;
     std::cout << "target tero previously has: " << targetarmy << ",conquer tero now has: " << A1->getNumberOfArmies() << std::endl;
@@ -98,7 +98,7 @@ void testOrderExecution()
     std::cout << "*************Bomb*************" << endl;
     Negotiate *negotiate = new Negotiate(P1, P2);
     negotiate->execute();
-    std::cout<<"The attackban list of P1: " <<P1->attackban.at(0)->getname()  << endl;
+    std::cout<<"The attackban list of P1: " <<P1->attackban.at(0)->getName()  << endl;
      //g++ -std=c++11  Orders.cpp Player.cpp Card.cpp Orderdriver.cpp Map.cpp
      
 }

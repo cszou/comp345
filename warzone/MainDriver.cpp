@@ -8,7 +8,7 @@
 
 int main() {
 	testCommandProcessor();
-	testStartPhase();
+	testStartupPhase();
 	testMainGameLoop();
 	testOrderExecution();
 	testLoggingObserver();

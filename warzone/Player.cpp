@@ -22,7 +22,7 @@ Player::Player(string name)
 	this->name = name;
 	this->handOfCards = new Hand();
 }
-string Player::getname()
+string Player::getName()
 {
 	return this->name;
 }
@@ -80,7 +80,7 @@ vector<Territory *> Player::getTerriotory()
 {
 	return territories;
 }
-void Player::addTerriotory(Territory *o)
+void Player::addTerritory(Territory *o)
 {
 	territories.push_back(o);
 }
@@ -94,7 +94,7 @@ vector<Territory *> Player::toAttack()
 {
 	vector<Territory*> bannedTerritory;
 	for (int i = 0; i < attackBan.size(); i++) {
-		vector<Territory*> player_territories = attackBan[i]->getTerritories();
+		vector<Territory*> player_territories = attackBan[i]->getTerriotory();
 		for (int k = 0; k < player_territories.size(); k++) {
 			Territory* t = player_territories[k];
 			if (!Utilities::find_Territory(bannedTerritory, t)) {
@@ -478,18 +478,4 @@ bool Player::issueOrder(string s)
 
 		return finished;
 	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}*/

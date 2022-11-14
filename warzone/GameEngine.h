@@ -14,7 +14,7 @@ using namespace std;
 #include <map>
 #include <iterator>
 using std::vector;
-
+class Deck;
 
 class GameEngine :public ILoggable, public Subject{
 private:
@@ -28,15 +28,9 @@ private:
 	string state_execute_orders;
 	string state_win;
 	string state_Terminated;
-	Map* gameMap; //Another Map ... ?
 	Player* neutralPlayer;
-	vector<Player*> playersList;
-	Map* map; 
-	Deck* deck;
-	bool startupFinished;
 
 public:
-
 	GameEngine();
 	GameEngine(const GameEngine& copy);
 	GameEngine& operator = (const GameEngine& copy);
@@ -49,8 +43,10 @@ public:
 	void readMap(string mapName);
 	vector<Player*> playerList; // Public playerList ...? 
 	Player* getNeutralPlayer();
-	void startupPhase();
-	void mainGameLoop();
+	Map* map;
+	vector<Player*> playersList;
+	Deck* deck;
+	bool startupFinished;
 };
 
 

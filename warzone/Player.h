@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <algorithm>
 #include "Map.h"
@@ -28,12 +29,12 @@ public:
     void printOrder();
     bool issueOrder(string s);
     OrderList* getlist();
-    string getname();
+    string getName();
     Hand* gethandofcard();
     bool ownsTerritory(Territory* territory);//add
     vector<Player*> attackban; 
     vector<Territory*>getTerriotory();
-    void addTerriotory(Territory *o);
+    void addTerritory(Territory *o);
     
     //Newly added methods
     void setTerritories(vector<Territory*> &t);

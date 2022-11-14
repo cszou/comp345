@@ -131,6 +131,7 @@
     <ClCompile Include="CommandProcessing.cpp" />
     <ClCompile Include="CommandProcessingDriver.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameEngineDriver.cpp" />
     <ClCompile Include="LoggingObserver.cpp" />
     <ClCompile Include="LoggingObserverDriver.cpp" />
     <ClCompile Include="MainDriver.cpp" />

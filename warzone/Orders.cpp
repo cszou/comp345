@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "Orders.h"
+class Hand;
 
 Order::Order()
 {
@@ -138,7 +139,7 @@ void Advance::execute()
                 NEW->setNumberOfArmies(OLD->getNumberOfArmies() - 0.7 * NEW->getNumberOfArmies());
                 OLD->setNumberOfArmies(0);
                 NEW->setOwner(OLD->getOwner()); // owner changed!
-                OLD->getOwner()->addTerriotory(NEW);
+                OLD->getOwner()->addTerritory(NEW);
                 if (numberoftime == 0)
                 {
                     std::cout << "Currently holding cards: " << OLD->getOwner()->gethandofcard()->numOfHandCards() << std::endl;

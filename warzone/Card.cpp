@@ -1,11 +1,14 @@
 #include "Card.h"
 #include "Orders.h"
+#include "Map.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <algorithm> 
 using namespace std;
+class OrderList;
+
 //Defalut Constructor 
 Card::Card(){
 }
