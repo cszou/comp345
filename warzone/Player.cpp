@@ -243,7 +243,7 @@ bool Player::issueOrder(string s)
 	set_Deploy_Territories();
 	set_Available_Territories();
 	cout << "Order Issuing phase for player " << this->name << endl;
-	bool finished;
+	bool finished = false;
 	//Case deploy
 	if (s == "Deploy") {
 		cout << "Please enter a deployement order" << endl;
