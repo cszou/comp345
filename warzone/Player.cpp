@@ -114,10 +114,10 @@ vector<Territory*> Player::toAttack()
 	for (int i = 0; i < territories.size(); i++) {
 		vector<Territory*> neignbours = territories[i]->getNeighbours();
 		for (int k = 0; k < neignbours.size(); k++) {
-			if ((find(tAttack.begin(), tAttack.end(), neignbours[i]) == tAttack.end())
-				&& find(bannedTerritory.begin(), bannedTerritory.end(), neignbours[i]) == bannedTerritory.end())
+			if ((find(tAttack.begin(), tAttack.end(), neignbours[k]) == tAttack.end())
+				&& find(bannedTerritory.begin(), bannedTerritory.end(), neignbours[k]) == bannedTerritory.end())
 			{
-				tAttack.push_back(neignbours[i]);
+				tAttack.push_back(neignbours[k]);
 			}
 		}
 	}
@@ -198,6 +198,7 @@ void Player::set_Deploy_Territories() {
 void Player::set_Available_Territories() {
 
 	vector<Territory*> enemy_territories = toAttack();
+	cout << "done" << endl;
 	for (int i = 0; i < enemy_territories.size(); i++) {
 		Territory* t = enemy_territories[i];
 		available_territories[t->getName()] = t;
@@ -247,13 +248,10 @@ bool Player::issueOrder(string s)
 	if (s == "Deploy") {
 		cout << "Please enter a deployement order" << endl;
 		cout << "Your territories are: ";
-		for (std::map<string, Territory*>::iterator it = deploy_territories.begin(); it != deploy_territories.end(); ++it) {
-
-			cout << it->first << "  ";
-
-		}
+		for (auto t : this->getTerriotory())
+			cout << t->getName() << "  ";
 		cout << endl;
-		cout << "You have " << this->reinforcement << "troops left in your reinforcement tool, please enter the number of troops you want to use" << endl;
+		cout << "You have " << this->reinforcement << " troops left in your reinforcement tool, please enter the number of troops you want to use" << endl;
 		int num;
 		cin >> num;
 		while (!cin) {
@@ -265,7 +263,7 @@ bool Player::issueOrder(string s)
 		if (num > reinforcement) {
 			num = reinforcement;
 		}
-		cout << "Where do you want to deploy " << num << " troops? Please enter the name of the territory." << endl;
+		cout << "Where do you want to deploy " << num << " troops? Please enter the name of the territory. " << endl;
 		string name;
 		cin >> name;
 		while (deploy_territories.find(name) == deploy_territories.end()) {
@@ -303,7 +301,7 @@ bool Player::issueOrder(string s)
 		for (int i = 0; i < cards.size(); i++) {
 			Order_names.push_back(cards[i]->get_cardType());
 		}
-		cout << "Please choose one of the options:  " << endl;
+		cout << "Please choose one of the options: " << endl;
 		cout << "-- Advance" << endl;
 		if (Order_names.size() > 1) {
 			cout << "Use one of the cards: " << endl;
@@ -325,7 +323,8 @@ bool Player::issueOrder(string s)
 				cout << it->first << "  ";
 
 			}
-			cout << "Choose the source territory";
+			cout << endl;
+			cout << "Choose the source territory: ";
 			string source_name;
 			cin >> source_name;
 			while (deploy_territories.find(source_name) == deploy_territories.end()) {
@@ -333,7 +332,7 @@ bool Player::issueOrder(string s)
 				cin >> source_name;
 			}
 			int army_num = deploy_territories[source_name]->getNumberOfArmies();
-			cout << "You have " << army_num << "army unites in this territory, how many do you want to move ?" << endl;
+			cout << "You have " << army_num << " army unites in this territory, how many do you want to move? " << endl;
 
 			int num;
 			cin >> num;
@@ -346,7 +345,7 @@ bool Player::issueOrder(string s)
 			if (num > army_num) {
 				num = army_num;
 			}
-			cout << "Please enter the target territory" << endl;
+			cout << "Please enter the target territory: " << endl;
 			cout << "The available options are your territories and the enemy territories" << endl;
 			cout << "Available territories are: ";
 			for (std::map<string, Territory*>::iterator it = available_territories.begin(); it != available_territories.end(); ++it) {
@@ -354,6 +353,7 @@ bool Player::issueOrder(string s)
 				cout << it->first << "  ";
 
 			}
+			cout << endl;
 			string target_name;
 			cin >> target_name;
 			while (available_territories.find(target_name) == available_territories.end()) {

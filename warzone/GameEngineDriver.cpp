@@ -47,7 +47,6 @@ void testStartupPhase() {
 	auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(game->playersList), std::end(game->playersList), rng);
 
-	cout << 1 << endl;
 	//Assign reinforcement to each player
 	for (int i = 0; i < game->playersList.size(); i++) {
 		game->playersList[i]->setReinforcement(50);
@@ -77,13 +76,27 @@ void testMainGameLoop() {
 	}
 	//Reinforcement phase
 
+	//Add players and get continents and territories
+	game->playersList.push_back(new Player("faker"));
+	game->playersList.push_back(new Player("uzi"));
+	game->playersList.push_back(new Player("ikun"));
+	vector<Territory*> allTerritories = game->map->getAllTerritories();
 	vector<Continent*> continents = game->map->getAllContinents();
+
+	//Distribute territories to players
+	while (!allTerritories.empty()) {
+		for (int i = 0; i < game->playersList.size(); i++) {
+			if (allTerritories.empty())
+				break;
+			game->playersList[i]->addTerritory(allTerritories.back());
+			allTerritories.pop_back();
+		}
+	}
 
 	while (game->playersList.size() > 1) {
 
 		for (int i = 0; i < game->playersList.size(); i++) {
 			//Assign troops based on the number of territories
-
 			int num_Troop = 3;
 			int num_Troop_base;
 			Player* player = game->playersList[i];
@@ -94,31 +107,26 @@ void testMainGameLoop() {
 			if (num_Troop_base > 3) {
 				num_Troop = num_Troop_base;
 			}
-
 			//Assign continent bonus
 			Continent* null_Continent = nullptr;
-			for (int i = 0; i < continents.size(); i++) {
-				if (continents[i] != nullptr) {
+			for (int j = 0; j < continents.size(); j++) {
+				if (continents[j] != nullptr) {
 					bool control_continent = true;
-					vector<Territory*> continent_territories = continents[i]->getTerritories();
+					vector<Territory*> continent_territories = continents[j]->getTerritories();
 					for (int k = 0; k < continent_territories.size(); k++) {
-						if (game->find_Territory(playerTerritories, continent_territories[i])) {
+						if (find(playerTerritories.begin(), playerTerritories.end(), continent_territories[k]) != playerTerritories.end()) {
 							control_continent = false;
 							break;
 						}
 					}
 					if (control_continent) {
 
-						num_Troop += continents[i]->getBonus();
-						continents[i] = null_Continent;
+						num_Troop += continents[j]->getBonus();
+						continents[j] = null_Continent;
 					}
-
-
 				}
 			}
-
 			player->setReinforcement(num_Troop);
-
 		}
 
 		vector<bool> issue_order_status;
@@ -131,10 +139,10 @@ void testMainGameLoop() {
 			player_deployment_status.push_back(false);
 
 		}
+		cout << 3333 << endl;
 		//Deployment orders only until all players are done
 		while (game->find_Bool(player_deployment_status, false)) {
 			for (int i = 0; i < game->playersList.size(); i++) {
-
 				if (player_deployment_status[i] != true) {
 					if (game->playersList[i]->getReinforcement() != 0) {
 						game->playersList[i]->issueOrder("Deploy");
@@ -147,7 +155,7 @@ void testMainGameLoop() {
 			}
 		}
 
-
+		cout << 4 << endl;
 		//Other orders
 		while (game->find_Bool(issue_order_status, false)) {
 			for (int i = 0; i < game->playersList.size(); i++) {
@@ -160,6 +168,7 @@ void testMainGameLoop() {
 			}
 		}
 
+		cout << 5 << endl;
 		for (int i = 0; i < game->playersList.size(); i++) {
 			Player* p = game->playersList[i];
 			if (p->getTerriotory().empty()) {
