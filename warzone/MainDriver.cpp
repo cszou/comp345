@@ -7,9 +7,9 @@
 
 
 int main() {
-	testCommandProcessor();
+	//testCommandProcessor();
 	testStartupPhase();
-	testMainGameLoop();
-	testOrderExecution();
-	testLoggingObserver();
+	//testMainGameLoop();
+	//testOrderExecution();
+	//testLoggingObserver();
 }

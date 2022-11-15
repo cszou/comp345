@@ -564,3 +564,60 @@ Order have just added: Bomb
 Order have just added: Advance
 -----------------------------------------
 
+Game Engine New State: Start
+-----------------------------------------
+
+Game Engine New State: Map Loaded
+-----------------------------------------
+
+Game Engine New State: Assign Reinforcement
+-----------------------------------------
+
+Game Engine New State: Win
+-----------------------------------------
+
+Command have just saved: 1
+-----------------------------------------
+
+Command: 1
+Command's Effect: Invalid command.
+-----------------------------------------
+
+Command have just saved: loadmap
+-----------------------------------------
+
+Command: loadmap
+Command's Effect: Map is loaded.
+-----------------------------------------
+
+Command have just saved: validatemap
+-----------------------------------------
+
+Command: validatemap
+Command's Effect: Map is validated.
+-----------------------------------------
+
+Order Executed: Deploy
+-----------------------------------------
+
+Order Executed: Airlift
+-----------------------------------------
+
+Order Executed: Bomb
+-----------------------------------------
+
+Order Executed: Advance
+-----------------------------------------
+
+Order have just added: Deploy
+-----------------------------------------
+
+Order have just added: Airlift
+-----------------------------------------
+
+Order have just added: Bomb
+-----------------------------------------
+
+Order have just added: Advance
+-----------------------------------------
+

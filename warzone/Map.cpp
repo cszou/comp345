@@ -621,6 +621,7 @@ Map* MapLoader::readMap(string mapPath)
 	* if not valid return null pointer
 	*/
 	else {
-		cout << "All loaded." << endl;
+		cout << "map loaded." << endl;
+		return gameMap;
 	}
 }

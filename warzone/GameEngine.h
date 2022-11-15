@@ -16,7 +16,7 @@ using namespace std;
 using std::vector;
 class Deck;
 
-class GameEngine :public ILoggable, public Subject{
+class GameEngine :public ILoggable, public Subject {
 private:
 	string state;
 	string state_start;
@@ -33,6 +33,7 @@ private:
 public:
 	GameEngine();
 	GameEngine(const GameEngine& copy);
+	~GameEngine();
 	GameEngine& operator = (const GameEngine& copy);
 	string getState();
 	void setState(string newState);
@@ -51,14 +52,6 @@ public:
 	bool find_Order_Name(const vector<string>& names, string s);
 	bool find_Bool(const vector<bool>& bools, bool b);
 };
-//
-//class Utilities {
-//	//This class contains static utility functions
-//public:
-//
-//	//check whether a territory exists in a vector
-//	
-//};
 
 
 #endif

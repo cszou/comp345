@@ -18,7 +18,7 @@ GameEngine::GameEngine() {
 	state_win = "Win";
 	state_Terminated = "Terminated";
 	state = state_start;
-	map = nullptr;
+	map = new Map();
 	neutralPlayer = nullptr;
 	deck = new Deck();
 
@@ -38,7 +38,7 @@ GameEngine::GameEngine(const GameEngine& copy) {
 	state = copy.state;
 	map = new Map(*copy.map);
 	neutralPlayer = new Player(*copy.neutralPlayer);
-
+	deck = new Deck(*copy.deck);
 }
 
 //Assignment operator overload
@@ -55,9 +55,18 @@ GameEngine&  GameEngine:: operator = (const GameEngine& copy) {
 	state = copy.state;
 	map = new Map(*copy.map);
 	neutralPlayer = new Player(*copy.neutralPlayer);
+	deck = new Deck(*copy.deck);
 
 	return *this;
 
+}
+
+GameEngine::~GameEngine() {
+	delete map;
+	delete neutralPlayer;
+	delete deck;
+	for (auto p : playerList)
+		delete p;
 }
 
 string GameEngine::getState()

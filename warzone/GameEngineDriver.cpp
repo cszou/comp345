@@ -36,14 +36,18 @@ void testStartupPhase() {
 	//Distribute territories to players
 	while (!allTerritories.empty()) {
 		for (int i = 0; i < game->playersList.size(); i++) {
+			if (allTerritories.empty())
+				break;
 			game->playersList[i]->addTerritory(allTerritories.back());
 			allTerritories.pop_back();
 		}
 	}
+
 	//Creating random player order, this is the order of play
 	auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(game->playersList), std::end(game->playersList), rng);
 
+	cout << 1 << endl;
 	//Assign reinforcement to each player
 	for (int i = 0; i < game->playersList.size(); i++) {
 		game->playersList[i]->setReinforcement(50);
@@ -51,13 +55,15 @@ void testStartupPhase() {
 	}
 
 	for (int i = 0; i < game->playersList.size(); i++) {
-		for (int j = 0; i < 2; j++) {
+		for (int j = 0; j < 2; j++) {
 			game->playersList[i]->gethandofcard()->add_CardinHand(game->deck->draw());
 		}
 	}
+
 	//End of Startup Phase 
 	game->startupFinished = true;
 
+	delete game;
 }
 
 void testMainGameLoop() {
