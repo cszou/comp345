@@ -14,6 +14,7 @@ using std::vector;
 using std::stringstream;
 #include <algorithm>
 using std::find;
+using std::replace;
 #include "Player.h"
 
 //default constructor
@@ -335,6 +336,7 @@ Territory::Territory() {
 //constructor with name only
 Territory::Territory(string name)
 {
+	replace(name.begin(), name.end(), ' ', '_');
 	this->name = name;
 	this->coordX = -1;
 	this->coordY = -1;
@@ -362,6 +364,9 @@ Territory::Territory(const Territory& t)
 
 //constructor with name, coordinates and continent info
 Territory::Territory(string n, int x, int y, Continent* c) {
+
+
+	replace(n.begin(), n.end(), ' ', '_');
 	this->name = n;
 	this->coordX = x;
 	this->coordY = y;
@@ -555,6 +560,7 @@ Map* MapLoader::readMap(string mapPath)
 			while (line == "" || line == "[Continents]")
 				getline(mapReader, line, '\n');
 			while (line != "") {
+				replace(line.begin(), line.end(), ' ', '_');
 				int len = line.length();
 				string::size_type pos = line.find(s);
 				name = line.substr(0, pos);
