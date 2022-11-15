@@ -1,13 +1,17 @@
 #include "Card.h"
 #include "Orders.h"
 #include "Map.h"
+#include "Player.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+using std::string;
 #include <vector>
-#include <algorithm> 
+using std::vector;
+#include <algorithm>
 using namespace std;
 class OrderList;
+class Player;
 
 //Defalut Constructor 
 Card::Card(){

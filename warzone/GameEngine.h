@@ -47,7 +47,18 @@ public:
 	vector<Player*> playersList;
 	Deck* deck;
 	bool startupFinished;
+	bool find_Territory(const vector<Territory*>& territories, Territory* t);
+	bool find_Order_Name(const vector<string>& names, string s);
+	bool find_Bool(const vector<bool>& bools, bool b);
 };
+//
+//class Utilities {
+//	//This class contains static utility functions
+//public:
+//
+//	//check whether a territory exists in a vector
+//	
+//};
 
 
 #endif

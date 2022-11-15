@@ -96,7 +96,7 @@ void testMainGameLoop() {
 					bool control_continent = true;
 					vector<Territory*> continent_territories = continents[i]->getTerritories();
 					for (int k = 0; k < continent_territories.size(); k++) {
-						if (!Utilities::find_Territory(playerTerritories, continent_territories[i])) {
+						if (game->find_Territory(playerTerritories, continent_territories[i])) {
 							control_continent = false;
 							break;
 						}
@@ -126,7 +126,7 @@ void testMainGameLoop() {
 
 		}
 		//Deployment orders only until all players are done
-		while (Utilities::find_Bool(player_deployment_status, false)) {
+		while (game->find_Bool(player_deployment_status, false)) {
 			for (int i = 0; i < game->playersList.size(); i++) {
 
 				if (player_deployment_status[i] != true) {
@@ -143,7 +143,7 @@ void testMainGameLoop() {
 
 
 		//Other orders
-		while (Utilities::find_Bool(issue_order_status, false)) {
+		while (game->find_Bool(issue_order_status, false)) {
 			for (int i = 0; i < game->playersList.size(); i++) {
 				bool b = false;
 				if (issue_order_status[i] != true) {

@@ -2,7 +2,8 @@
 #include <vector>
 #include <string>
 #include "Orders.h"
-class Hand;
+#include "Player.h"
+#include "Card.h"
 
 Order::Order()
 {

@@ -3,31 +3,39 @@
 #include "Card.h"
 #include "Map.h"
 #include <iostream>
+using std::cin;
+using std::cout;
 #include <fstream>
 #include <string>
+using std::string;
 #include <vector>
+using std::vector;
 #include <algorithm>
 #include <sstream>
-#include "Utilities.h"
 using namespace std;
 
 // Default cons
 Player::Player()
 {
+	name = "noName";
 	handOfCards = new Hand();
+	orderList = new OrderList();
+	reinforcement = 0;
 }
 
 Player::Player(string name)
 {
 	this->name = name;
 	this->handOfCards = new Hand();
+	orderList = new OrderList();
+	reinforcement = 0;
 }
 string Player::getName()
 {
 	return this->name;
 }
 // Cons 4 params
-Player::Player(vector<Territory *> territories, Hand *hand, string name, OrderList *orderList)
+Player::Player(vector<Territory*> territories, Hand* hand, string name, OrderList* orderList)
 {
 	for (auto t : territories)
 	{
@@ -47,7 +55,7 @@ Player::~Player()
 	delete orderList;
 }
 // Copy cons
-Player::Player(const Player &p)
+Player::Player(const Player& p)
 {
 	this->name = p.name;
 	for (auto t : p.territories)
@@ -56,7 +64,7 @@ Player::Player(const Player &p)
 	this->orderList = new OrderList(*p.orderList);
 }
 
-Player &Player::operator=(const Player &p)
+Player& Player::operator=(const Player& p)
 {
 	this->name = p.name;
 	for (auto t : p.territories)
@@ -65,9 +73,9 @@ Player &Player::operator=(const Player &p)
 	this->orderList = new OrderList(*p.orderList);
 	return *this;
 }
-bool Player::ownsTerritory(Territory *t1)
+bool Player::ownsTerritory(Territory* t1)
 {
-	for (Territory *t : territories)
+	for (Territory* t : territories)
 	{
 		if (t == t1)
 		{
@@ -76,28 +84,28 @@ bool Player::ownsTerritory(Territory *t1)
 	}
 	return false;
 }
-vector<Territory *> Player::getTerriotory()
+vector<Territory*> Player::getTerriotory()
 {
 	return territories;
 }
-void Player::addTerritory(Territory *o)
+void Player::addTerritory(Territory* o)
 {
 	territories.push_back(o);
 }
 
-void Player::addOrder(Order *o)
+void Player::addOrder(Order* o)
 {
 	this->orderList->addOrders(o);
 }
 // Establish an arbitrary list of territories to be attacked
-vector<Territory *> Player::toAttack()
+vector<Territory*> Player::toAttack()
 {
 	vector<Territory*> bannedTerritory;
 	for (int i = 0; i < attackBan.size(); i++) {
 		vector<Territory*> player_territories = attackBan[i]->getTerriotory();
 		for (int k = 0; k < player_territories.size(); k++) {
 			Territory* t = player_territories[k];
-			if (!Utilities::find_Territory(bannedTerritory, t)) {
+			if (find(bannedTerritory.begin(), bannedTerritory.end(), t) == bannedTerritory.end()) {
 				bannedTerritory.push_back(t);
 			}
 		}
@@ -106,30 +114,32 @@ vector<Territory *> Player::toAttack()
 	for (int i = 0; i < territories.size(); i++) {
 		vector<Territory*> neignbours = territories[i]->getNeighbours();
 		for (int k = 0; k < neignbours.size(); k++) {
-			if (!Utilities::find_Territory(tAttack, neignbours[i]) && !Utilities::find_Territory(bannedTerritory, neignbours[i])) {
+			if ((find(tAttack.begin(), tAttack.end(), neignbours[i]) == tAttack.end())
+				&& find(bannedTerritory.begin(), bannedTerritory.end(), neignbours[i]) == bannedTerritory.end())
+			{
 				tAttack.push_back(neignbours[i]);
 			}
 		}
 	}
 	for (int i = 0; i < territories.size(); i++) {
-		if (!Utilities::find_Territory(tAttack, territories[i])) {
+		if (find(tAttack.begin(), tAttack.end(), territories[i]) == tAttack.end()) {
 			tAttack.push_back(territories[i]);
 		}
 	}
 	return tAttack;
 }
 // Establish an arbitrary list of territories to be defended
-vector<Territory *> Player::toDefend()
+vector<Territory*> Player::toDefend()
 {
 	return this->territories;
 }
-/*
-Hand *Player::gethandofcard()
+
+Hand* Player::gethandofcard()
 {
 	return handOfCards;
 }
 // Link to Orders.cpp
-OrderList *Player::getlist()
+OrderList* Player::getlist()
 {
 	return orderList;
 }
@@ -137,7 +147,7 @@ OrderList *Player::getlist()
 void Player::printOrder()
 {
 	orderList->getorderlist();
-	vector<Order *>::iterator it = orderList->getorderlist().begin();
+	vector<Order*>::iterator it = orderList->getorderlist().begin();
 	for (it; it < orderList->getorderlist().end(); it++)
 	{
 		std::cout << *it << std::endl;
@@ -145,13 +155,13 @@ void Player::printOrder()
 	cout << endl;
 }
 
-std::ostream &operator<<(ostream &os, Player &p1)
+std::ostream& operator<<(ostream& os, Player& p1)
 {
 	return os << "Player: " << p1.name << " has " << p1.territories.size() << " territories and " << p1.handOfCards->numOfHandCards() << " cards.";
 }
 
 //Newly added methods
-void Player:: setTerritories(vector<Territory*> &t) {
+void Player::setTerritories(vector<Territory*>& t) {
 
 	this->territories = t;
 
@@ -168,11 +178,11 @@ bool Player::assignReinforcement(int num) {
 	if (num > this->reinforcement) {
 		return false;
 	}
-	else { 
-		this->reinforcement -= num;  
+	else {
+		this->reinforcement -= num;
 		return true;
 	}
-	
+
 }
 
 void Player::set_Deploy_Territories() {
@@ -180,7 +190,7 @@ void Player::set_Deploy_Territories() {
 	for (int i = 0; i < territories.size(); i++) {
 		Territory* t = territories[i];
 		deploy_territories[t->getName()] = t;
-	  
+
 	}
 
 }
@@ -215,7 +225,7 @@ void Player::set_all_territories(vector<Territory*> all) {
 		all_territories[t->getName()] = t;
 
 	}
-	
+
 
 }
 
@@ -239,7 +249,7 @@ bool Player::issueOrder(string s)
 		cout << "Your territories are: ";
 		for (std::map<string, Territory*>::iterator it = deploy_territories.begin(); it != deploy_territories.end(); ++it) {
 
-			cout << it->first <<"  ";
+			cout << it->first << "  ";
 
 		}
 		cout << endl;
@@ -264,23 +274,23 @@ bool Player::issueOrder(string s)
 		}
 		cout << "Order type: Deploy " << num << " -> " << name << endl;
 		reinforcement -= num;
-		addOrder(new Deploy(&num, this, deploy_territories[name]));
+		addOrder(new Deploy(num, this, deploy_territories[name]));
 
 		//Execute order
-		Order* o = orderList.back();
+		Order* o = orderList->getorderlist().back();
 		if (o->validate()) {
 			o->execute();
 		}
-		orderList.pop_back();
+		orderList->getorderlist().pop_back();
 
 
 
-		cout << "Are you done issuing orders? (Yes/No)"<<endl;
+		cout << "Are you done issuing orders? (Yes/No)" << endl;
 		string s;
 		cin >> s;
 		if (s == "Yes" && reinforcement == 0) {
 			finished = true;
-			
+
 		}
 		return finished;
 
@@ -303,7 +313,7 @@ bool Player::issueOrder(string s)
 		}
 		string input;
 		cin >> input;
-		while (!Utilities::find_Order_Name(Order_names, input)) {
+		while (find(Order_names.begin(), Order_names.end(), input) == Order_names.end()) {
 			cout << "No such option, try again" << endl;
 			cin >> input;
 		}
@@ -350,7 +360,7 @@ bool Player::issueOrder(string s)
 				cout << "Wrong name, please try again." << endl;
 				cin >> target_name;
 			}
-			addOrder(new Advance(available_territories[source_name], available_territories[target_name], this, &num));
+			addOrder(new Advance(available_territories[source_name], available_territories[target_name], this, num));
 
 
 		}
@@ -460,11 +470,11 @@ bool Player::issueOrder(string s)
 
 		}
 
-		Order* o = orderList.back();
+		Order* o = orderList->getorderlist().back();
 		if (o->validate()) {
 			o->execute();
 		}
-		orderList.pop_back();
+		orderList->getorderlist().pop_back();
 
 
 		cout << "Are you done issuing orders? (Yes/No)" << endl;
@@ -478,4 +488,4 @@ bool Player::issueOrder(string s)
 
 		return finished;
 	}
-}*/
+}
