@@ -276,9 +276,9 @@ bool Player::issueOrder(string s)
 
 		//Execute order
 		Order* o = orderList->getorderlist().back();
-		if (o->validate()) {
-			o->execute();
-		}
+		
+	        o->execute();
+		
 		orderList->getorderlist().pop_back();
 
 
@@ -471,9 +471,9 @@ bool Player::issueOrder(string s)
 		}
 
 		Order* o = orderList->getorderlist().back();
-		if (o->validate()) {
-			o->execute();
-		}
+		
+	        o->execute();
+		
 		orderList->getorderlist().pop_back();
 
 
