@@ -88,7 +88,9 @@ void testMainGameLoop() {
 		for (int i = 0; i < game->playersList.size(); i++) {
 			if (allTerritories.empty())
 				break;
-			game->playersList[i]->addTerritory(allTerritories.back());
+			Territory* t = allTerritories.back();
+			game->playersList[i]->addTerritory(t);
+			t->setOwner(game->playersList[i]);
 			allTerritories.pop_back();
 		}
 	}
