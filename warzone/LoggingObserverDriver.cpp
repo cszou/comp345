@@ -9,7 +9,6 @@
 using namespace std;
 
 void testLoggingObserver(){
-cout<<"----------------------Part 5 Driver----------------------------------------------"<<endl;
     //Create a log observer object
     LogObserver *ob = new LogObserver();
 //--------------------------GameEngine------------------------------------------

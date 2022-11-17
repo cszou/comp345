@@ -678,3 +678,15 @@ Order have just added: Bomb
 Order have just added: Advance
 -----------------------------------------
 
+Game Engine New State: Start
+-----------------------------------------
+
+Game Engine New State: Map Loaded
+-----------------------------------------
+
+Game Engine New State: Assign Reinforcement
+-----------------------------------------
+
+Game Engine New State: Win
+-----------------------------------------
+

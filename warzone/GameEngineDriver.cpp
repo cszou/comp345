@@ -141,7 +141,6 @@ void testMainGameLoop() {
 			player_deployment_status.push_back(false);
 
 		}
-		cout << 3333 << endl;
 		//Deployment orders only until all players are done
 		while (game->find_Bool(player_deployment_status, false)) {
 			for (int i = 0; i < game->playersList.size(); i++) {
@@ -170,7 +169,6 @@ void testMainGameLoop() {
 			}
 		}
 
-		cout << 5 << endl;
 		for (int i = 0; i < game->playersList.size(); i++) {
 			Player* p = game->playersList[i];
 			if (p->getTerriotory().empty()) {
