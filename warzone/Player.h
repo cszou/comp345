@@ -63,4 +63,6 @@ private:
     std::map<string, Territory*> all_territories;
     vector<Player*> attackBan;
     std::map<string, Player*> players_Map;
+    //Newly added for Player Strategy 
+    PlayerStrategy* ps;
 };
