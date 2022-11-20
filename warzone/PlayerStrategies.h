@@ -15,7 +15,7 @@ class Neutral: public PlayerStrategy{
 
     public:
     Neutral();
-    ~Neutral()
+    ~Neutral();
     void issueOrder();
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
@@ -24,7 +24,7 @@ class Cheater: public PlayerStrategy{
 
     public:
     Cheater();
-    ~Cheater()
+    ~Cheater();
     void issueOrder();
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
