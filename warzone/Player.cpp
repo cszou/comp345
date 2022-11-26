@@ -13,6 +13,7 @@ using std::vector;
 #include <algorithm>
 #include <sstream>
 using namespace std;
+#include"PlayerStrategies.h"
 
 // Default cons
 Player::Player()
@@ -22,7 +23,14 @@ Player::Player()
 	orderList = new OrderList();
 	reinforcement = 0;
 }
-
+// Default constructor for creating a player base on the PlayerStrategy
+Player::Player(PlayerStrategy* ps){
+	this->ps = ps;
+}
+// Set player to change player strategy during excecution time
+void Player::setPlayer(PlayerStrategy* newPlayerStrategy){
+	this->ps = newPlayerStrategy;
+}
 Player::Player(string name)
 {
 	this->name = name;
