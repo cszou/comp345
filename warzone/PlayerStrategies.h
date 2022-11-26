@@ -19,7 +19,7 @@ class NeutralPlayerStrategy: public PlayerStrategy{
     private:
     string strategyName;
     public:
-    NeutralPlayerStrategy(string strategy_Name,Player* player);
+    NeutralPlayerStrategy(Player* player);
     ~NeutralPlayerStrategy();
     void issueOrder(string orderName);
     vector<Territory*> toAttack();
