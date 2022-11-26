@@ -493,7 +493,10 @@ bool Player::issueOrder(string s)
 
 		}
 
-
+		
 		return finished;
+		
+		//need to replace all to ps->issueOrder();
+		
 	}
 }
