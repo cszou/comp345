@@ -4,7 +4,7 @@
 using namespace std;
 
 class PlayerStrategy{
-    private:
+    protected:
     Player* p;
     public:
     PlayerStrategy(Player* player);
