@@ -1,4 +1,3 @@
-#pragma once
 #include <string>
 #include"Player.h"
 using namespace std;
@@ -29,62 +28,42 @@ class NeutralPlayerStrategy: public PlayerStrategy{
 
 };
 class CheaterPlayerStrategy: public PlayerStrategy{
-
+    private:
+    string strategyName;
     public:
-    CheaterPlayerStrategy();
+    CheaterPlayerStrategy(Player* player);
     ~CheaterPlayerStrategy();
-    void issueOrder(string orderName);
+    void issueOrder(string OrderName);
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
 };
 class HumanPlayerStrategy: public PlayerStrategy{
-
+    private:
+    string strategyName;
     public:
-    HumanPlayerStrategy();
+    HumanPlayerStrategy(Player* player);
     ~HumanPlayerStrategy();
-    void issueOrder(string orderName);
+    void issueOrder(string OrderName);
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
 };
 class AggressivePlayerStrategy: public PlayerStrategy{
-
+    private:
+    string strategyName;
     public:
-    AggressivePlayerStrategy();
+    AggressivePlayerStrategy(Player* player);
     ~AggressivePlayerStrategy();
-    void issueOrder(string orderName);
+    void issueOrder(string OrderName);
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
 };
 class BenevolentPlayerStrategy: public PlayerStrategy{
-
+    private:
+    string strategyName;
     public:
-    BenevolentPlayerStrategy();
+    BenevolentPlayerStrategy(Player* player);
     ~BenevolentPlayerStrategy();
-    void issueOrder(string orderName);
-    vector<Territory*> toAttack();
-    vector<Territory*> toDedend();   
-};
-
-    ~HumanPlayerStrategy();
-    void issueOrder();
-    vector<Territory*> toAttack();
-    vector<Territory*> toDedend();  
-};
-class AggressivePlayerStrategy: public PlayerStrategy{
-
-    public:
-    AggressivePlayerStrategy();
-    ~AggressivePlayerStrategy();
-    void issueOrder(string orderName);
-    vector<Territory*> toAttack();
-    vector<Territory*> toDedend();  
-};
-class BenevolentPlayerStrategy: public PlayerStrategy{
-
-    public:
-    BenevolentPlayerStrategy();
-    ~BenevolentPlayerStrategy();
-    void issueOrder(string orderName);
+    void issueOrder(string OrderName);
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();   
 };
