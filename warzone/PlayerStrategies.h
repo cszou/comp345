@@ -35,7 +35,8 @@ class CheaterPlayerStrategy: public PlayerStrategy{
     ~CheaterPlayerStrategy();
     void issueOrder(string OrderName);
     vector<Territory*> toAttack();
-    vector<Territory*> toDedend();  
+    vector<Territory*> toDedend();
+    string getStrategyName();  
 };
 class HumanPlayerStrategy: public PlayerStrategy{
     private:
@@ -45,7 +46,8 @@ class HumanPlayerStrategy: public PlayerStrategy{
     ~HumanPlayerStrategy();
     void issueOrder(string OrderName);
     vector<Territory*> toAttack();
-    vector<Territory*> toDedend();  
+    vector<Territory*> toDedend(); 
+    string getStrategyName(); 
 };
 class AggressivePlayerStrategy: public PlayerStrategy{
     private:
@@ -55,7 +57,8 @@ class AggressivePlayerStrategy: public PlayerStrategy{
     ~AggressivePlayerStrategy();
     void issueOrder(string OrderName);
     vector<Territory*> toAttack();
-    vector<Territory*> toDedend();  
+    vector<Territory*> toDedend(); 
+    string getStrategyName(); 
 };
 class BenevolentPlayerStrategy: public PlayerStrategy{
     private:
@@ -66,4 +69,5 @@ class BenevolentPlayerStrategy: public PlayerStrategy{
     void issueOrder(string OrderName);
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();   
+    string getStrategyName();
 };
