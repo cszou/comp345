@@ -11,47 +11,47 @@ class PlayerStrategy{
     virtual vector<Territory*> toDedend()=0;  
 };
 
-class Neutral: public PlayerStrategy{
+class NeutralPlayerStrategy: public PlayerStrategy{
 
     public:
-    Neutral();
-    ~Neutral();
+    NeutralPlayerStrategy();
+    ~NeutralPlayerStrategy();
     void issueOrder();
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
 };
-class Cheater: public PlayerStrategy{
+class CheaterPlayerStrategy: public PlayerStrategy{
 
     public:
-    Cheater();
-    ~Cheater();
+    CheaterPlayerStrategy();
+    ~CheaterPlayerStrategy();
     void issueOrder();
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
 };
-class Human: public PlayerStrategy{
+class HumanPlayerStrategy: public PlayerStrategy{
 
     public:
-    Human();
-    ~Human();
+    HumanPlayerStrategy();
+    ~HumanPlayerStrategy();
     void issueOrder();
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
 };
-class Aggressive: public PlayerStrategy{
+class AggressivePlayerStrategy: public PlayerStrategy{
 
     public:
-    Aggressive();
-    ~Aggressive();
+    AggressivePlayerStrategy();
+    ~AggressivePlayerStrategy();
     void issueOrder();
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();  
 };
-class Benevolent: public PlayerStrategy{
+class BenevolentPlayerStrategy: public PlayerStrategy{
 
     public:
-    Benevolent();
-    ~Benevolent();
+    BenevolentPlayerStrategy();
+    ~BenevolentPlayerStrategy();
     void issueOrder();
     vector<Territory*> toAttack();
     vector<Territory*> toDedend();   
