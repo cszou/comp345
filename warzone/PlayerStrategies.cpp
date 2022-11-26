@@ -32,7 +32,7 @@ PlayerStrategy::PlayerStrategy(Player* player){
 HumanPlayerStrategy::HumanPlayerStrategy(Player* player):PlayerStrategy (player){
      strategyName = "HumanPlayer";
 }
-//string HumanPlayerStrategy::
+
 void HumanPlayerStrategy::issueOrder(string orderName)
 {
 	p->set_Deploy_Territories();
