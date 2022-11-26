@@ -13,16 +13,9 @@ using std::string;
 using std::vector;
 #include <algorithm>
 #include <sstream>
+#include <map>
 using namespace std;
 
-// Default constructor for creating a player base on the PlayerStrategy
-Player::Player(PlayerStrategy* ps){
-	this->ps = ps;
-}
-// Set player to change player strategy during excecution time
-void Player::setPlayerStrategy(PlayerStrategy* newPlayerStrategy){
-	this->ps = newPlayerStrategy;
-}
 Player::Player()
 {
 	name = "noName";
@@ -246,14 +239,14 @@ void Player::set_players_Map(vector<Player*> players) {
 
 }
 
-bool Player::issueOrder(string s)
+bool Player::issueOrder(string orderName)
 {
 	set_Deploy_Territories();
 	set_Available_Territories();
 	cout << "Order Issuing phase for player " << this->name << endl;
 	bool finished = false;
 	//Case deploy
-	if (s == "Deploy") {
+	if (orderName == "Deploy") {
 		cout << "Please enter a deployement order" << endl;
 		cout << "Your territories are: ";
 		for (auto t : this->getTerriotory())
@@ -493,10 +486,25 @@ bool Player::issueOrder(string s)
 
 		}
 
-		
+
 		return finished;
-		
-		//need to replace all to ps->issueOrder();
-		
 	}
+}
+// Default constructor for creating a player base on the PlayerStrategy
+Player::Player(PlayerStrategy* ps){
+	this->ps = ps;
+}
+// Set player to change player strategy during excecution time
+void Player::setPlayerStrategy(PlayerStrategy* newPlayerStrategy){
+	this->ps = newPlayerStrategy;
+}
+
+std::map<string, Territory*> Player::getDeploy_territories(){
+	return deploy_territories;
+}
+std::map<string, Territory*> Player::getAvailable_territories(){
+	return available_territories;
+}
+std::map<string, Player*> Player::getPlayers_Map(){
+	return players_Map;
 }
