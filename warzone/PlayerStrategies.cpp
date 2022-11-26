@@ -24,6 +24,7 @@ PlayerStrategy::PlayerStrategy(Player* player){
 }
 
 //HumanPlayerStrategy
+//----------------------------------------------------------
 HumanPlayerStrategy::HumanPlayerStrategy(Player* player):PlayerStrategy (player){
      strategyName = "HumanPlayer";
 }
@@ -278,38 +279,6 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 		}
 	}
 }
-vector<Territory*> NeutralPlayerStrategy::toAttack(){
-
-}
-vector<Territory*> NeutralPlayerStrategy::toDedend(){
-    
-}
-
-//AggressivePlayerStrategy 
-//----------------------------------------------------------
-AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player):PlayerStrategy (player){
-    strategyName = "AggressivePlayer";
-}
-//NeutralPlayerStrategy
-//----------------------------------------------------------
-NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player):PlayerStrategy (player){
-    strategyName ="Neutral Player";
-}
-string NeutralPlayerStrategy::getStrategyName(){
-    return this->strategyName;
-}
-
-void NeutralPlayerStrategy:: issueOrder(string orderName){
-
-    cout<<"Excecuting isssue order from "<<getStrategyName()<<endl;
-
-
-    p->setPlayerStrategy(new AggressivePlayerStrategy(p));
-
-
-
-
-}
 vector<Territory*> HumanPlayerStrategy::toAttack(){
 	vector<Territory*> bannedTerritory;
 	for (int i = 0; i < p->getAttackBan().size(); i++) {
@@ -343,4 +312,40 @@ vector<Territory*> HumanPlayerStrategy::toAttack(){
 vector<Territory*> HumanPlayerStrategy::toDedend(){
     return this->p->getTerriotory();
 }
+
+
+//AggressivePlayerStrategy 
+//----------------------------------------------------------
+AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player):PlayerStrategy (player){
+    strategyName = "AggressivePlayer";
+}
+
+
+
+//NeutralPlayerStrategy
+//----------------------------------------------------------
+NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player):PlayerStrategy (player){
+    strategyName ="Neutral Player";
+}
+string NeutralPlayerStrategy::getStrategyName(){
+    return this->strategyName;
+}
+
+void NeutralPlayerStrategy:: issueOrder(string orderName){
+
+    cout<<"Excecuting isssue order from "<<getStrategyName()<<endl;
+
+
+    p->setPlayerStrategy(new AggressivePlayerStrategy(p));
+
+
+
+}
+vector<Territory*> NeutralPlayerStrategy::toAttack(){
+
+}
+vector<Territory*> NeutralPlayerStrategy::toDedend(){
+    
+}
+
 //----------------------------------------------------------
