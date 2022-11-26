@@ -56,6 +56,7 @@ public:
     std::map<string, Territory*> getDeploy_territories();
     std::map<string, Territory*> getAvailable_territories();
     std::map<string, Player*> getPlayers_Map();
+    vector<Player*> getAttackBan();
 private:
     vector<Territory*> territories;
     Hand* handOfCards;
