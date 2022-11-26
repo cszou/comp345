@@ -2,12 +2,9 @@
 #include "Player.h"
 #include <iostream>
 #include <string>
-
-#include "Player.h"
 #include "Orders.h"
 #include "Card.h"
 #include "Map.h"
-#include"PlayerStrategies.h"
 #include <iostream>
 using std::cin;
 using std::cout;
@@ -19,8 +16,6 @@ using std::vector;
 #include <algorithm>
 #include <sstream>
 using namespace std;
-
-//using namespace std;
 
 //PlayerStrategy Base Class
 //----------------------------------------------------------
@@ -87,7 +82,6 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 			finished = true;
 
 		}
-		//return finished;
 
 	}
 	else {
@@ -282,12 +276,14 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 			finished = true;
 
 		}
-
-
-		//return finished;
 	}
 }
+vector<Territory*> NeutralPlayerStrategy::toAttack(){
 
+}
+vector<Territory*> NeutralPlayerStrategy::toDedend(){
+    
+}
 
 //AggressivePlayerStrategy 
 //----------------------------------------------------------
@@ -314,10 +310,37 @@ void NeutralPlayerStrategy:: issueOrder(string orderName){
 
 
 }
-vector<Territory*> NeutralPlayerStrategy::toAttack(){
+vector<Territory*> HumanPlayerStrategy::toAttack(){
+	vector<Territory*> bannedTerritory;
+	for (int i = 0; i < p->getAttackBan().size(); i++) {
+		vector<Territory*> player_territories = p->getAttackBan()[i]->getTerriotory();
+		for (int k = 0; k < player_territories.size(); k++) {
+			Territory* t = player_territories[k];
+			if (find(bannedTerritory.begin(), bannedTerritory.end(), t) == bannedTerritory.end()) {
+				bannedTerritory.push_back(t);
+			}
+		}
+	}
+	vector<Territory*> tAttack;
+	for (int i = 0; i < p->getTerriotory().size(); i++) {
+		vector<Territory*> neignbours = p->getTerriotory()[i]->getNeighbours();
+		for (int k = 0; k < neignbours.size(); k++) {
+			if ((find(tAttack.begin(), tAttack.end(), neignbours[k]) == tAttack.end())
+				&& find(bannedTerritory.begin(), bannedTerritory.end(), neignbours[k]) == bannedTerritory.end())
+			{
+				tAttack.push_back(neignbours[k]);
+			}
+		}
+	}
+	for (int i = 0; i < p->getTerriotory().size(); i++) {
+		if (find(tAttack.begin(), tAttack.end(), p->getTerriotory()[i]) == tAttack.end()) {
+			tAttack.push_back(p->getTerriotory()[i]);
+		}
+	}
+	return tAttack;
 
 }
-vector<Territory*> NeutralPlayerStrategy::toDedend(){
-    
+vector<Territory*> HumanPlayerStrategy::toDedend(){
+    return this->p->getTerriotory();
 }
 //----------------------------------------------------------
