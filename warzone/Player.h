@@ -50,6 +50,10 @@ public:
     void set_all_territories(vector<Territory*> all);
     void set_players_Map(vector<Player*> players);
     
+    //Newly added method for part 3
+    void setPlayer(PlayerStrategy* newPlayerStrategy);
+    Player(PlayerStrategy* ps);
+    
 
 private:
     vector<Territory*> territories;
