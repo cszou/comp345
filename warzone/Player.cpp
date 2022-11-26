@@ -508,3 +508,6 @@ std::map<string, Territory*> Player::getAvailable_territories(){
 std::map<string, Player*> Player::getPlayers_Map(){
 	return players_Map;
 }
+ vector<Player*> Player:: getAttackBan(){
+	return attackBan;
+ }
