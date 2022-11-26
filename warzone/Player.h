@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Card.h"
 #include "Orders.h"
+
 using namespace std;
 class Command;
 class Territory;
@@ -18,7 +19,6 @@ class Hand;
 class PlayerStrategy;
 class Player {
 public:
-    Player(PlayerStrategy* ps);
     Player();//Default constructor
     Player(string name); //constructor with name
     Player(vector<Territory*> territories, Hand* hand, string name, OrderList* orderList);//Constructor 3 params
@@ -29,7 +29,7 @@ public:
     vector<Territory*> toAttack();
     vector<Territory*> toDefend();
     void printOrder();
-    bool issueOrder(string s);
+    bool issueOrder(string orderName);
     OrderList* getlist();
     string getName();
     Hand* gethandofcard();
@@ -49,12 +49,13 @@ public:
     void clear_Available_Territories();
     void set_all_territories(vector<Territory*> all);
     void set_players_Map(vector<Player*> players);
-    
+
     //Newly added method for part 3
     void setPlayerStrategy(PlayerStrategy* newPlayerStrategy);
     Player(PlayerStrategy* ps);
-    
-
+    std::map<string, Territory*> getDeploy_territories();
+    std::map<string, Territory*> getAvailable_territories();
+    std::map<string, Player*> getPlayers_Map();
 private:
     vector<Territory*> territories;
     Hand* handOfCards;
