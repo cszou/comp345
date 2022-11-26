@@ -15,8 +15,10 @@ class Territory;
 class Order;
 class OrderList;
 class Hand;
+class PlayerStrategy;
 class Player {
 public:
+    Player(PlayerStrategy* ps);
     Player();//Default constructor
     Player(string name); //constructor with name
     Player(vector<Territory*> territories, Hand* hand, string name, OrderList* orderList);//Constructor 3 params
