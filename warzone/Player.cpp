@@ -2,6 +2,7 @@
 #include "Orders.h"
 #include "Card.h"
 #include "Map.h"
+#include"PlayerStrategies.h"
 #include <iostream>
 using std::cin;
 using std::cout;
@@ -13,16 +14,7 @@ using std::vector;
 #include <algorithm>
 #include <sstream>
 using namespace std;
-#include"PlayerStrategies.h"
 
-// Default cons
-Player::Player()
-{
-	name = "noName";
-	handOfCards = new Hand();
-	orderList = new OrderList();
-	reinforcement = 0;
-}
 // Default constructor for creating a player base on the PlayerStrategy
 Player::Player(PlayerStrategy* ps){
 	this->ps = ps;
@@ -31,6 +23,14 @@ Player::Player(PlayerStrategy* ps){
 void Player::setPlayer(PlayerStrategy* newPlayerStrategy){
 	this->ps = newPlayerStrategy;
 }
+Player::Player()
+{
+	name = "noName";
+	handOfCards = new Hand();
+	orderList = new OrderList();
+	reinforcement = 0;
+}
+//The const
 Player::Player(string name)
 {
 	this->name = name;
