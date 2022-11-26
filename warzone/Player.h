@@ -51,7 +51,7 @@ public:
     void set_players_Map(vector<Player*> players);
     
     //Newly added method for part 3
-    void setPlayer(PlayerStrategy* newPlayerStrategy);
+    void setPlayerStrategy(PlayerStrategy* newPlayerStrategy);
     Player(PlayerStrategy* ps);
     
 
