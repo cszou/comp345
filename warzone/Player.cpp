@@ -242,5 +242,6 @@ std::map<string, Player*> Player::getPlayers_Map(){
  }
 void Player::setIfAttacked(bool attack) { 
 	neverAttacked=attack; } 
+
 bool Player::getIfAttacked() { 
 	return neverAttacked; } //temp method
