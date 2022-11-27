@@ -330,6 +330,122 @@ string AggressivePlayerStrategy::getStrategyName() {
 void AggressivePlayerStrategy::issueOrder(string OrderName) {
 	cout << "Excecuting isssue order from " << getStrategyName() << endl;
 	//deploys or advances armies on its strongest 	country, then always advances to enemy territories
+	
+	 p->set_Deploy_Territories();
+	p->set_Available_Territories();
+	//Case deploy
+	OrderName = "Deploy";
+	if (orderName == "Deploy") {
+		cout << "Please enter a deployement order" << endl;
+		cout << "Your territories are: ";
+		for (auto t : p->getTerriotory())
+			cout << t->getName() << "  ";
+		cout << endl;
+		cout << "You have " << p->getReinforcement() << " troops left in your reinforcement tool, please enter the number of troops you want to use" << endl;
+		int max = p->getReinforcement();
+		int num = max;
+		
+		while (!cin) {
+			cout << "Wrong data type. Please try again. " << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cin >> num;
+		}
+		if (num > p->getReinforcement()) {
+			num = p->getReinforcement();
+		}
+		cout << "Where do you want to deploy " << num << " troops? Please enter the name of the territory. " << endl;
+		string name = toDefend().at(0);
+		
+		while (p->getDeploy_territories().find(name) == p->getDeploy_territories().end()) {
+			cout << "Wrong name, please try again." << endl;
+			cin >> name;
+		}
+		cout << "Order type: Deploy " << num << " -> " << name << endl;
+
+		p->setReinforcement(p->getReinforcement() - num);
+
+		p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
+
+		//Execute order
+		Order* o = p->getlist()->getorderlist().back();
+
+		o->execute();
+
+		p->getlist()->getorderlist().pop_back();
+
+	}
+	else {
+		//Other case
+		vector<string> Order_names;
+		Order_names.push_back("Advance");
+		vector<Card*> cards = p->gethandofcard()->get_VectorOfHand();
+		for (int i = 0; i < cards.size(); i++) {
+			Order_names.push_back(cards[i]->get_cardType());
+		}
+		cout << "Please choose one of the options: " << endl;
+		cout << "-- Advance" << endl;
+		if (Order_names.size() > 1) {
+			cout << "Use one of the cards: " << endl;
+			for (int k = 1; k < Order_names.size(); k++) {
+				cout << "-- " << Order_names[k] << endl;
+			}
+		}
+		string input = "Advance";
+		
+		while (find(Order_names.begin(), Order_names.end(), input) == Order_names.end()) {
+			cout << "No such option, try again" << endl;
+			cin >> input;
+		}
+		//Advance
+		if (input == "Advance") {
+			cout << "Your territories are: ";
+			for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
+
+				cout << it->first << "  ";
+
+			}
+			cout << endl;
+			cout << "Choose the source territory: ";
+			string source_name = toDefend().at(0);
+			
+			while (p->getDeploy_territories().find(source_name) == p->getDeploy_territories().end()) {
+				cout << "Wrong name, please try again." << endl;
+				cin >> source_name;
+			}
+			int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
+			cout << "You have " << army_num << " army unites in this territory, how many do you want to move? " << endl;
+
+			int max = army_num;
+			int num = max;
+			while (!cin) {
+				cout << "Wrong data type. Please try again. " << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin >> num;
+			}
+			if (num > army_num) {
+				num = army_num;
+			}
+			cout << "Please enter the target territory: " << endl;
+			cout << "The available options are your territories and the enemy territories" << endl;
+			cout << "Available territories are: ";
+			for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
+
+				cout << it->first << "  ";
+
+			}
+			cout << endl;
+			string target_name = toAttack().at(0);
+			
+			while (p->getAvailable_territories().find(target_name) == p->getAvailable_territories().end()) {
+				cout << "Wrong name, please try again." << endl;
+				cin >> target_name;
+			}
+			p->addOrder(new Advance(p->getDeploy_territories()[source_name], p->getAvailable_territories()[target_name], this->p, num));
+
+
+		}
 	//only playing aggressive cards
 	cout<<"playing cards"<<endl
 		if (Hand->numOfHandCards() > 0) {
