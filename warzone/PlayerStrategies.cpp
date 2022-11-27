@@ -341,7 +341,7 @@ string NeutralPlayerStrategy::getStrategyName(){
     return this->strategyName;
 }
 
-vvoid NeutralPlayerStrategy:: issueOrder(string orderName){
+void NeutralPlayerStrategy:: issueOrder(string orderName){
 
     cout<<"Excecuting isssue order from "<<getStrategyName()<<endl;
 	//if(p->neverAttacked)
