@@ -93,7 +93,21 @@ void Player::addTerritory(Territory* o)
 {
 	territories.push_back(o);
 }
-
+void Player::deleteTerriotory(Territory *o)
+{
+	if (ownsTerritory(o))
+	{
+		vector<Territory *> depli;
+		for (Territory *t : territories)
+		{
+			if (t != o)
+			{
+				depli.push_back(t);
+			}
+		}
+		territories=depli;
+	}
+}
 void Player::addOrder(Order* o)
 {
 	this->orderList->addOrders(o);
@@ -240,8 +254,11 @@ std::map<string, Player*> Player::getPlayers_Map(){
  vector<Player*> Player:: getAttackBan(){
 	return attackBan;
  }
-void Player::setIfAttacked(bool attack) { 
-	neverAttacked=attack; } 
-
-bool Player::getIfAttacked() { 
-	return neverAttacked; } //temp method
+void Player::setifattected()
+{
+	whetherattacked = true;
+}
+bool Player::getifattacked()
+{
+	return whetherattacked;
+}
