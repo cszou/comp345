@@ -93,21 +93,7 @@ void Player::addTerritory(Territory* o)
 {
 	territories.push_back(o);
 }
-void Player::deleteTerriotory(Territory *o)
-{
-	if (ownsTerritory(o))
-	{
-		vector<Territory *> depli;
-		for (Territory *t : territories)
-		{
-			if (t != o)
-			{
-				depli.push_back(t);
-			}
-		}
-		territories=depli;
-	}
-}
+
 void Player::addOrder(Order* o)
 {
 	this->orderList->addOrders(o);
@@ -262,4 +248,18 @@ bool Player::getifattacked()
 {
 	return neverAttacked;
 }
-
+void Player::deleteTerriotory(Territory *o)
+{
+	if (ownsTerritory(o))
+	{
+		vector<Territory *> depli;
+		for (Territory *t : territories)
+		{
+			if (t != o)
+			{
+				depli.push_back(t);
+			}
+		}
+		territories=depli;
+	}
+}
