@@ -133,6 +133,7 @@ void Advance::execute()
         }    // SAME OWNER BETWEEN TEROIRO
         else /*OLD->getOwner()!=NEW->getOwner()*/
         {    // attack
+            NEW->getOwner()->setifattected();//set the owner being attacked
             std::cout << "Teroery has different owner!!!" << std::endl;
             if (OLD->getNumberOfArmies() * 0.6 >= NEW->getNumberOfArmies())
             {
