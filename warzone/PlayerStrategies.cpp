@@ -492,6 +492,49 @@ string NeutralPlayerStrategy::getStrategyName() {
 void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 	cout << "Excecuting isssue order from " << getStrategyName() << endl;
 	//otecting its weak countries(deploys or advances armieson its weakest countries
+	// //deploys or advances armies on its strongest 	country, then always advances to enemy territories
+	p->set_Deploy_Territories();
+	p->set_Available_Territories();
+	//Case deploy
+
+		cout << "Please enter a deployement order" << endl;
+		cout << "Your territories are: ";
+		for (auto t : p->getTerriotory())
+			cout << t->getName() << "  ";
+		cout << endl;
+		cout << "You have " << p->getReinforcement() << " troops left in your reinforcement tool, please enter the number of troops you want to use" << endl;
+		int max = p->getReinforcement();
+		int num = max;
+
+		while (!cin) {
+			cout << "Wrong data type. Please try again. " << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cin >> num;
+		}
+		if (num > p->getReinforcement()) {
+			num = p->getReinforcement();
+		}
+		cout << "Where do you want to deploy " << num << " troops? Please enter the name of the territory. " << endl;
+		string name = toDefend().at(0);
+
+		while (p->getDeploy_territories().find(name) == p->getDeploy_territories().end()) {
+			cout << "Wrong name, please try again." << endl;
+			cin >> name;
+		}
+		cout << "Order type: Deploy " << num << " -> " << name << endl;
+
+		p->setReinforcement(p->getReinforcement() - num);
+
+		p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
+
+		//Execute order
+		Order* o = p->getlist()->getorderlist().back();
+
+		o->execute();
+
+		p->getlist()->getorderlist().pop_back();
+		//NEVER ADVANCE TO ENEMY TERRITORY
 	//may use cards (no bomb)
 	if (Hand->numOfHandCards() > 0) {
 		int nb = p->gethandofcard()->numOfHandCards();
