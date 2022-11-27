@@ -335,11 +335,14 @@ string NeutralPlayerStrategy::getStrategyName(){
     return this->strategyName;
 }
 
-void NeutralPlayerStrategy:: issueOrder(string orderName){
+vvoid NeutralPlayerStrategy:: issueOrder(string orderName){
 
     cout<<"Excecuting isssue order from "<<getStrategyName()<<endl;
-
-
+	//if(p->neverAttacked)
+	cout<<"This is a Neutral Player, it cannot issue any Order "<<endl;
+	
+	
+	//if(p->!neverAttacked)
     p->setPlayerStrategy(new AggressivePlayerStrategy(p));
 
 
@@ -361,16 +364,39 @@ CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player):PlayerStrategy (pla
 string CheaterPlayerStrategy::getStrategyName(){
     return this->strategyName;
 }
+
+//Once CheaterPlayer issues Order, it automatically conquers that are adjacent to its own territories
 void CheaterPlayerStrategy:: issueOrder(string orderName){
-	//TODO
+	cout<<"Excecuting isssue order from "<<getStrategyName()<<endl;
+	cout<<getStrategyName()<<" will conquer all territories that are adjacent to its own!"<<endl;
+	cout<<"My adjacent territories are: "<<endl;
+	for (Territory* t :toAttack()){
+		cout<<t->getName()<<"  ";
+	}
+
+
+	cout<<"After conquering, My territories are: "<<endl;
+	for (Territory* t :p->getTerriotory()){
+		cout<<t->getName()<<"  ";
+	}
 
 }
-vector<Territory*> CheaterPlayerStrategy::toAttack(){
-	//TODO
 
+//return all adjacent territories 
+vector<Territory*> CheaterPlayerStrategy::toAttack(){
+	vector<Territory*> toAttack;
+	for (Territory* t : p->getTerriotory()) {
+		for (Territory* a : t->getNeighbours()) {
+			if (!p->ownsTerritory(a)) {
+				toAttack.push_back(a);
+			}
+		}
+	}
+	for (Territory* t : toAttack) {
+		toAttack.erase(unique(toAttack.begin(), toAttack.end()), toAttack.end());
+	}
 }
 vector<Territory*> CheaterPlayerStrategy::toDedend(){
 	return p->getTerriotory();
 }
-
 
