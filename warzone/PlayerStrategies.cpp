@@ -22,6 +22,9 @@ using namespace std;
 PlayerStrategy::PlayerStrategy(Player* player){
     this->p = player;
 }
+Player* PlayerStrategy::getPlayer(){
+	return p;
+}
 
 //HumanPlayerStrategy
 //----------------------------------------------------------
@@ -279,6 +282,7 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 		}
 	}
 }
+
 vector<Territory*> HumanPlayerStrategy::toAttack(){
 	vector<Territory*> bannedTerritory;
 	for (int i = 0; i < p->getAttackBan().size(); i++) {
@@ -342,10 +346,31 @@ void NeutralPlayerStrategy:: issueOrder(string orderName){
 
 }
 vector<Territory*> NeutralPlayerStrategy::toAttack(){
-
+	vector<Territory*> toAttack;
+	return toAttack;
 }
 vector<Territory*> NeutralPlayerStrategy::toDedend(){
-    
+	return p->getTerriotory();
 }
 
+//CheaterPlayerStrategy
 //----------------------------------------------------------
+CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player):PlayerStrategy (player){
+    strategyName ="Cheater Player";
+}
+string CheaterPlayerStrategy::getStrategyName(){
+    return this->strategyName;
+}
+void CheaterPlayerStrategy:: issueOrder(string orderName){
+	//TODO
+
+}
+vector<Territory*> CheaterPlayerStrategy::toAttack(){
+	//TODO
+
+}
+vector<Territory*> CheaterPlayerStrategy::toDedend(){
+	return p->getTerriotory();
+}
+
+
