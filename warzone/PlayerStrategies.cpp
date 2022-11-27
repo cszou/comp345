@@ -323,7 +323,42 @@ vector<Territory*> HumanPlayerStrategy::toDedend(){
 AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player):PlayerStrategy (player){
     strategyName = "Aggressive Player";
 }	//TODO
+string AggressivePlayerStrategy::getStrategyName() {
+	return this->strategyName;
+}
 
+void AggressivePlayerStrategy::issueOrder(string OrderName) {
+	cout << "Excecuting isssue order from " << getStrategyName() << endl;
+	//deploys or advances armies on its strongest 	country, then always advances to enemy territories
+	//only playing aggressive cards
+	cout<<"playing cards"<<endl
+		if (Hand->numOfHandCards() > 0) {
+			int nb = p->gethandofcard()->numOfHandCards();
+			for (int i = 0; i < nb; i++)
+			{
+				Card* card = *p.set_deckOfCards().get_cardType();
+				string cardtype = *card.get_cardType();
+				if (cardtype == "Bomb") {
+					cout << "playing bomb card" << endl;
+					Territory* target= toAttack().at(0);
+					int record = target->getNumberOfArmies();
+					target->setNumberOfArmies(target->getNumberOfArmies() / 2);
+					p->addOrder(new Bomb(this->p, p->getAvailable_territories()[target_name], 0));
+					p->gethandofcard()->remove_CardinHand_ByType("bomb");
+				}
+				if (nb - 1 == i) {
+					cout << *p.getName() << "has no more cards" << endl;
+				}
+			}
+		}
+}
+vector<Territory*> AggressivePlayerStrategy::toAttack() {
+	vector<Territory*> toAttack;
+	return toAttack;
+	}
+vector<Territory*> AggressivePlayerStrategy::toDedend() {
+	return p->getTerriotory();
+	}
 
 //BenevolentPlayerStrategy 
 //----------------------------------------------------------
@@ -331,7 +366,98 @@ BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player):PlayerStrateg
     strategyName = "Benevolent Player";
 }
 	//TODO
+BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) : PlayerStrategy(player) {
+	strategyName = "BenevolentPlayer";
+}
+string NeutralPlayerStrategy::getStrategyName() {
+	return this->strategyName;
+}
 
+void BenevolentPlayerStrategy::issueOrder(string OrderName) {
+	cout << "Excecuting isssue order from " << getStrategyName() << endl;
+	//otecting its weak countries(deploys or advances armieson its weakest countries
+	//may use cards (no bomb)
+	if (Hand->numOfHandCards() > 0) {
+		int nb = p->gethandofcard()->numOfHandCards();
+		for (int i = 0; i < nb; i++)
+		{
+			Card* card = *p.set_deckOfCards().get_cardType();
+			string cardtype = *card.get_cardType();
+			if (input == "blockade") {
+				
+				Territory* target_name = toAttack().at(0);
+				
+				while (p->getDeploy_territories().find(target_name) == p->getDeploy_territories().end()) {
+					cout << "Wrong name, please try again." << endl;
+					cin >> target_name;
+				}
+				p->addOrder(new Blockade(this->p, p->getAvailable_territories()[target_name]));
+				p->gethandofcard()->remove_CardinHand_ByType("blockade");
+			}
+
+			//Air Lift
+			else if (input == "airlift") {
+				cout << "Using this airlift card" << endl;
+				
+				Territory source_name = toDefend().at(0);
+				while (p->getDeploy_territories().find(source_name) == p->getDeploy_territories().end()) {
+					cout << "Wrong name, please try again." << endl;
+					cin >> source_name;
+				}
+				int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
+				
+				int max = army_num;
+				int num = (rand() % max) + 1;
+				
+				while (!cin) {
+					cout << "Wrong data type. Please try again. " << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cin >> num;
+				}
+				if (num > army_num) {
+					num = army_num;
+				}
+				
+				
+				Territory* target_name = toAttack().at(0);
+				while (p->getDeploy_territories().find(target_name) == p->getDeploy_territories().end()) {
+					cout << "Wrong name, please try again." << endl;
+					cin >> target_name;
+				}
+
+				p->addOrder(new Airlift(this->p, p->getDeploy_territories()[source_name], p->getDeploy_territories()[target_name]));
+				p->gethandofcard()->remove_CardinHand_ByType("airlift");
+			}
+			else if (input == "diplomacy") {
+				cout << "Using diplomacy card" << endl;
+				
+				Territory* name = toAttack().at(0);
+				while (p->getPlayers_Map().find(name) == p->getPlayers_Map().end()) {
+					cout << "No such player, are you kidding me?! Try again";
+					cin >> name;
+				}
+				p->addOrder(new Negotiate(this->p, p->getPlayers_Map()[name]));
+				p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
+
+
+			}
+
+			if (nb - 1 == i) {
+				cout << *p.getName() << "has no more cards" << endl;
+			}
+		}
+	}
+}
+	//benevolent player don't attack
+	vector<Territory*> BenevolentPlayerStrategy::toAttack()
+	{
+		vector<Territory*> null;
+		return null;
+	}
+	vector<Territory*> BenevolentPlayerStrategy::toDedend() {
+		return p->getTerriotory();
+	}
 //NeutralPlayerStrategy
 //----------------------------------------------------------
 NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player):PlayerStrategy (player){
