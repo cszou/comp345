@@ -7,6 +7,7 @@ class PlayerStrategy{
     Player* p;
     public:
     PlayerStrategy(Player* player);
+    Player* getPlayer();
     virtual void issueOrder(string OrderName)=0;
     virtual vector<Territory*> toAttack()=0;
     virtual vector<Territory*> toDedend()=0;  
