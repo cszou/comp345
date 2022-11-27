@@ -354,6 +354,7 @@ vvoid NeutralPlayerStrategy:: issueOrder(string orderName){
 
 
 }
+
 vector<Territory*> NeutralPlayerStrategy::toAttack(){
 	vector<Territory*> toAttack;
 	return toAttack;
