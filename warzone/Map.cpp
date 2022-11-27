@@ -443,6 +443,11 @@ void Territory::setName(string name) {
 void Territory::setOwner(Player* p)
 {
 	this->owner = p;
+	p->addTerritory(this);
+	if (getOwner() != nullptr && getOwner() != p)
+	{
+		getOwner()->deleteTerriotory(this);
+	}
 }
 
 //set continent in which the territory is located
