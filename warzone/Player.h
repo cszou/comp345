@@ -51,17 +51,17 @@ public:
     void set_players_Map(vector<Player*> players);
 
     //Newly added method for part 3
-    void setifattected();
-    bool getifattacked();
+    void setIfAttected();
+    bool getIfAttacked();
     void setPlayerStrategy(PlayerStrategy* newPlayerStrategy);
     Player(PlayerStrategy* ps);
     std::map<string, Territory*> getDeploy_territories();
     std::map<string, Territory*> getAvailable_territories();
     std::map<string, Player*> getPlayers_Map();
     vector<Player*> getAttackBan();
-    bool setifattected() { return false; }; //temp method
+    
 private:
-    bool whetherattacked;
+    bool neverAttacked;
     vector<Territory*> territories;
     Hand* handOfCards;
     OrderList* orderList;
