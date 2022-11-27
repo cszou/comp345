@@ -256,9 +256,10 @@ std::map<string, Player*> Player::getPlayers_Map(){
  }
 void Player::setifattected()
 {
-	whetherattacked = true;
+	neverAttacked = true;
 }
 bool Player::getifattacked()
 {
-	return whetherattacked;
+	return neverAttacked;
 }
+
