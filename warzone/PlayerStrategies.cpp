@@ -29,7 +29,7 @@ Player* PlayerStrategy::getPlayer(){
 //HumanPlayerStrategy
 //----------------------------------------------------------
 HumanPlayerStrategy::HumanPlayerStrategy(Player* player):PlayerStrategy (player){
-     strategyName = "HumanPlayer";
+     strategyName = "Human Player";
 }
 
 void HumanPlayerStrategy::issueOrder(string orderName)
@@ -321,10 +321,16 @@ vector<Territory*> HumanPlayerStrategy::toDedend(){
 //AggressivePlayerStrategy 
 //----------------------------------------------------------
 AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player):PlayerStrategy (player){
-    strategyName = "AggressivePlayer";
+    strategyName = "Aggressive Player";
+}	//TODO
+
+
+//BenevolentPlayerStrategy 
+//----------------------------------------------------------
+BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player):PlayerStrategy (player){
+    strategyName = "Benevolent Player";
 }
-
-
+	//TODO
 
 //NeutralPlayerStrategy
 //----------------------------------------------------------
