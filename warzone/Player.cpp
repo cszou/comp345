@@ -240,3 +240,7 @@ std::map<string, Player*> Player::getPlayers_Map(){
  vector<Player*> Player:: getAttackBan(){
 	return attackBan;
  }
+void Player::setIfAttacked(bool attack) { 
+	neverAttacked=attack; } 
+bool Player::getIfAttacked() { 
+	return neverAttacked; } //temp method
