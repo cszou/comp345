@@ -21,7 +21,7 @@ GameEngine::GameEngine() {
 	map = nullptr;
 	neutralPlayer = nullptr;
 	deck = new Deck();
-
+	isTournamentMode = false;
 }
 //Copy constructor
 GameEngine::GameEngine(const GameEngine& copy) {
@@ -39,6 +39,7 @@ GameEngine::GameEngine(const GameEngine& copy) {
 	map = new Map(*copy.map);
 	neutralPlayer = new Player(*copy.neutralPlayer);
 	deck = new Deck(*copy.deck);
+	isTournamentMode = copy.isTournamentMode;
 }
 
 //Assignment operator overload
@@ -56,7 +57,7 @@ GameEngine&  GameEngine:: operator = (const GameEngine& copy) {
 	map = new Map(*copy.map);
 	neutralPlayer = new Player(*copy.neutralPlayer);
 	deck = new Deck(*copy.deck);
-
+	isTournamentMode = copy.isTournamentMode;
 	return *this;
 
 }
@@ -116,4 +117,8 @@ bool GameEngine::find_Bool(const vector<bool>& bools, bool b) {
 
 	return result;
 
+}
+
+void GameEngine::enableTournamentMode() {
+	isTournamentMode = true;
 }

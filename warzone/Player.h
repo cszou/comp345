@@ -29,7 +29,7 @@ public:
     vector<Territory*> toAttack();
     vector<Territory*> toDefend();
     void printOrder();
-    bool issueOrder(string orderName);
+    void issueOrder(string orderName);
     OrderList* getlist();
     string getName();
     Hand* gethandofcard();
@@ -57,6 +57,7 @@ public:
     std::map<string, Territory*> getAvailable_territories();
     std::map<string, Player*> getPlayers_Map();
     vector<Player*> getAttackBan();
+    bool setifattected() { return false; }; //temp method
 private:
     vector<Territory*> territories;
     Hand* handOfCards;

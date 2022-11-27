@@ -131,11 +131,11 @@
     <ClCompile Include="CommandProcessing.cpp" />
     <ClCompile Include="CommandProcessingDriver.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameEngineDriver.cpp" />
     <ClCompile Include="LoggingObserver.cpp" />
     <ClCompile Include="LoggingObserverDriver.cpp" />
     <ClCompile Include="MainDriver.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapDriver.cpp" />
     <ClCompile Include="Orders.cpp" />
     <ClCompile Include="OrdersDriver.cpp" />
     <ClCompile Include="Player.cpp" />

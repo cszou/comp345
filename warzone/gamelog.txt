@@ -690,3 +690,60 @@ Game Engine New State: Assign Reinforcement
 Game Engine New State: Win
 -----------------------------------------
 
+Game Engine New State: Start
+-----------------------------------------
+
+Game Engine New State: Map Loaded
+-----------------------------------------
+
+Game Engine New State: Assign Reinforcement
+-----------------------------------------
+
+Game Engine New State: Win
+-----------------------------------------
+
+Command have just saved: error loadmap command
+-----------------------------------------
+
+Command: error loadmap command
+Command's Effect: Invalid command.
+-----------------------------------------
+
+Command have just saved: [Map]
+-----------------------------------------
+
+Command: [Map]
+Command's Effect: Invalid command.
+-----------------------------------------
+
+Command have just saved: author=Sean
+-----------------------------------------
+
+Command: author=Sean
+Command's Effect: Invalid command.
+-----------------------------------------
+
+Order Executed: Deploy
+-----------------------------------------
+
+Order Executed: Airlift
+-----------------------------------------
+
+Order Executed: Bomb
+-----------------------------------------
+
+Order Executed: Advance
+-----------------------------------------
+
+Order have just added: Deploy
+-----------------------------------------
+
+Order have just added: Airlift
+-----------------------------------------
+
+Order have just added: Bomb
+-----------------------------------------
+
+Order have just added: Advance
+-----------------------------------------
+

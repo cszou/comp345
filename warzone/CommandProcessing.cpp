@@ -47,6 +47,10 @@ bool CommandProcessor::validate(Command* command)
 {
 	string state = game->getState();
 	string c = command->getCommandString();
+	if ((c == "tournament")) {
+		game->enableTournamentMode();
+
+	}
 	if ((c == "loadmap") && (state == "Start" || state == "Map Loaded"))
 	{
 		cout << "This is a valid command." << endl;
@@ -57,8 +61,15 @@ bool CommandProcessor::validate(Command* command)
 	else if ((c == "validatemap") && (state == "Map Loaded"))
 	{
 		cout << "This is a valid command." << endl;
-		game->setState("Map Validated");
-		cout << "Transitions to mapvalidated state" << endl << endl;
+		if (game->map->validate()) {
+			cout << "This is a valid map." << endl;
+			game->setState("Map Validated");
+			cout << "Transitions to mapvalidated state" << endl << endl;
+		}
+		else {
+			cout << "This is not a valid map." << endl;
+			cout << "State does not change" << endl << endl;
+		}
 		return true;
 	}
 	else if ((c == "addplayer") && (state == "Map Validated" || state == "Players Added"))
@@ -99,22 +110,39 @@ bool CommandProcessor::validate(Command* command)
 // read the command got from getCommand() also get map and palyer if required
 string CommandProcessor::readCommand()
 {
-	string command;
+	string command = "";
 	cout << "Enter next command: ";
-	cin >> command;
-	if (command == "loadmap") {
-		string mapName;
-		cout << "please enter map name: ";
-		cin >> mapName;
-		game->readMap(mapName);
+	while(command == "")
+		getline(cin, command);
+	vector<string> commands;
+	int start = 0;
+	int end = 0;
+	int len = command.length();
+	string tempName;
+	string d = " ";
+	while (end >= 0) {
+		end = command.find(d);
+		commands.push_back(command.substr(start, end));
+		command = command.substr(end + 1, len - end + 1);
 	}
-	else if (command == "addplayer") {
-		cout << "Please enter player name: ";
-		string playerName;
-		cin >> playerName;
-		game->addPlayer(playerName);
+	if (commands[0] == "tournament")
+		if (this->validateTournamentMode())
+			game->enableTournamentMode();
+		else
+			return "error tournament command";
+	if (commands[0] == "loadmap") {
+		if (commands.size() < 2)
+			return "error loadmap command";
+		else
+			game->readMap(commands[1]);
 	}
-	return command;
+	else if (commands[0] == "addplayer") {
+		if (commands.size() < 2)
+			return "error addplayer command";
+		else
+			game->addPlayer(commands[1]);
+	}
+	return commands[0];
 }
 
 // save the command
@@ -122,6 +150,11 @@ void CommandProcessor::saveCommand(string command)
 {
 	this->lc.push_back(new Command(command));
 	Notify(this);
+}
+
+bool CommandProcessor::validateTournamentMode()
+{
+	return false;
 }
 
 // stringToLog method from abstract base class ILoggable
@@ -236,22 +269,38 @@ FileCommandProcessorAdapter::~FileCommandProcessorAdapter() {
 //overriding read the command from getCommand(), get command from file
 string FileCommandProcessorAdapter::readCommand()
 {
-	string command;
-	command = flr->readLineFromFile();
-	cout << command << endl;
-	if (command == "eof") {
-		this->fileEnd = false;
+	string commands;
+	commands = flr->readLineFromFile();
+	cout << commands << endl;
+	vector<string> command;
+	int start = 0;
+	int end = 0;
+	int len = commands.length();
+	string tempName;
+	string d = " ";
+	while (end >= 0) {
+		end = commands.find(d);
+		command.push_back(commands.substr(start, end));
+		commands = commands.substr(end + 1, len - end + 1);
+	}
+	if (command[0] == "loadmap") {
+		if (command.size() < 1)
+			return "error command";
+		else
+			game->readMap(command[1]);
+	}
+	else if (command[0] == "addplayer") {
+		if (command.size() < 1)
+			return "error command";
+		else
+			game->addPlayer(command[1]);
+	}
+	return command[0];
+	if (command[0] == "eof") {
+		this->fileEnd = true;
 		cout << "Error: End of file, no more lines";
 	}
-	else if (command == "loadmap") {
-		string mapName = flr->readLineFromFile();
-		game->readMap(mapName);
-	}
-	else if (command == "addplayer") {
-		string playerName = flr->readLineFromFile();
-		game->addPlayer(playerName);
-	}
-	return command;
+	return command[0];
 }
 
 //destructor

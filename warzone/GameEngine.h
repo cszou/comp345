@@ -29,6 +29,7 @@ private:
 	string state_win;
 	string state_Terminated;
 	Player* neutralPlayer;
+	bool isTournamentMode;
 
 public:
 	GameEngine();
@@ -51,6 +52,7 @@ public:
 	bool find_Territory(const vector<Territory*>& territories, Territory* t);
 	bool find_Order_Name(const vector<string>& names, string s);
 	bool find_Bool(const vector<bool>& bools, bool b);
+	void enableTournamentMode();
 };
 
 

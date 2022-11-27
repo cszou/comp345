@@ -216,6 +216,7 @@ Continent::Continent() {
 
 //constructor with name and bonus
 Continent::Continent(string name, int num) {
+	//replace(name.begin(), name.end(), ' ', '_');
 	this->bonus = num;
 	this->continentName = name;
 }
@@ -336,7 +337,7 @@ Territory::Territory() {
 //constructor with name only
 Territory::Territory(string name)
 {
-	replace(name.begin(), name.end(), ' ', '_');
+	//replace(name.begin(), name.end(), ' ', '_');
 	this->name = name;
 	this->coordX = -1;
 	this->coordY = -1;
@@ -366,7 +367,7 @@ Territory::Territory(const Territory& t)
 Territory::Territory(string n, int x, int y, Continent* c) {
 
 
-	replace(n.begin(), n.end(), ' ', '_');
+	//replace(n.begin(), n.end(), ' ', '_');
 	this->name = n;
 	this->coordX = x;
 	this->coordY = y;
@@ -534,7 +535,7 @@ Map* MapLoader::readMap(string mapPath)
 	if (!mapReader.is_open())
 		while (q == "y")
 		{
-			cout << "Please enter the map name: ";
+			cout << "Error. Please enter the map name: ";
 			cin >> mapPath;
 			mapReader.open(mapPath);
 			if (!mapReader.is_open()) {
@@ -583,6 +584,7 @@ Map* MapLoader::readMap(string mapPath)
 				if (line == "")
 					continue;
 				vector<string> tInfo;
+				replace(line.begin(), line.end(), ' ', '_');
 				int start = 0;
 				int end = 0;
 				int len = line.length();
@@ -593,6 +595,7 @@ Map* MapLoader::readMap(string mapPath)
 					tInfo.push_back(line.substr(start, end));
 					line = line.substr(end + 1, len - end + 1);
 				}
+				replace(tInfo[3].begin(), tInfo[3].end(), ' ', '_');
 				Territory* t = new Territory(tInfo[0], stoi(tInfo[1], nullptr), stoi(tInfo[2], nullptr), gameMap->getContinent(tInfo[3]));
 				bool toDelete = false;
 				//if the territory already exists, then update the existing one and delete the new one later
@@ -603,8 +606,11 @@ Map* MapLoader::readMap(string mapPath)
 				else
 					gameMap->addTerritory(t);
 				for (int i = 4; i < tInfo.size(); i++) {
+					//replace(tInfo[i].begin(), tInfo[i].end(), ' ', '_');
 					if (gameMap->territoryExists(tInfo[i]))
+					{
 						gameMap->getTerritory(t->getName())->addNeighbour(gameMap->getTerritory(tInfo[i]));
+					}
 					else
 					{
 						Territory* newTerritory = new Territory(tInfo[i]);

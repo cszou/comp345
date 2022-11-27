@@ -26,6 +26,7 @@ private:
 	virtual string readCommand(); // read the command got from getCommand()
 	void saveCommand(string command); // save the command
 	vector<Command*> lc; //a list of commands
+	bool validateTournamentMode();
 protected:
 	GameEngine* game; // the game engine
 };
