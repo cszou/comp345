@@ -389,11 +389,6 @@ void AggressivePlayerStrategy::issueOrder(string OrderName) {
 			}
 			cout << endl;
 			string target_name = toAttack().at(0);
-			
-			while (p->getAvailable_territories().find(target_name) == p->getAvailable_territories().end()) {
-				cout << "Wrong name, please try again." << endl;
-				cin >> target_name;
-			}
 			p->addOrder(new Advance(p->getDeploy_territories()[source_name], p->getAvailable_territories()[target_name], this->p, num));
 
 
@@ -406,12 +401,7 @@ void AggressivePlayerStrategy::issueOrder(string OrderName) {
 			cout << it->first << "  ";
 
 		}
-		string target_name;
-		cin >> target_name;
-		while (p->getAvailable_territories().find(target_name) == p->getAvailable_territories().end()) {
-			cout << "Wrong name, please try again." << endl;
-			cin >> target_name;
-		}
+		string target_name=toAttack.at(0);
 		p->addOrder(new Bomb(this->p, p->getAvailable_territories()[target_name], 0));
 		p->gethandofcard()->remove_CardinHand_ByType("bomb");
 
