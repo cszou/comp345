@@ -664,8 +664,8 @@ void CheaterPlayerStrategy:: issueOrder(string orderName){
 	cout<<"My adjacent territories are: "<<endl;
 	for (Territory* t :toAttack()){
 		cout<<t->getName()<<"  ";
+		t->setOwner(this-> p);
 	}
-
 
 	cout<<"After conquering, My territories are: "<<endl;
 	for (Territory* t :p->getTerriotory()){

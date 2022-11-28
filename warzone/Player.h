@@ -59,6 +59,10 @@ public:
     std::map<string, Territory*> getAvailable_territories();
     std::map<string, Player*> getPlayers_Map();
     vector<Player*> getAttackBan();
+    void deleteTerriotory(Territory *o);
+    void setifattected();
+    bool getifattacked();
+    
     
 private:
     bool neverAttacked;
@@ -75,6 +79,7 @@ private:
     std::map<string, Territory*> all_territories;
     vector<Player*> attackBan;
     std::map<string, Player*> players_Map;
+    
     //Newly added for Player Strategy 
     PlayerStrategy* ps;
 };
