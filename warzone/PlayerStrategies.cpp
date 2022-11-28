@@ -597,6 +597,7 @@ void NeutralPlayerStrategy:: issueOrder(string orderName){
 	if(!p->getifattacked()){
 	cout<<"Neutral Player is attacked, it will become an Aggressive player."<<endl;
     p->setPlayerStrategy(new AggressivePlayerStrategy(p));
+	p->issueOrder(orderName);
 	}
 
 }
