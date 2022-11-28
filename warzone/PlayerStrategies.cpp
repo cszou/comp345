@@ -589,14 +589,15 @@ string NeutralPlayerStrategy::getStrategyName(){
 void NeutralPlayerStrategy:: issueOrder(string orderName){
 
     cout<<"Excecuting isssue order from "<<getStrategyName()<<endl;
-	//if(p->neverAttacked)
+
+	if(p->getifattacked()){
 	cout<<"This is a Neutral Player, it cannot issue any Order "<<endl;
+	}
 	
-	
-	//if(p->!neverAttacked)
+	if(!p->getifattacked()){
+	cout<<"Neutral Player is attacked, it will become an Aggressive player."<<endl;
     p->setPlayerStrategy(new AggressivePlayerStrategy(p));
-
-
+	}
 
 }
 
