@@ -447,7 +447,7 @@ void AggressivePlayerStrategy::issueOrder(string OrderName) {
 
 		}
 	//only playing aggressive cards
-	cout<<"playing cards"<<endl
+		cout << "playing cards" << endl;
 		if (Hand->numOfHandCards() > 0) {
 			int nb = p->gethandofcard()->numOfHandCards();
 			for (int i = 0; i < nb; i++)

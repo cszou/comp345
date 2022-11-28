@@ -4,6 +4,7 @@
 #include <fstream>
 using std::ifstream;
 using std::getline;
+#include "PlayerStrategies.h"
 
 // constructor with no arguments
 CommandProcessor::CommandProcessor()
@@ -49,7 +50,6 @@ bool CommandProcessor::validate(Command* command)
 	string c = command->getCommandString();
 	if ((c == "tournament")) {
 		game->enableTournamentMode();
-
 	}
 	if ((c == "loadmap") && (state == "Start" || state == "Map Loaded"))
 	{
@@ -112,7 +112,7 @@ string CommandProcessor::readCommand()
 {
 	string command = "";
 	cout << "Enter next command: ";
-	while(command == "")
+	while (command == "")
 		getline(cin, command);
 	vector<string> commands;
 	int start = 0;
@@ -126,10 +126,16 @@ string CommandProcessor::readCommand()
 		command = command.substr(end + 1, len - end + 1);
 	}
 	if (commands[0] == "tournament")
-		if (this->validateTournamentMode())
+		if (this->validateTournamentCommand(commands))
+		{
+			cout << "valid tournament command.\n";
 			game->enableTournamentMode();
+		}
 		else
+		{
+			cout << "invalid tournament command.\n";
 			return "error tournament command";
+		}
 	if (commands[0] == "loadmap") {
 		if (commands.size() < 2)
 			return "error loadmap command";
@@ -152,9 +158,80 @@ void CommandProcessor::saveCommand(string command)
 	Notify(this);
 }
 
-bool CommandProcessor::validateTournamentMode()
+bool CommandProcessor::validateTournamentCommand(vector<string> c)
 {
-	return false;
+	int i = 1;
+	int size = c.size();
+	vector<Map*> maps;
+	vector<Player*> players;
+	int numOfGame = 0;
+	int maxNumberOfTurns = 0;
+	MapLoader* mapLoader;
+	Map* tempMap;
+	Player* tempPlayer;
+	try {
+		while (i < size) {
+			if (c[i] == "-M")
+			{
+				i += 1;
+				while (c[i] != "-P") {
+					tempMap = mapLoader->readMap(c[i]);
+					if (tempMap->validate())
+						maps.push_back(tempMap);
+					i += 1;
+				}
+				if (maps.size() < 1 || maps.size() > 5)
+					throw(new exception());
+			}
+			if (c[i] == "-P")
+			{
+				i += 1;
+				while (c[i] != "-G") {
+					if (c[i] == "aggressive" || c[i] == "Aggressive")
+					{
+						tempPlayer = new Player("Aggressive");
+						tempPlayer->setPlayerStrategy(new AggressivePlayerStrategy(tempPlayer));
+					}
+					else if (c[i] == "benevolent" || c[i] == "Benevolent")
+					{
+						tempPlayer = new Player("Benevolent");
+						tempPlayer->setPlayerStrategy(new BenevolentPlayerStrategy(tempPlayer));
+					}
+					else if (c[i] == "cheater" || c[i] == "Cheater")
+					{
+						tempPlayer = new Player("Cheater");
+						tempPlayer->setPlayerStrategy(new CheaterPlayerStrategy(tempPlayer));
+					}
+					else if (c[i] == "neutral" || c[i] == "Neutral")
+					{
+						tempPlayer = new Player("Neutral");
+						tempPlayer->setPlayerStrategy(new NeutralPlayerStrategy(tempPlayer));
+					}
+					else
+						throw(new exception());
+					if (c[i] != "")
+						players.push_back(tempPlayer);
+					i += 1;
+				}
+				if (players.size() < 2 || players.size() > 4)
+					throw(new exception());
+			}
+			if (c[i] == "-G")
+			{
+				i += 1;
+				numOfGame = stoi(c[i]);
+			}
+			if (c[i] == "-D")
+			{
+				i += 1;
+				maxNumberOfTurns = stoi(c[i]);
+			}
+		}
+	}
+	catch (exception e) {
+		return false;
+	}
+	return true;
 }
 
 // stringToLog method from abstract base class ILoggable
@@ -210,7 +287,7 @@ string Command::saveEffect()
 // stringToLog method from abstract base class ILoggable
 string Command::stringToLog() {
 
-	return "Command: " + getCommandString()+ "\nCommand's Effect: " + getEffect() ;
+	return "Command: " + getCommandString() + "\nCommand's Effect: " + getEffect();
 }
 
 // get the efffect of the command
@@ -252,7 +329,7 @@ FileCommandProcessorAdapter::FileCommandProcessorAdapter(GameEngine* game) :Comm
 }
 
 //copy constructor
-FileCommandProcessorAdapter::FileCommandProcessorAdapter(const FileCommandProcessorAdapter& fcp): CommandProcessor(fcp.game) {
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(const FileCommandProcessorAdapter& fcp) : CommandProcessor(fcp.game) {
 	this->fileEnd = fcp.fileEnd;
 	this->flr = fcp.flr;
 }

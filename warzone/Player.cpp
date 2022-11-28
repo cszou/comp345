@@ -237,6 +237,7 @@ void Player::issueOrder(string orderName)
 Player::Player(PlayerStrategy* ps){
 	this->ps = ps;
 }
+
 // Set player to change player strategy during excecution time
 void Player::setPlayerStrategy(PlayerStrategy* newPlayerStrategy){
 	this->ps = newPlayerStrategy;
