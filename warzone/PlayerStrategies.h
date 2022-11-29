@@ -1,4 +1,3 @@
-#pragma once
 #include <string>
 #include"Player.h"
 using namespace std;
@@ -55,6 +54,7 @@ class AggressivePlayerStrategy: public PlayerStrategy{
     private:
     string strategyName;
     public:
+    bool compareInterval(Territory *k1,Territory *k2);
     AggressivePlayerStrategy(Player* player);
     ~AggressivePlayerStrategy();
     void issueOrder(string OrderName);
@@ -66,6 +66,7 @@ class BenevolentPlayerStrategy: public PlayerStrategy{
     private:
     string strategyName;
     public:
+    bool compareInterval(Territory *k1,Territory *k2);
     BenevolentPlayerStrategy(Player* player);
     ~BenevolentPlayerStrategy();
     void issueOrder(string OrderName);
