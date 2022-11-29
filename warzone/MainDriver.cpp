@@ -5,6 +5,7 @@
 #include "CommandProcessingDriver.h"
 #include "LoggingObserverDriver.h"
 #include "TournamentDriver.h"
+#include "PlayerStrategiesDriver.h"
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -21,5 +22,6 @@ int main() {
 	//testOrderExecution();
 	//cout << endl << "************* Part 5 *************" << endl;
 	//testLoggingObserver();
+	testPlayerStrategies();
 	testTournament();
 }

@@ -19,17 +19,17 @@ using namespace std;
 
 //PlayerStrategy Base Class
 //----------------------------------------------------------
-PlayerStrategy::PlayerStrategy(Player* player){
-    this->p = player;
+PlayerStrategy::PlayerStrategy(Player* player) {
+	this->p = player;
 }
-Player* PlayerStrategy::getPlayer(){
+Player* PlayerStrategy::getPlayer() {
 	return p;
 }
 
 //HumanPlayerStrategy
 //----------------------------------------------------------
-HumanPlayerStrategy::HumanPlayerStrategy(Player* player):PlayerStrategy (player){
-     strategyName = "Human Player";
+HumanPlayerStrategy::HumanPlayerStrategy(Player* player) :PlayerStrategy(player) {
+	strategyName = "Human Player";
 }
 
 void HumanPlayerStrategy::issueOrder(string orderName)
@@ -67,14 +67,14 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 		cout << "Order type: Deploy " << num << " -> " << name << endl;
 
 		p->setReinforcement(p->getReinforcement() - num);
-		
+
 		p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
 
 		//Execute order
 		Order* o = p->getlist()->getorderlist().back();
-		
-	        o->execute();
-		
+
+		o->execute();
+
 		p->getlist()->getorderlist().pop_back();
 
 
@@ -184,7 +184,7 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 		if (input == "blockade") {
 			cout << "Using the bomb card, please choose one of your territory" << endl;
 			cout << "Available territories are: ";
-			for (std::map<string, Territory*>::iterator it =p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
+			for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
 
 				cout << it->first << "  ";
 
@@ -243,7 +243,7 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 				cout << "Wrong name, please try again." << endl;
 				cin >> target_name;
 			}
-			
+
 			p->addOrder(new Airlift(this->p, p->getDeploy_territories()[source_name], p->getDeploy_territories()[target_name]));
 			p->gethandofcard()->remove_CardinHand_ByType("airlift");
 		}
@@ -251,7 +251,7 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 			cout << "Using diplomacy card" << endl;
 			cout << "Please choose a victim" << endl;
 			cout << "The available players are: ";
-			for (std::map<string, Player*>::iterator it =p->getPlayers_Map().begin(); it != p->getPlayers_Map().end(); ++it) {
+			for (std::map<string, Player*>::iterator it = p->getPlayers_Map().begin(); it != p->getPlayers_Map().end(); ++it) {
 				cout << it->first << "  ";
 			}
 			string name;
@@ -267,9 +267,9 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 		}
 
 		Order* o = p->getlist()->getorderlist().back();
-		
-	        o->execute();
-		
+
+		o->execute();
+
 		p->getlist()->getorderlist().pop_back();
 
 
@@ -283,7 +283,7 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 	}
 }
 
-vector<Territory*> HumanPlayerStrategy::toAttack(){
+vector<Territory*> HumanPlayerStrategy::toAttack() {
 	vector<Territory*> bannedTerritory;
 	for (int i = 0; i < p->getAttackBan().size(); i++) {
 		vector<Territory*> player_territories = p->getAttackBan()[i]->getTerriotory();
@@ -313,14 +313,14 @@ vector<Territory*> HumanPlayerStrategy::toAttack(){
 	return tAttack;
 
 }
-vector<Territory*> HumanPlayerStrategy::toDedend(){
-    return this->p->getTerriotory();
+vector<Territory*> HumanPlayerStrategy::toDedend() {
+	return this->p->getTerriotory();
 }
 //AggressivePlayerStrategy 
 //----------------------------------------------------------
-AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player):PlayerStrategy (player){
-    strategyName = "Aggressive Player";
-}	
+AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) :PlayerStrategy(player) {
+	strategyName = "Aggressive Player";
+}
 string AggressivePlayerStrategy::getStrategyName() {
 	return this->strategyName;
 }
@@ -328,87 +328,87 @@ string AggressivePlayerStrategy::getStrategyName() {
 void AggressivePlayerStrategy::issueOrder(string OrderName) {
 	cout << "Excecuting isssue order from " << getStrategyName() << endl;
 	//deploys or advances armies on its strongest 	country, then always advances to enemy territories
-	
+
 	p->set_Deploy_Territories();
 	p->set_Available_Territories();
 	//1. deploy phase
-	
-		cout << "deploy phase, deploy to strongest country" << endl;
-		cout << "Your territories are: ";
-		for (auto t : p->getTerriotory())
-			cout << t->getName() << "  ";
-		cout << endl;
-		cout  << p->getReinforcement() << " troops left in your reinforcement tool, max troop will be used" << endl;
-		int num = p->getReinforcement();
-		
-		cout <<  num << " tropp will be deployed on the strongest country " << endl;
-		
-		string name = toDedend().at(0)->getName();
-		
-		
-		cout << "Order type: Deploy " << num << " -> " << name << endl;
 
-		p->setReinforcement(p->getReinforcement() - num);
+	cout << "deploy phase, deploy to strongest country" << endl;
+	cout << "Your territories are: ";
+	for (auto t : p->getTerriotory())
+		cout << t->getName() << "  ";
+	cout << endl;
+	cout << p->getReinforcement() << " troops left in your reinforcement tool, max troop will be used" << endl;
+	int num = p->getReinforcement();
 
-		p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
+	cout << num << " tropp will be deployed on the strongest country " << endl;
 
-		//Execute order
-		Order* o = p->getlist()->getorderlist().back();
+	string name = toDedend().at(0)->getName();
 
-		o->execute();
 
-		p->getlist()->getorderlist().pop_back();
+	cout << "Order type: Deploy " << num << " -> " << name << endl;
 
-	
+	p->setReinforcement(p->getReinforcement() - num);
 
-		//2. Advance phase
-		cout << "advance phase, always advance to enemy" << endl;
-		
-			cout << "Your territories are: ";
-			for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
+	p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
 
-				cout << it->first << "  ";
+	//Execute order
+	Order* o = p->getlist()->getorderlist().back();
 
-			}
-			cout << endl;
-			
-			string source_name = toDedend().at(0)->getName();
-			
-			
-			int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
-			cout << army_num << " will advance to enemy territory " << endl;
+	o->execute();
 
-			int num = army_num;
-			
-			
-			cout << "Available territories are: ";
-			for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
+	p->getlist()->getorderlist().pop_back();
 
-				cout << it->first << "  ";
 
-			}
-			cout << endl;
-			string target_name = toAttack().at(0)->getName();
-			
-			
-			p->addOrder(new Advance(p->getDeploy_territories()[source_name], p->getAvailable_territories()[target_name], this->p, num));
+
+	//2. Advance phase
+	cout << "advance phase, always advance to enemy" << endl;
+
+	cout << "Your territories are: ";
+	for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
+
+		cout << it->first << "  ";
+
+	}
+	cout << endl;
+
+	string source_name = toDedend().at(0)->getName();
+
+
+	int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
+	cout << army_num << " will advance to enemy territory " << endl;
+
+	num = army_num;
+
+
+	cout << "Available territories are: ";
+	for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
+
+		cout << it->first << "  ";
+
+	}
+	cout << endl;
+	string target_name = toAttack().at(0)->getName();
+
+
+	p->addOrder(new Advance(p->getDeploy_territories()[source_name], p->getAvailable_territories()[target_name], this->p, num));
 
 
 	//3. card playing phase only playing aggressive cards
-		cout << "playing cards" << endl;
-		cout << "Using the bomb card, please choose a territory" << endl;
-		cout << "Available territories are: ";
-		for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
+	cout << "playing cards" << endl;
+	cout << "Using the bomb card, please choose a territory" << endl;
+	cout << "Available territories are: ";
+	for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
 
-			cout << it->first << "  ";
+		cout << it->first << "  ";
 
-		}
-		string target_name=toAttack.at(0)->getName();
-		
-		p->addOrder(new Bomb(this->p, p->getAvailable_territories()[target_name], 0));
-		p->gethandofcard()->remove_CardinHand_ByType("bomb");
+	}
+	target_name = toAttack().at(0)->getName();
 
-		
+	p->addOrder(new Bomb(this->p, p->getAvailable_territories()[target_name], 0));
+	p->gethandofcard()->remove_CardinHand_ByType("bomb");
+
+
 }
 vector<Territory*> AggressivePlayerStrategy::toAttack() {
 	vector<Territory*> bannedTerritory;
@@ -438,20 +438,17 @@ vector<Territory*> AggressivePlayerStrategy::toAttack() {
 		}
 	}
 	return tAttack;
-	}
+}
 vector<Territory*> AggressivePlayerStrategy::toDedend() {
 	return p->getTerriotory();
-	}
+}
 
 //BenevolentPlayerStrategy 
 //----------------------------------------------------------
-BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player):PlayerStrategy (player){
-    strategyName = "Benevolent Player";
+BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) :PlayerStrategy(player) {
+	strategyName = "Benevolent Player";
 }
-	
-BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) : PlayerStrategy(player) {
-	strategyName = "BenevolentPlayer";
-}
+
 string NeutralPlayerStrategy::getStrategyName() {
 	return this->strategyName;
 }
@@ -491,11 +488,11 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 	p->getlist()->getorderlist().pop_back();
 
 
-		//no advance phaseNEVER ADVANCE TO ENEMY TERRITORY
+	//no advance phaseNEVER ADVANCE TO ENEMY TERRITORY
 	cout << "no advance phase " << endl;
 	//2. may use cards (no bomb)
 	cout << "card playing phase" << endl;
-	int input = rand()%3 + 1;
+	int input = rand() % 3 + 1;
 	//blockade
 	if (input == 1) {
 		cout << "Using the blockade card, the target territory is chose automatically" << endl;
@@ -505,8 +502,8 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 			cout << it->first << "  ";
 
 		}
-		string target_name=toAttack.at(0)->getName();
-		
+		string target_name = toAttack().at(0)->getName();
+
 		p->addOrder(new Blockade(this->p, p->getAvailable_territories()[target_name]));
 		p->gethandofcard()->remove_CardinHand_ByType("blockade");
 	}
@@ -521,14 +518,14 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 
 		}
 		cout << "the source territory is chosen automatically";
-		string source_name=toDedend.at(0)->getName();
-		
-		
+		string source_name = toDedend().at(0)->getName();
+
+
 		int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
 		cout << "You have " << army_num << "army unites in this territory, max will be moved" << endl;
 
-		int num=army_num;
-		
+		int num = army_num;
+
 		cout << "the target territory is chosen automatically" << endl;
 		cout << "The available options are your territories and the enemy territories" << endl;
 		cout << "Available territories are: ";
@@ -537,8 +534,8 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 			cout << it->first << "  ";
 
 		}
-		string target_name=toAttack.at(0)->getName();
-		
+		string target_name = toAttack().at(0)->getName();
+
 
 		p->addOrder(new Airlift(this->p, p->getDeploy_territories()[source_name], p->getDeploy_territories()[target_name]));
 		p->gethandofcard()->remove_CardinHand_ByType("airlift");
@@ -551,96 +548,93 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 		for (std::map<string, Player*>::iterator it = p->getPlayers_Map().begin(); it != p->getPlayers_Map().end(); ++it) {
 			cout << it->first << "  ";
 		}
-		string name= p->getName();
-		
-		
+		string name = p->getName();
+
+
 		p->addOrder(new Negotiate(this->p, p->getPlayers_Map()[name]));
 		p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
 
 
 	}
 
-	Order* o = p->getlist()->getorderlist().back();
+	o = p->getlist()->getorderlist().back();
 
 	o->execute();
 
 	p->getlist()->getorderlist().pop_back();
-	
-		
-	}
 
-	//benevolent player don't attack
-	vector<Territory*> BenevolentPlayerStrategy::toAttack()
-	{
-		vector<Territory*> null;
-		return null;
-	}
-	vector<Territory*> BenevolentPlayerStrategy::toDedend() {
-		return p->getTerriotory();
-	}
+
+}
+
+//benevolent player don't attack
+vector<Territory*> BenevolentPlayerStrategy::toAttack()
+{
+	vector<Territory*> null;
+	return null;
+}
+vector<Territory*> BenevolentPlayerStrategy::toDedend() {
+	return p->getTerriotory();
+}
 
 
 //NeutralPlayerStrategy
 //----------------------------------------------------------
-NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player):PlayerStrategy (player){
-    strategyName ="Neutral Player";
-}
-string NeutralPlayerStrategy::getStrategyName(){
-    return this->strategyName;
+NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) :PlayerStrategy(player) {
+	strategyName = "Neutral Player";
 }
 
-void NeutralPlayerStrategy:: issueOrder(string orderName){
+void NeutralPlayerStrategy::issueOrder(string orderName) {
 
-    cout<<"Excecuting isssue order from "<<getStrategyName()<<endl;
+	cout << "Excecuting isssue order from " << getStrategyName() << endl;
 
-	if(p->getifattacked()){
-	cout<<"This is a Neutral Player, it cannot issue any Order "<<endl;
+	if (p->getifattacked()) {
+		cout << "This is a Neutral Player, it cannot issue any Order " << endl;
 	}
-	
-	if(!p->getifattacked()){
-	cout<<"Neutral Player is attacked, it will become an Aggressive player."<<endl;
-    p->setPlayerStrategy(new AggressivePlayerStrategy(p));
-	p->issueOrder(orderName);
+
+	if (!p->getifattacked()) {
+		cout << "Neutral Player is attacked, it will become an Aggressive player." << endl;
+		p->setPlayerStrategy(new AggressivePlayerStrategy(p));
+		p->issueOrder(orderName);
 	}
 
 }
 
-vector<Territory*> NeutralPlayerStrategy::toAttack(){
+vector<Territory*> NeutralPlayerStrategy::toAttack() {
 	vector<Territory*> toAttack;
 	return toAttack;
 }
-vector<Territory*> NeutralPlayerStrategy::toDedend(){
+vector<Territory*> NeutralPlayerStrategy::toDedend() {
 	return p->getTerriotory();
 }
 
 //CheaterPlayerStrategy
 //----------------------------------------------------------
-CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player):PlayerStrategy (player){
-    strategyName ="Cheater Player";
+CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player) :PlayerStrategy(player) {
+	strategyName = "Cheater Player";
 }
-string CheaterPlayerStrategy::getStrategyName(){
-    return this->strategyName;
+string CheaterPlayerStrategy::getStrategyName() {
+	return this->strategyName;
 }
 
 //Once CheaterPlayer issues Order, it automatically conquers that are adjacent to its own territories
-void CheaterPlayerStrategy:: issueOrder(string orderName){
-	cout<<"Excecuting isssue order from "<<getStrategyName()<<endl;
-	cout<<getStrategyName()<<" will conquer all territories that are adjacent to its own!"<<endl;
-	cout<<"My adjacent territories are: "<<endl;
-	for (Territory* t :toAttack()){
-		cout<<t->getName()<<"  ";
-		t->setOwner(this-> p);
+void CheaterPlayerStrategy::issueOrder(string orderName) {
+	cout << "Excecuting isssue order from " << getStrategyName() << endl;
+	cout << getStrategyName() << " will conquer all territories that are adjacent to its own!" << endl;
+	cout << "My adjacent territories are: " << endl;
+	for (Territory* t : toAttack()) {
+		cout << t->getName() << "  ";
+		t->setOwner(this->p);
 	}
 
-	cout<<"After conquering, My territories are: "<<endl;
-	for (Territory* t :p->getTerriotory()){
-		cout<<t->getName()<<"  ";
+	cout << "After conquering, My territories are: " << endl;
+	for (Territory* t : p->getTerriotory()) {
+		cout << t->getName() << "  ";
 	}
 
 }
 
 //return all adjacent territories 
-vector<Territory*> CheaterPlayerStrategy::toAttack(){
+vector<Territory*> CheaterPlayerStrategy::toAttack() {
 	vector<Territory*> toAttack;
 	for (Territory* t : p->getTerriotory()) {
 		for (Territory* a : t->getNeighbours()) {
@@ -652,8 +646,9 @@ vector<Territory*> CheaterPlayerStrategy::toAttack(){
 	for (Territory* t : toAttack) {
 		toAttack.erase(unique(toAttack.begin(), toAttack.end()), toAttack.end());
 	}
+	return toAttack;
 }
-vector<Territory*> CheaterPlayerStrategy::toDedend(){
+vector<Territory*> CheaterPlayerStrategy::toDedend() {
 	return p->getTerriotory();
 }
 
