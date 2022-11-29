@@ -14,6 +14,7 @@ using std::string;
 #include <vector>
 using std::vector;
 #include <algorithm>
+using std::sort;
 #include <sstream>
 using namespace std;
 
@@ -25,12 +26,6 @@ PlayerStrategy::PlayerStrategy(Player* player)
 }
 Player* PlayerStrategy::getPlayer() {
 	return p;
-}
-
-//HumanPlayerStrategy
-//----------------------------------------------------------
-HumanPlayerStrategy::HumanPlayerStrategy(Player* player) :PlayerStrategy(player) {
-	strategyName = "Human Player";
 }
 
 // HumanPlayerStrategy
@@ -348,301 +343,287 @@ vector<Territory*> HumanPlayerStrategy::toDedend()
     return this->p->getTerriotory();
 }
 
-vector<Territory*> HumanPlayerStrategy::toAttack() {
-	vector<Territory*> bannedTerritory;
-	for (int i = 0; i < p->getAttackBan().size(); i++) {
-		vector<Territory*> player_territories = p->getAttackBan()[i]->getTerriotory();
-		for (int k = 0; k < player_territories.size(); k++) {
-			Territory* t = player_territories[k];
-			if (find(bannedTerritory.begin(), bannedTerritory.end(), t) == bannedTerritory.end()) {
-				bannedTerritory.push_back(t);
-			}
-		}
-	}
-	vector<Territory*> tAttack;
-	for (int i = 0; i < p->getTerriotory().size(); i++) {
-		vector<Territory*> neignbours = p->getTerriotory()[i]->getNeighbours();
-		for (int k = 0; k < neignbours.size(); k++) {
-			if ((find(tAttack.begin(), tAttack.end(), neignbours[k]) == tAttack.end())
-				&& find(bannedTerritory.begin(), bannedTerritory.end(), neignbours[k]) == bannedTerritory.end())
-			{
-				tAttack.push_back(neignbours[k]);
-			}
-		}
-	}
-	for (int i = 0; i < p->getTerriotory().size(); i++) {
-		if (find(tAttack.begin(), tAttack.end(), p->getTerriotory()[i]) == tAttack.end()) {
-			tAttack.push_back(p->getTerriotory()[i]);
-		}
-	}
-	return tAttack;
-
-}
-vector<Territory*> HumanPlayerStrategy::toDedend() {
-	return this->p->getTerriotory();
-}
 // AggressivePlayerStrategy
 //----------------------------------------------------------
 AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) : PlayerStrategy(player)
 {
-    strategyName = "AggressivePlayer";
+    strategyName = "Aggressive Player";
+}
+string AggressivePlayerStrategy::getStrategyName()
+{
+    return this->strategyName;
 }
 
-string AggressivePlayerStrategy::getStrategyName() {
-	return this->strategyName;
+void AggressivePlayerStrategy::issueOrder(string orderName)
+{
+    if (orderName == "Deploy" || orderName == "Advance" || orderName == "bomb")
+    {
+        if (orderName == "Deploy")
+        {
+            std::cout << "for player " << p->getName() << ",AggressivePlayerStrategy." << endl;
+            std::cout << "deploy." << endl;
+            if (p->getReinforcement() > 0)
+            {
+                std::cout << "the pool is " << p->getReinforcement() << endl;
+                std::cout << "All goes to strongest country:" << toDedend().at(0)->getName() << endl;
+                p->addOrder(new Deploy(p->getReinforcement(), p, toDedend().at(0)));
+                p->setReinforcement(0);
+                p->gethandofcard()->remove_CardinHand_ByType("Deploy");
+            }
+        }
+        else if (orderName == "Advance")
+        {
+            cout << "Your territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it)
+            {
+                cout << it->first << "  ";
+            }
+            cout << endl;
+            cout << "Choose the source territory: ";
+            string source_name;
+            cin >> source_name;
+            while (p->getDeploy_territories().find(source_name) == p->getDeploy_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> source_name;
+            }
+            if (source_name == toDedend().at(0)->getName())
+            {
+                cout << "chose the strongest territory as source,can start attack!";
+                cout << "Please enter the target territory: " << endl;
+                cout << "The available options are  the enemy territories" << endl;
+                cout << "Available territories are: ";
+                map<string, Territory*> enemy;
+                for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it)
+                {
+                    if (!p->ownsTerritory(it->second))
+                    {
+                        enemy.insert({ it->first, it->second });
+                        cout << it->first << "  ";
+                    } // filter out all own tero
+                }
+                cout << endl;
+                string target_name;
+                cin >> target_name;
+                while (enemy.find(target_name) == enemy.end())
+                {
+                    cout << "Wrong name, please try again." << endl;
+                    cin >> target_name;
+                }
+                this->p->addOrder(new Advance(toDedend().at(0), enemy[target_name], p, toDedend().at(0)->getNumberOfArmies()));
+            } // else didnt choose the strongest Territory,deploy to strongest
+            else
+            {
+                cout << "didnt choose the strongest Territory,deploy to strongest" << endl;
+                this->p->addOrder(new Advance(p->getAvailable_territories()[source_name], toDedend().at(0), this->p, p->getAvailable_territories()[source_name]->getNumberOfArmies()));
+            }
+        }
+        else if (orderName == "bomb")
+        {
+            cout << "Using the bomb card, please choose a territory" << endl;
+            cout << "Available territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it)
+            {
+
+                cout << it->first << "  ";
+            }
+            string target_name;
+            cin >> target_name;
+            while (p->getAvailable_territories().find(target_name) == p->getAvailable_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> target_name;
+            }
+            p->addOrder(new Bomb(p, p->getAvailable_territories()[target_name], 0));
+            p->gethandofcard()->remove_CardinHand_ByType("bomb");
+        }
+    }
+    else
+    {
+        if (orderName == "airlift")
+        {
+            std::cout << "AggressivePlayerStrategy doesnt airlift." << endl;
+            p->gethandofcard()->remove_CardinHand_ByType("airlift");
+        }
+        else if (orderName == "diplomacy")
+        {
+            std::cout << "AggressivePlayerStrategy doesnt diplomacy." << endl;
+            p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
+        }
+        else if (orderName == "blockade")
+        {
+            std::cout << "AggressivePlayerStrategy doesnt blockade." << endl;
+            p->gethandofcard()->remove_CardinHand_ByType("blockade");
+        }
+    }
+}
+bool AggressivePlayerStrategy::compareInterval(Territory* k1, Territory* k2)
+{
+    return (k1->getNumberOfArmies() >= k2->getNumberOfArmies());
+}
+vector<Territory*> AggressivePlayerStrategy::toAttack()
+{
+    vector<Territory*> deplicate = this->p->getTerriotory();
+    sort(deplicate.begin(), deplicate.end(), &AggressivePlayerStrategy::compareInterval); // first is weakest
+    return deplicate;
+}
+vector<Territory*> AggressivePlayerStrategy::toDedend()
+{
+    cout << "cannot defend,always attack,return empty default vector" << endl;
+    vector<Territory*> empty;
+    return empty;
 }
 
-void AggressivePlayerStrategy::issueOrder(string OrderName) {
-	cout << "Excecuting isssue order from " << getStrategyName() << endl;
-	//deploys or advances armies on its strongest 	country, then always advances to enemy territories
+//-------BenevolentPlayerStrategy---------------------------------------------------
 
-	p->set_Deploy_Territories();
-	p->set_Available_Territories();
-	//1. deploy phase
-
-	cout << "deploy phase, deploy to strongest country" << endl;
-	cout << "Your territories are: ";
-	for (auto t : p->getTerriotory())
-		cout << t->getName() << "  ";
-	cout << endl;
-	cout << p->getReinforcement() << " troops left in your reinforcement tool, max troop will be used" << endl;
-	int num = p->getReinforcement();
-
-	cout << num << " tropp will be deployed on the strongest country " << endl;
-
-	string name = toDedend().at(0)->getName();
-
-
-	cout << "Order type: Deploy " << num << " -> " << name << endl;
-
-	p->setReinforcement(p->getReinforcement() - num);
-
-	p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
-
-	//Execute order
-	Order* o = p->getlist()->getorderlist().back();
-
-	o->execute();
-
-	p->getlist()->getorderlist().pop_back();
-
-
-
-	//2. Advance phase
-	cout << "advance phase, always advance to enemy" << endl;
-
-	cout << "Your territories are: ";
-	for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
-
-		cout << it->first << "  ";
-
-	}
-	cout << endl;
-
-	string source_name = toDedend().at(0)->getName();
-
-
-	int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
-	cout << army_num << " will advance to enemy territory " << endl;
-
-	num = army_num;
-
-
-	cout << "Available territories are: ";
-	for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
-
-		cout << it->first << "  ";
-
-	}
-	cout << endl;
-	string target_name = toAttack().at(0)->getName();
-
-
-	p->addOrder(new Advance(p->getDeploy_territories()[source_name], p->getAvailable_territories()[target_name], this->p, num));
-
-
-	//3. card playing phase only playing aggressive cards
-	cout << "playing cards" << endl;
-	cout << "Using the bomb card, please choose a territory" << endl;
-	cout << "Available territories are: ";
-	for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
-
-		cout << it->first << "  ";
-
-	}
-	target_name = toAttack().at(0)->getName();
-
-	p->addOrder(new Bomb(this->p, p->getAvailable_territories()[target_name], 0));
-	p->gethandofcard()->remove_CardinHand_ByType("bomb");
-
-
+BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) : PlayerStrategy(player)
+{
+    strategyName = "Benevolent  Player";
 }
-vector<Territory*> AggressivePlayerStrategy::toAttack() {
-	vector<Territory*> bannedTerritory;
-	for (int i = 0; i < p->getAttackBan().size(); i++) {
-		vector<Territory*> player_territories = p->getAttackBan()[i]->getTerriotory();
-		for (int k = 0; k < player_territories.size(); k++) {
-			Territory* t = player_territories[k];
-			if (find(bannedTerritory.begin(), bannedTerritory.end(), t) == bannedTerritory.end()) {
-				bannedTerritory.push_back(t);
-			}
-		}
-	}
-	vector<Territory*> tAttack;
-	for (int i = 0; i < p->getTerriotory().size(); i++) {
-		vector<Territory*> neignbours = p->getTerriotory()[i]->getNeighbours();
-		for (int k = 0; k < neignbours.size(); k++) {
-			if ((find(tAttack.begin(), tAttack.end(), neignbours[k]) == tAttack.end())
-				&& find(bannedTerritory.begin(), bannedTerritory.end(), neignbours[k]) == bannedTerritory.end())
-			{
-				tAttack.push_back(neignbours[k]);
-			}
-		}
-	}
-	for (int i = 0; i < p->getTerriotory().size(); i++) {
-		if (find(tAttack.begin(), tAttack.end(), p->getTerriotory()[i]) == tAttack.end()) {
-			tAttack.push_back(p->getTerriotory()[i]);
-		}
-	}
-	return tAttack;
-}
-vector<Territory*> AggressivePlayerStrategy::toDedend() {
-	return p->getTerriotory();
+string BenevolentPlayerStrategy::getStrategyName()
+{
+    return this->strategyName;
 }
 
-//BenevolentPlayerStrategy 
-//----------------------------------------------------------
-BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) :PlayerStrategy(player) {
-	strategyName = "Benevolent Player";
+void BenevolentPlayerStrategy::issueOrder(string orderName)
+{
+    if (orderName == "Deploy")
+    {
+        std::cout << "for player " << p->getName() << ",BenevolentPlayerStrategy." << endl;
+        std::cout << "deploy." << endl;
+        if (p->getReinforcement() > 0)
+        {
+            std::cout << "the pool is " << p->getReinforcement() << endl;
+            std::cout << "All goes to weakest country:" << toDedend().at(0)->getName() << endl;
+            p->addOrder(new Deploy(p->getReinforcement(), p, toDedend().at(0)));
+            p->setReinforcement(0);
+            p->gethandofcard()->remove_CardinHand_ByType("Deploy");
+        }
+    }
+    else if (orderName == "Advance" || orderName == "bomb")
+    {
+        if (orderName == "Advance")
+        {
+            std::cout << "advance." << endl;
+            std::cout << "BenevolentPlayerStrategy doesnt advance." << endl;
+            p->gethandofcard()->remove_CardinHand_ByType("Advance");
+        }
+        else
+        {
+            std::cout << "bomb." << endl;
+            std::cout << "BenevolentPlayerStrategy doesnt bomb." << endl;
+            p->gethandofcard()->remove_CardinHand_ByType("bomb");
+        }
+    }
+    else
+    {
+        if (orderName == "airlift")
+        {
+            cout << "Using this airlift card" << endl;
+            cout << "Your territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it)
+            {
+                cout << it->first << "  ";
+            }
+            cout << "Choose the source territory";
+            string source_name;
+            cin >> source_name;
+            while (p->getDeploy_territories().find(source_name) == p->getDeploy_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> source_name;
+            }
+            int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
+            cout << "You have " << army_num << "army unites in this territory, how many do you want to move ?" << endl;
+
+            int num;
+            cin >> num;
+            while (!cin)
+            {
+                cout << "Wrong data type. Please try again. " << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin >> num;
+            }
+            if (num > army_num)
+            {
+                num = army_num;
+            }
+            cout << "Please enter the target territory" << endl;
+            cout << "The available options are your territories and the enemy territories" << endl;
+            cout << "Available territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it)
+            {
+                cout << it->first << "  ";
+            }
+            string target_name;
+            cin >> target_name;
+            while (p->getDeploy_territories().find(target_name) == p->getDeploy_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> target_name;
+            }
+            p->addOrder(new Airlift(this->p, p->getDeploy_territories()[source_name], p->getDeploy_territories()[target_name]));
+            p->gethandofcard()->remove_CardinHand_ByType("airlift");
+        }
+        else if (orderName == "diplomacy")
+        {
+            cout << "Using diplomacy card" << endl;
+            cout << "Please choose a victim" << endl;
+            cout << "The available players are: ";
+            for (std::map<string, Player*>::iterator it = p->getPlayers_Map().begin(); it != p->getPlayers_Map().end(); ++it)
+            {
+                cout << it->first << "  ";
+            }
+            string name;
+            cin >> name;
+            while (p->getPlayers_Map().find(name) == p->getPlayers_Map().end())
+            {
+                cout << "No such player, are you kidding me?! Try again";
+                cin >> name;
+            }
+            p->addOrder(new Negotiate(this->p, p->getPlayers_Map()[name]));
+            p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
+        }
+        else if (orderName == "blockade")
+        {
+            cout << "Using the blockade card, please choose one of your territory" << endl;
+            cout << "Available territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it)
+            {
+
+                cout << it->first << "  ";
+            }
+            string target_name;
+            cin >> target_name;
+            while (p->getDeploy_territories().find(target_name) == p->getDeploy_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> target_name;
+            }
+            this->p->addOrder(new Blockade(this->p, p->getAvailable_territories()[target_name]));
+            this->p->gethandofcard()->remove_CardinHand_ByType("blockade");
+        }
+    }
 }
-
-string NeutralPlayerStrategy::getStrategyName() {
-	return this->strategyName;
-}
-
-void BenevolentPlayerStrategy::issueOrder(string OrderName) {
-	cout << "Excecuting isssue order from " << getStrategyName() << endl;
-	//otecting its weak countries(deploys or advances armieson its weakest countries
-	// //deploys or advances armies on its strongest 	country, then always advances to enemy territories
-	p->set_Deploy_Territories();
-	p->set_Available_Territories();
-	//1. deploy phase
-
-	cout << "deploy phase, deploy to protect weakest countries" << endl;
-	cout << "Your territories are: ";
-	for (auto t : p->getTerriotory())
-		cout << t->getName() << "  ";
-	cout << endl;
-	cout << p->getReinforcement() << " troops left in your reinforcement tool, max troop will be used" << endl;
-	int num = p->getReinforcement();
-
-	cout << num << " tropp will be deployed on the weakest country " << endl;
-
-	string name = toDedend().at(0)->getName();
-
-
-	cout << "Order type: Deploy " << num << " -> " << name << endl;
-
-	p->setReinforcement(p->getReinforcement() - num);
-
-	p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
-
-	//Execute order
-	Order* o = p->getlist()->getorderlist().back();
-
-	o->execute();
-
-	p->getlist()->getorderlist().pop_back();
-
-
-	//no advance phaseNEVER ADVANCE TO ENEMY TERRITORY
-	cout << "no advance phase " << endl;
-	//2. may use cards (no bomb)
-	cout << "card playing phase" << endl;
-	int input = rand() % 3 + 1;
-	//blockade
-	if (input == 1) {
-		cout << "Using the blockade card, the target territory is chose automatically" << endl;
-		cout << "Available territories are: ";
-		for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
-
-			cout << it->first << "  ";
-
-		}
-		string target_name = toAttack().at(0)->getName();
-
-		p->addOrder(new Blockade(this->p, p->getAvailable_territories()[target_name]));
-		p->gethandofcard()->remove_CardinHand_ByType("blockade");
-	}
-
-	//Air Lift
-	else if (input == 2) {
-		cout << "Using this airlift card" << endl;
-		cout << "Your territories are: ";
-		for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
-
-			cout << it->first << "  ";
-
-		}
-		cout << "the source territory is chosen automatically";
-		string source_name = toDedend().at(0)->getName();
-
-
-		int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
-		cout << "You have " << army_num << "army unites in this territory, max will be moved" << endl;
-
-		int num = army_num;
-
-		cout << "the target territory is chosen automatically" << endl;
-		cout << "The available options are your territories and the enemy territories" << endl;
-		cout << "Available territories are: ";
-		for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
-
-			cout << it->first << "  ";
-
-		}
-		string target_name = toAttack().at(0)->getName();
-
-
-		p->addOrder(new Airlift(this->p, p->getDeploy_territories()[source_name], p->getDeploy_territories()[target_name]));
-		p->gethandofcard()->remove_CardinHand_ByType("airlift");
-	}
-	//diplomacy
-	else if (input == 3) {
-		cout << "Using diplomacy card" << endl;
-		cout << "a victim is chosen automatically" << endl;
-		cout << "The available players are: ";
-		for (std::map<string, Player*>::iterator it = p->getPlayers_Map().begin(); it != p->getPlayers_Map().end(); ++it) {
-			cout << it->first << "  ";
-		}
-		string name = p->getName();
-
-
-		p->addOrder(new Negotiate(this->p, p->getPlayers_Map()[name]));
-		p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
-
-
-	}
-
-	o = p->getlist()->getorderlist().back();
-
-	o->execute();
-
-	p->getlist()->getorderlist().pop_back();
-
-
-}
-
-//benevolent player don't attack
 vector<Territory*> BenevolentPlayerStrategy::toAttack()
 {
-	vector<Territory*> null;
-	return null;
+    // never attack
+    cout << "cannot attack,return empty default vector" << endl;
+    vector<Territory*> empty;
+    return empty;
 }
-vector<Territory*> BenevolentPlayerStrategy::toDedend() {
-	return p->getTerriotory();
+bool BenevolentPlayerStrategy::compareInterval(Territory* k1, Territory* k2)
+{
+    return (k1->getNumberOfArmies() <= k2->getNumberOfArmies());
 }
-
+vector<Territory*> BenevolentPlayerStrategy::toDedend()
+{
+    vector<Territory*> deplicate = this->p->getTerriotory();
+    sort(deplicate.begin(), deplicate.end(), &BenevolentPlayerStrategy::compareInterval); // first is weakest
+    return deplicate;
+}
+// OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
 // NeutralPlayerStrategy
 //----------------------------------------------------------
@@ -655,30 +636,45 @@ string NeutralPlayerStrategy::getStrategyName()
     return this->strategyName;
 }
 
-
-void NeutralPlayerStrategy::issueOrder(string orderName) {
-
-	cout << "Excecuting isssue order from " << getStrategyName() << endl;
-
-	if (p->getifattacked()) {
-		cout << "This is a Neutral Player, it cannot issue any Order " << endl;
-	}
-
-	if (!p->getifattacked()) {
-		cout << "Neutral Player is attacked, it will become an Aggressive player." << endl;
-		p->setPlayerStrategy(new AggressivePlayerStrategy(p));
-		p->issueOrder(orderName);
-	}
-
+void NeutralPlayerStrategy::issueOrder(string orderName)
+{
+    if (p->getifattacked())
+    {
+        // execute aggresive
+    }
+    cout << "Excecuting isssue order from " << getStrategyName() << endl;
 }
 
-vector<Territory*> NeutralPlayerStrategy::toAttack() {
-	vector<Territory*> toAttack;
-	return toAttack;
+vector<Territory*> NeutralPlayerStrategy::toAttack()
+{
+    if (p->getifattacked())
+    {
+        cout << "becomes aggresstive player since got attacked" << endl;
+        vector<Territory*> deplicate = this->p->getTerriotory();
+        sort(deplicate.begin(), deplicate.end(), &AggressivePlayerStrategy::compareInterval); // first is weakest
+        return deplicate;
+        // execute aggresive
+    }
+    cout << "NeutralPlayerStrategy doesnt attack or defend unless got attacked" << endl;
+    vector<Territory*> empty;
+    return empty;
 }
-vector<Territory*> NeutralPlayerStrategy::toDedend() {
-	return p->getTerriotory();
+
+vector<Territory*> NeutralPlayerStrategy::toDedend()
+{
+    if (p->getifattacked())
+    {
+        cout << "becomes aggresstive player since got attacked" << endl;
+        cout << "cannot defend ,return empty default vector" << endl;
+        vector<Territory*> empty;
+        return empty;
+        // execute aggresive
+    }
+    cout << "cannot defend,hasnt been attacked yet,return empty default vector" << endl;
+    vector<Territory*> empty;
+    return empty;
 }
+
 
 //CheaterPlayerStrategy
 //----------------------------------------------------------
