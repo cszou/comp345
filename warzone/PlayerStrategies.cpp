@@ -17,9 +17,10 @@ using std::vector;
 #include <sstream>
 using namespace std;
 
-//PlayerStrategy Base Class
+// PlayerStrategy Base Class
 //----------------------------------------------------------
-PlayerStrategy::PlayerStrategy(Player* player) {
+PlayerStrategy::PlayerStrategy(Player* player)
+{
 	this->p = player;
 }
 Player* PlayerStrategy::getPlayer() {
@@ -32,255 +33,319 @@ HumanPlayerStrategy::HumanPlayerStrategy(Player* player) :PlayerStrategy(player)
 	strategyName = "Human Player";
 }
 
+// HumanPlayerStrategy
+//----------------------------------------------------------
+HumanPlayerStrategy::HumanPlayerStrategy(Player* player) : PlayerStrategy(player)
+{
+    strategyName = "HumanPlayer";
+}
+
 void HumanPlayerStrategy::issueOrder(string orderName)
 {
-	p->set_Deploy_Territories();
-	p->set_Available_Territories();
-	cout << "Order Issuing phase for player " << strategyName << endl;
-	bool finished = false;
-	//Case deploy
-	if (orderName == "Deploy") {
-		cout << "Please enter a deployement order" << endl;
-		cout << "Your territories are: ";
-		for (auto t : p->getTerriotory())
-			cout << t->getName() << "  ";
-		cout << endl;
-		cout << "You have " << p->getReinforcement() << " troops left in your reinforcement tool, please enter the number of troops you want to use" << endl;
-		int num;
-		cin >> num;
-		while (!cin) {
-			cout << "Wrong data type. Please try again. " << endl;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cin >> num;
-		}
-		if (num > p->getReinforcement()) {
-			num = p->getReinforcement();
-		}
-		cout << "Where do you want to deploy " << num << " troops? Please enter the name of the territory. " << endl;
-		string name;
-		cin >> name;
-		while (p->getDeploy_territories().find(name) == p->getDeploy_territories().end()) {
-			cout << "Wrong name, please try again." << endl;
-			cin >> name;
-		}
-		cout << "Order type: Deploy " << num << " -> " << name << endl;
+    p->set_Deploy_Territories();
+    p->set_Available_Territories();
+    cout << "Order Issuing phase for player " << strategyName << endl;
+    bool finished = false;
+    // Case deploy
+    if (orderName == "Deploy")
+    {
+        cout << "Please enter a deployement order" << endl;
+        cout << "Your territories are: ";
+        for (auto t : p->getTerriotory())
+            cout << t->getName() << "  ";
+        cout << endl;
+        cout << "You have " << p->getReinforcement() << " troops left in your reinforcement tool, please enter the number of troops you want to use" << endl;
+        int num;
+        cin >> num;
+        while (!cin)
+        {
+            cout << "Wrong data type. Please try again. " << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin >> num;
+        }
+        if (num > p->getReinforcement())
+        {
+            num = p->getReinforcement();
+        }
+        cout << "Where do you want to deploy " << num << " troops? Please enter the name of the territory. " << endl;
+        string name;
+        cin >> name;
+        while (p->getDeploy_territories().find(name) == p->getDeploy_territories().end())
+        {
+            cout << "Wrong name, please try again." << endl;
+            cin >> name;
+        }
+        cout << "Order type: Deploy " << num << " -> " << name << endl;
 
-		p->setReinforcement(p->getReinforcement() - num);
+        p->setReinforcement(p->getReinforcement() - num);
 
-		p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
+        p->addOrder(new Deploy(num, this->p, p->getDeploy_territories()[name]));
 
-		//Execute order
-		Order* o = p->getlist()->getorderlist().back();
+        // Execute order
+        Order* o = p->getlist()->getorderlist().back();
 
-		o->execute();
+        o->execute();
 
-		p->getlist()->getorderlist().pop_back();
+        p->getlist()->getorderlist().pop_back();
 
+        cout << "Are you done issuing orders? (Yes/No)" << endl;
+        string s;
+        cin >> s;
+        if (s == "Yes" && p->getReinforcement() == 0)
+        {
+            finished = true;
+        }
+    }
+    else
+    {
+        // Other case
+        vector<string> Order_names;
+        Order_names.push_back("Advance");
+        vector<Card*> cards = p->gethandofcard()->get_VectorOfHand();
+        for (int i = 0; i < cards.size(); i++)
+        {
+            Order_names.push_back(cards[i]->get_cardType());
+        }
+        cout << "Please choose one of the options: " << endl;
+        cout << "-- Advance" << endl;
+        if (Order_names.size() > 1)
+        {
+            cout << "Use one of the cards: " << endl;
+            for (int k = 1; k < Order_names.size(); k++)
+            {
+                cout << "-- " << Order_names[k] << endl;
+            }
+        }
+        string input;
+        cin >> input;
+        while (find(Order_names.begin(), Order_names.end(), input) == Order_names.end())
+        {
+            cout << "No such option, try again" << endl;
+            cin >> input;
+        }
+        // Advance
+        if (input == "Advance")
+        {
+            cout << "Your territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it)
+            {
 
+                cout << it->first << "  ";
+            }
+            cout << endl;
+            cout << "Choose the source territory: ";
+            string source_name;
+            cin >> source_name;
+            while (p->getDeploy_territories().find(source_name) == p->getDeploy_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> source_name;
+            }
+            int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
+            cout << "You have " << army_num << " army unites in this territory, how many do you want to move? " << endl;
 
-		cout << "Are you done issuing orders? (Yes/No)" << endl;
-		string s;
-		cin >> s;
-		if (s == "Yes" && p->getReinforcement() == 0) {
-			finished = true;
+            int num;
+            cin >> num;
+            while (!cin)
+            {
+                cout << "Wrong data type. Please try again. " << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin >> num;
+            }
+            if (num > army_num)
+            {
+                num = army_num;
+            }
+            cout << "Please enter the target territory: " << endl;
+            cout << "The available options are your territories and the enemy territories" << endl;
+            cout << "Available territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it)
+            {
 
-		}
+                cout << it->first << "  ";
+            }
+            cout << endl;
+            string target_name;
+            cin >> target_name;
+            while (p->getAvailable_territories().find(target_name) == p->getAvailable_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> target_name;
+            }
+            p->addOrder(new Advance(p->getDeploy_territories()[source_name], p->getAvailable_territories()[target_name], this->p, num));
+        }
 
-	}
-	else {
-		//Other case
-		vector<string> Order_names;
-		Order_names.push_back("Advance");
-		vector<Card*> cards = p->gethandofcard()->get_VectorOfHand();
-		for (int i = 0; i < cards.size(); i++) {
-			Order_names.push_back(cards[i]->get_cardType());
-		}
-		cout << "Please choose one of the options: " << endl;
-		cout << "-- Advance" << endl;
-		if (Order_names.size() > 1) {
-			cout << "Use one of the cards: " << endl;
-			for (int k = 1; k < Order_names.size(); k++) {
-				cout << "-- " << Order_names[k] << endl;
-			}
-		}
-		string input;
-		cin >> input;
-		while (find(Order_names.begin(), Order_names.end(), input) == Order_names.end()) {
-			cout << "No such option, try again" << endl;
-			cin >> input;
-		}
-		//Advance
-		if (input == "Advance") {
-			cout << "Your territories are: ";
-			for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
+        // Bomb card
+        else if (input == "bomb")
+        {
+            cout << "Using the bomb card, please choose a territory" << endl;
+            cout << "Available territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it)
+            {
 
-				cout << it->first << "  ";
+                cout << it->first << "  ";
+            }
+            string target_name;
+            cin >> target_name;
+            while (p->getAvailable_territories().find(target_name) == p->getAvailable_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> target_name;
+            }
+            p->addOrder(new Bomb(this->p, p->getAvailable_territories()[target_name], 0));
+            p->gethandofcard()->remove_CardinHand_ByType("bomb");
+        }
 
-			}
-			cout << endl;
-			cout << "Choose the source territory: ";
-			string source_name;
-			cin >> source_name;
-			while (p->getDeploy_territories().find(source_name) == p->getDeploy_territories().end()) {
-				cout << "Wrong name, please try again." << endl;
-				cin >> source_name;
-			}
-			int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
-			cout << "You have " << army_num << " army unites in this territory, how many do you want to move? " << endl;
+        if (input == "blockade")
+        {
+            cout << "Using the bomb card, please choose one of your territory" << endl;
+            cout << "Available territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it)
+            {
 
-			int num;
-			cin >> num;
-			while (!cin) {
-				cout << "Wrong data type. Please try again. " << endl;
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				cin >> num;
-			}
-			if (num > army_num) {
-				num = army_num;
-			}
-			cout << "Please enter the target territory: " << endl;
-			cout << "The available options are your territories and the enemy territories" << endl;
-			cout << "Available territories are: ";
-			for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
+                cout << it->first << "  ";
+            }
+            string target_name;
+            cin >> target_name;
+            while (p->getDeploy_territories().find(target_name) == p->getDeploy_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> target_name;
+            }
+            p->addOrder(new Blockade(this->p, p->getAvailable_territories()[target_name]));
+            p->gethandofcard()->remove_CardinHand_ByType("blockade");
+        }
 
-				cout << it->first << "  ";
+        // Air Lift
+        else if (input == "airlift")
+        {
+            cout << "Using this airlift card" << endl;
+            cout << "Your territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it)
+            {
 
-			}
-			cout << endl;
-			string target_name;
-			cin >> target_name;
-			while (p->getAvailable_territories().find(target_name) == p->getAvailable_territories().end()) {
-				cout << "Wrong name, please try again." << endl;
-				cin >> target_name;
-			}
-			p->addOrder(new Advance(p->getDeploy_territories()[source_name], p->getAvailable_territories()[target_name], this->p, num));
+                cout << it->first << "  ";
+            }
+            cout << "Choose the source territory";
+            string source_name;
+            cin >> source_name;
+            while (p->getDeploy_territories().find(source_name) == p->getDeploy_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> source_name;
+            }
+            int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
+            cout << "You have " << army_num << "army unites in this territory, how many do you want to move ?" << endl;
 
+            int num;
+            cin >> num;
+            while (!cin)
+            {
+                cout << "Wrong data type. Please try again. " << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin >> num;
+            }
+            if (num > army_num)
+            {
+                num = army_num;
+            }
+            cout << "Please enter the target territory" << endl;
+            cout << "The available options are your territories and the enemy territories" << endl;
+            cout << "Available territories are: ";
+            for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it)
+            {
 
-		}
+                cout << it->first << "  ";
+            }
+            string target_name;
+            cin >> target_name;
+            while (p->getDeploy_territories().find(target_name) == p->getDeploy_territories().end())
+            {
+                cout << "Wrong name, please try again." << endl;
+                cin >> target_name;
+            }
 
-		//Bomb card
-		else if (input == "bomb") {
-			cout << "Using the bomb card, please choose a territory" << endl;
-			cout << "Available territories are: ";
-			for (std::map<string, Territory*>::iterator it = p->getAvailable_territories().begin(); it != p->getAvailable_territories().end(); ++it) {
+            p->addOrder(new Airlift(this->p, p->getDeploy_territories()[source_name], p->getDeploy_territories()[target_name]));
+            p->gethandofcard()->remove_CardinHand_ByType("airlift");
+        }
+        else if (input == "diplomacy")
+        {
+            cout << "Using diplomacy card" << endl;
+            cout << "Please choose a victim" << endl;
+            cout << "The available players are: ";
+            for (std::map<string, Player*>::iterator it = p->getPlayers_Map().begin(); it != p->getPlayers_Map().end(); ++it)
+            {
+                cout << it->first << "  ";
+            }
+            string name;
+            cin >> name;
+            while (p->getPlayers_Map().find(name) == p->getPlayers_Map().end())
+            {
+                cout << "No such player, are you kidding me?! Try again";
+                cin >> name;
+            }
+            p->addOrder(new Negotiate(this->p, p->getPlayers_Map()[name]));
+            p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
+        }
 
-				cout << it->first << "  ";
+        Order* o = p->getlist()->getorderlist().back();
 
-			}
-			string target_name;
-			cin >> target_name;
-			while (p->getAvailable_territories().find(target_name) == p->getAvailable_territories().end()) {
-				cout << "Wrong name, please try again." << endl;
-				cin >> target_name;
-			}
-			p->addOrder(new Bomb(this->p, p->getAvailable_territories()[target_name], 0));
-			p->gethandofcard()->remove_CardinHand_ByType("bomb");
-		}
+        o->execute();
 
+        p->getlist()->getorderlist().pop_back();
 
+        cout << "Are you done issuing orders? (Yes/No)" << endl;
+        string s;
+        cin >> s;
+        if (s == "Yes" && p->getReinforcement() == 0)
+        {
+            finished = true;
+        }
+    }
+}
+vector<Territory*> HumanPlayerStrategy::toAttack()
+{
+    vector<Territory*> bannedTerritory;
+    for (int i = 0; i < p->getAttackBan().size(); i++)
+    {
+        vector<Territory*> player_territories = p->getAttackBan()[i]->getTerriotory();
+        for (int k = 0; k < player_territories.size(); k++)
+        {
+            Territory* t = player_territories[k];
+            if (find(bannedTerritory.begin(), bannedTerritory.end(), t) == bannedTerritory.end())
+            {
+                bannedTerritory.push_back(t);
+            }
+        }
+    }
+    vector<Territory*> tAttack;
+    for (int i = 0; i < p->getTerriotory().size(); i++)
+    {
+        vector<Territory*> neignbours = p->getTerriotory()[i]->getNeighbours();
+        for (int k = 0; k < neignbours.size(); k++)
+        {
+            if ((find(tAttack.begin(), tAttack.end(), neignbours[k]) == tAttack.end()) && find(bannedTerritory.begin(), bannedTerritory.end(), neignbours[k]) == bannedTerritory.end())
+            {
+                tAttack.push_back(neignbours[k]);
+            }
+        }
+    }
+    for (int i = 0; i < p->getTerriotory().size(); i++)
+    {
+        if (find(tAttack.begin(), tAttack.end(), p->getTerriotory()[i]) == tAttack.end())
+        {
+            tAttack.push_back(p->getTerriotory()[i]);
+        }
+    }
+    return tAttack;
+}
 
-		if (input == "blockade") {
-			cout << "Using the bomb card, please choose one of your territory" << endl;
-			cout << "Available territories are: ";
-			for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
-
-				cout << it->first << "  ";
-
-			}
-			string target_name;
-			cin >> target_name;
-			while (p->getDeploy_territories().find(target_name) == p->getDeploy_territories().end()) {
-				cout << "Wrong name, please try again." << endl;
-				cin >> target_name;
-			}
-			p->addOrder(new Blockade(this->p, p->getAvailable_territories()[target_name]));
-			p->gethandofcard()->remove_CardinHand_ByType("blockade");
-		}
-
-		//Air Lift
-		else if (input == "airlift") {
-			cout << "Using this airlift card" << endl;
-			cout << "Your territories are: ";
-			for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
-
-				cout << it->first << "  ";
-
-			}
-			cout << "Choose the source territory";
-			string source_name;
-			cin >> source_name;
-			while (p->getDeploy_territories().find(source_name) == p->getDeploy_territories().end()) {
-				cout << "Wrong name, please try again." << endl;
-				cin >> source_name;
-			}
-			int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
-			cout << "You have " << army_num << "army unites in this territory, how many do you want to move ?" << endl;
-
-			int num;
-			cin >> num;
-			while (!cin) {
-				cout << "Wrong data type. Please try again. " << endl;
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				cin >> num;
-			}
-			if (num > army_num) {
-				num = army_num;
-			}
-			cout << "Please enter the target territory" << endl;
-			cout << "The available options are your territories and the enemy territories" << endl;
-			cout << "Available territories are: ";
-			for (std::map<string, Territory*>::iterator it = p->getDeploy_territories().begin(); it != p->getDeploy_territories().end(); ++it) {
-
-				cout << it->first << "  ";
-
-			}
-			string target_name;
-			cin >> target_name;
-			while (p->getDeploy_territories().find(target_name) == p->getDeploy_territories().end()) {
-				cout << "Wrong name, please try again." << endl;
-				cin >> target_name;
-			}
-
-			p->addOrder(new Airlift(this->p, p->getDeploy_territories()[source_name], p->getDeploy_territories()[target_name]));
-			p->gethandofcard()->remove_CardinHand_ByType("airlift");
-		}
-		else if (input == "diplomacy") {
-			cout << "Using diplomacy card" << endl;
-			cout << "Please choose a victim" << endl;
-			cout << "The available players are: ";
-			for (std::map<string, Player*>::iterator it = p->getPlayers_Map().begin(); it != p->getPlayers_Map().end(); ++it) {
-				cout << it->first << "  ";
-			}
-			string name;
-			cin >> name;
-			while (p->getPlayers_Map().find(name) == p->getPlayers_Map().end()) {
-				cout << "No such player, are you kidding me?! Try again";
-				cin >> name;
-			}
-			p->addOrder(new Negotiate(this->p, p->getPlayers_Map()[name]));
-			p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
-
-
-		}
-
-		Order* o = p->getlist()->getorderlist().back();
-
-		o->execute();
-
-		p->getlist()->getorderlist().pop_back();
-
-
-		cout << "Are you done issuing orders? (Yes/No)" << endl;
-		string s;
-		cin >> s;
-		if (s == "Yes" && p->getReinforcement() == 0) {
-			finished = true;
-
-		}
-	}
+vector<Territory*> HumanPlayerStrategy::toDedend()
+{
+    return this->p->getTerriotory();
 }
 
 vector<Territory*> HumanPlayerStrategy::toAttack() {
@@ -316,11 +381,13 @@ vector<Territory*> HumanPlayerStrategy::toAttack() {
 vector<Territory*> HumanPlayerStrategy::toDedend() {
 	return this->p->getTerriotory();
 }
-//AggressivePlayerStrategy 
+// AggressivePlayerStrategy
 //----------------------------------------------------------
-AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) :PlayerStrategy(player) {
-	strategyName = "Aggressive Player";
+AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) : PlayerStrategy(player)
+{
+    strategyName = "AggressivePlayer";
 }
+
 string AggressivePlayerStrategy::getStrategyName() {
 	return this->strategyName;
 }
@@ -577,11 +644,17 @@ vector<Territory*> BenevolentPlayerStrategy::toDedend() {
 }
 
 
-//NeutralPlayerStrategy
+// NeutralPlayerStrategy
 //----------------------------------------------------------
-NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) :PlayerStrategy(player) {
-	strategyName = "Neutral Player";
+NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) : PlayerStrategy(player)
+{
+    strategyName = "Neutral Player";
 }
+string NeutralPlayerStrategy::getStrategyName()
+{
+    return this->strategyName;
+}
+
 
 void NeutralPlayerStrategy::issueOrder(string orderName) {
 
