@@ -343,7 +343,7 @@ void AggressivePlayerStrategy::issueOrder(string OrderName) {
 		
 		cout <<  num << " tropp will be deployed on the strongest country " << endl;
 		
-		Territory* name = p->getTerriotory().at(0);
+		string name = toDedend().at(0)->getName();
 		
 		
 		cout << "Order type: Deploy " << num << " -> " << name << endl;
@@ -372,7 +372,7 @@ void AggressivePlayerStrategy::issueOrder(string OrderName) {
 			}
 			cout << endl;
 			
-			Territory* source_name = p->getTerriotory().at(0);
+			string source_name = toDedend().at(0)->getName();
 			
 			
 			int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
@@ -388,7 +388,9 @@ void AggressivePlayerStrategy::issueOrder(string OrderName) {
 
 			}
 			cout << endl;
-			string target_name = toAttack().at(0);
+			string target_name = toAttack().at(0)->getName();
+			
+			
 			p->addOrder(new Advance(p->getDeploy_territories()[source_name], p->getAvailable_territories()[target_name], this->p, num));
 
 
@@ -401,7 +403,8 @@ void AggressivePlayerStrategy::issueOrder(string OrderName) {
 			cout << it->first << "  ";
 
 		}
-		string target_name=toAttack.at(0);
+		string target_name=toAttack.at(0)->getName();
+		
 		p->addOrder(new Bomb(this->p, p->getAvailable_territories()[target_name], 0));
 		p->gethandofcard()->remove_CardinHand_ByType("bomb");
 
@@ -471,7 +474,7 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 
 	cout << num << " tropp will be deployed on the weakest country " << endl;
 
-	Territory* name = p->getTerriotory().at(1);
+	string name = toDedend().at(0)->getName();
 
 
 	cout << "Order type: Deploy " << num << " -> " << name << endl;
@@ -502,7 +505,7 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 			cout << it->first << "  ";
 
 		}
-		string target_name=toAttack.at(0);
+		string target_name=toAttack.at(0)->getName();
 		
 		p->addOrder(new Blockade(this->p, p->getAvailable_territories()[target_name]));
 		p->gethandofcard()->remove_CardinHand_ByType("blockade");
@@ -518,7 +521,7 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 
 		}
 		cout << "the source territory is chosen automatically";
-		string source_name=toDefend.at(0);
+		string source_name=toDedend.at(0)->getName();
 		
 		
 		int army_num = p->getDeploy_territories()[source_name]->getNumberOfArmies();
@@ -534,7 +537,7 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 			cout << it->first << "  ";
 
 		}
-		string target_name=toAttack.at(0);
+		string target_name=toAttack.at(0)->getName();
 		
 
 		p->addOrder(new Airlift(this->p, p->getDeploy_territories()[source_name], p->getDeploy_territories()[target_name]));
@@ -548,8 +551,8 @@ void BenevolentPlayerStrategy::issueOrder(string OrderName) {
 		for (std::map<string, Player*>::iterator it = p->getPlayers_Map().begin(); it != p->getPlayers_Map().end(); ++it) {
 			cout << it->first << "  ";
 		}
-		string name= p->getPlayers_Map().begin();
-		cin >> name;
+		string name= p->getName();
+		
 		
 		p->addOrder(new Negotiate(this->p, p->getPlayers_Map()[name]));
 		p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
