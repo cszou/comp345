@@ -464,13 +464,12 @@ void Territory::setName(string name)
 }
 
 // set owner
-void Territory::setOwner(Player *p)
+//set owner
+void Territory::setOwner(Player* p)
 {
-	this->owner = p;
-	p->addTerritory(this);
-	if (getOwner() != nullptr && getOwner() != p)
+	if (getOwner() != p)
 	{
-		getOwner()->deleteTerriotory(this);
+		owner = p;
 	}
 }
 
