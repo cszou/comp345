@@ -607,34 +607,36 @@ vector<Territory*> NeutralPlayerStrategy::toDedend() {
 	return p->getTerriotory();
 }
 
-//CheaterPlayerStrategy
+
+//CheaterPlayerStrategy (Done)
 //----------------------------------------------------------
-CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player) :PlayerStrategy(player) {
-	strategyName = "Cheater Player";
+CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player):PlayerStrategy (player){
+    strategyName ="Cheater Player";
 }
-string CheaterPlayerStrategy::getStrategyName() {
-	return this->strategyName;
+string CheaterPlayerStrategy::getStrategyName(){
+    return this->strategyName;
 }
 
 //Once CheaterPlayer issues Order, it automatically conquers that are adjacent to its own territories
-void CheaterPlayerStrategy::issueOrder(string orderName) {
-	cout << "Excecuting isssue order from " << getStrategyName() << endl;
-	cout << getStrategyName() << " will conquer all territories that are adjacent to its own!" << endl;
-	cout << "My adjacent territories are: " << endl;
-	for (Territory* t : toAttack()) {
-		cout << t->getName() << "  ";
-		t->setOwner(this->p);
+void CheaterPlayerStrategy:: issueOrder(string orderName){
+	vector<Territory*> enemy_territories = toAttack();
+	cout<<"/n-->Excecuting isssue order from "<<getStrategyName()<<"\n"<<endl;
+	cout<<getStrategyName()<<" will conquer all territories that are adjacent to its own!"<<endl;
+	cout<<"My adjacent territories have: "<<enemy_territories.size()<<" contires: \n"<<endl;
+	for (Territory* t :enemy_territories){
+		cout<< t->getName()<<"  ";
+		if(t->getOwner()!=p){
+			t->getOwner()->deleteTerriotory(t);
+			t->setOwner( p);
+			p->addTerritory(t);
+			}
 	}
-
-	cout << "After conquering, My territories are: " << endl;
-	for (Territory* t : p->getTerriotory()) {
-		cout << t->getName() << "  ";
-	}
-
+	cout<<endl;
+	cout<<"\nAfter conquering, My territories have " <<p->getTerriotory().size()<<" countries. "<<endl;
 }
-
 //return all adjacent territories 
-vector<Territory*> CheaterPlayerStrategy::toAttack() {
+vector<Territory*> CheaterPlayerStrategy::toAttack(){
+	
 	vector<Territory*> toAttack;
 	for (Territory* t : p->getTerriotory()) {
 		for (Territory* a : t->getNeighbours()) {
@@ -643,12 +645,11 @@ vector<Territory*> CheaterPlayerStrategy::toAttack() {
 			}
 		}
 	}
-	for (Territory* t : toAttack) {
-		toAttack.erase(unique(toAttack.begin(), toAttack.end()), toAttack.end());
-	}
+	sort(toAttack.begin(),toAttack.end());
+	toAttack.erase(unique(toAttack.begin(), toAttack.end()), toAttack.end());
 	return toAttack;
 }
-vector<Territory*> CheaterPlayerStrategy::toDedend() {
+vector<Territory*> CheaterPlayerStrategy::toDedend(){
 	return p->getTerriotory();
 }
 
