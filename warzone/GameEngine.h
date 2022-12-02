@@ -42,17 +42,22 @@ public:
 	//define stringToLog method from abstract base class Iloggable
 	string stringToLog();
 	void addPlayer(string playerName);
+	void addPlayer(Player* p);
 	void readMap(string mapName);
-	vector<Player*> playerList; // Public playerList ...? 
 	Player* getNeutralPlayer();
 	Map* map;
-	vector<Player*> playersList;
+	vector<Player*> playerList;
 	Deck* deck;
 	bool startupFinished;
 	bool find_Territory(const vector<Territory*>& territories, Territory* t);
 	bool find_Order_Name(const vector<string>& names, string s);
 	bool find_Bool(const vector<bool>& bools, bool b);
+	// varibles and methods for tournament mode
+	vector<Map*> tournamentMaps;
 	void enableTournamentMode();
+	bool checkTournamentMode();
+	int numOfGame;
+	int maxNumberOfTurns;
 };
 
 

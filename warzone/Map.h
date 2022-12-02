@@ -49,8 +49,9 @@ public:
 	void showAllTerritories(); //show info of all territories in this continent
 	vector<Territory*> getTerritories(); //get territories
 	bool validate(); //validate the continent in connected
-	friend std::ostream& operator<<(std::ostream&, const Continent&); //stream insertion
 	int getBonus();
+	bool ownedBy(Player* p);
+	friend std::ostream& operator<<(std::ostream&, const Continent&); //stream insertion
 private:
 	int numberOfTerritory; //total number of territories
 	int bonus; //bonus if all territories are controlled by one player
