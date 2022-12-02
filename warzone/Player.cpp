@@ -96,18 +96,7 @@ void Player::addTerritory(Territory *o)
 
 void Player::deleteTerriotory(Territory *o)
 {
-	if (ownsTerritory(o))
-	{
-		vector<Territory *> depli;
-		for (Territory *t : territories)
-		{
-			if (t != o)
-			{
-				depli.push_back(t);
-			}
-		}
-		territories=depli;
-	}
+		territories.erase(remove(territories.begin(),territories.end(),o),territories.end());
 }
 
 void Player::addOrder(Order *o)
