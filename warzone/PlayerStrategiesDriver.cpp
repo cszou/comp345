@@ -66,7 +66,7 @@ void testPlayerStrategies(){
         t->setNumberOfArmies(game->playersList[i]->getReinforcement()/game->playersList[i]->getTerriotory().size());
     }
     }
-    game->playersList[0]->set_players_Map(game->playersList);
+    //game->playersList[0]->set_players_Map(game->playersList);
     //Excecute order 
     string order;
     while (order!="yes"){
