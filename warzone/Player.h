@@ -62,7 +62,9 @@ public:
     void deleteTerriotory(Territory *o);
     void setifattected();
     bool getifattacked();
-    
+    void eliminated();
+    bool checkEliminated();
+    void reset();
     
 private:
     bool neverAttacked;
@@ -82,4 +84,5 @@ private:
     
     //Newly added for Player Strategy 
     PlayerStrategy* ps;
+    bool isEliminated;
 };

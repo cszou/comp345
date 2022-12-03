@@ -24,6 +24,9 @@ void testTournament()
 		game->map = m;
 		for(int i = 0; i < game->numOfGame; i++)
 		{
+			for (auto p : game->playerList)
+				p->reset();
+
 			vector<Territory*> allTerritories = game->map->getAllTerritories();
 
 			//Distribute territories to players
@@ -53,36 +56,47 @@ void testTournament()
 			vector<string> winners;
 
 			int turn = 1;
-			while (game->playerList.size() > 1 && turn <= game->maxNumberOfTurns) {
+			int numOfPlayers = game->playerList.size();
+			while (numOfPlayers > 1 && turn <= game->maxNumberOfTurns) {
 
 				// assign troops
 				for (auto p : game->playerList) {
-					//Assign troops based on the number of territories
-					vector<Territory*> playerTerritories = p->getTerriotory();
-					int num_Troop_base;
-					num_Troop_base = playerTerritories.size() / 3;
-					int num_Troop = num_Troop_base > 3 ? num_Troop_base : 3;
-					//Assign continent bonus
-					for (auto c : game->map->getAllContinents())
-						if (c->ownedBy(p))
-							num_Troop += c->getBonus();
-					p->setReinforcement(num_Troop);
+					if (p->checkEliminated())
+						continue;
+					else {
+						//Assign troops based on the number of territories
+						vector<Territory*> playerTerritories = p->getTerriotory();
+						int num_Troop_base;
+						num_Troop_base = playerTerritories.size() / 3;
+						int num_Troop = num_Troop_base > 3 ? num_Troop_base : 3;
+						//Assign continent bonus
+						for (auto c : game->map->getAllContinents())
+							if (c->ownedBy(p))
+								num_Troop += c->getBonus();
+						p->setReinforcement(num_Troop);
+					}
 				}
 				for (auto p : game->playerList)
-					p->issueOrder("deploy");
+					if (p->checkEliminated())
+						continue;
+					else
+						p->issueOrder("deploy");
 
 				for (auto p : game->playerList)
-					if (p->getTerriotory().size() == 0)
+					if (p->checkEliminated())
 						continue;
 					else
 						p->issueOrder("advance");
 
 				for (auto p : game->playerList)
 					if (p->getTerriotory().empty())
-						game->playerList.erase(find(game->playerList.begin(), game->playerList.end(), p));
+					{
+						p->eliminated();
+						numOfPlayers -= 1;
+					}
 				turn += 1;
 			}
-			if (game->playerList.size() == 1)
+			if (numOfPlayers == 1)
 			{
 				cout << "The game has ended, the winner is  " << game->playerList[0]->getName() << endl;
 				winners.push_back(game->playerList[0]->getName());
