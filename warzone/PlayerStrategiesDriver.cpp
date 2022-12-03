@@ -66,11 +66,12 @@ void testPlayerStrategies(){
         t->setNumberOfArmies(game->playersList[i]->getReinforcement()/game->playersList[i]->getTerriotory().size());
     }
     }
+    game->playersList[0]->set_players_Map(game->playersList);
     //Excecute order 
     string order;
     while (order!="yes"){
     cout <<"Choose following order: "<<endl;
-	cout <<"-Deploy\n-bomb\n-Advance\n-airlift\n-diplomacy\n-blockade "<<endl;
+	cout <<"-Deploy\n-bomb\n-Advance\n-airlift\n-blockade "<<endl;
 	cin>>order;
     game->playersList[0]->issueOrder(order);
     game->playersList[1]->issueOrder("cheat");
@@ -79,7 +80,6 @@ void testPlayerStrategies(){
     cout<< "After play with Cheater, Human has: "<<game->playersList[0]->getTerriotory().size()<<endl;
     cout<< "After cheating,Cheter has: "<<game->playersList[1]->getTerriotory().size()<<endl;
 }
-]
 //int main(){
-   // testPlayerStrategies();
+  //  testPlayerStrategies();
 //}
