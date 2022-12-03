@@ -1,16 +1,19 @@
 #include "PlayerStrategiesDriver.h"
-#include "GameEngineDriver.h"
 #include "GameEngine.h"
 #include "Player.h"
-
+#include "Card.h"
+#include "PlayerStrategies.h"
 #include <iostream>
 using std::cin;
 using std::cout;
+using std::endl;
 #include <string>
 using std::string;
 #include <vector>
 using std::vector;
 #include "GameEngineDriver.h"
+#include <map>
+using namespace std;
 
 void testPlayerStrategies(){
 
@@ -19,6 +22,7 @@ void testPlayerStrategies(){
 	game->startupFinished = true;
 	game->readMap("europe.map");
     vector<Territory*> allTerritories = game->map->getAllTerritories();
+    vector<Continent*> continents = game->map->getAllContinents();
 
     //Add new players
     Player* human = new Player("Human");
@@ -37,7 +41,6 @@ void testPlayerStrategies(){
 	game->playersList.push_back(Cheater);
     //Distribute territories to players
     int size = allTerritories.size()/2;
-	//while (!allTerritories.empty()) {
 		for (int i = 0; i < size; i++) {
 			Territory* t = allTerritories.back();
 			game->playersList[0]->addTerritory(t);
@@ -49,23 +52,34 @@ void testPlayerStrategies(){
 			game->playersList[1]->addTerritory(t);
 			t->setOwner(game->playersList[1]);
 			allTerritories.pop_back();
-		}
-	//}
-
-
+        }
     cout<< "--------------Testing Human player & Neutral player--------------"<<endl;
-     cout<< "Human has: "<<game->playersList[0]->getTerriotory().size()<<endl;
-     cout<< "Cheter has: "<<game->playersList[1]->getTerriotory().size()<<endl;
-    game->playersList[0]->issueOrder("Deploy");
-    game->playersList[1]->issueOrder("Advance");
-    
+     cout<< "Human has terriotories: "<<game->playersList[0]->getTerriotory().size()<<endl;
+     cout<< "Cheter has terriotories: "<<game->playersList[1]->getTerriotory().size()<<endl;
+
+    //set Reinforcement pool to each player
+    game->playersList[0]->setReinforcement(50);
+    game->playersList[1]->setReinforcement(50);
+    //Distribute army to Terriotories
+    for(int i =0; i<game->playersList.size();i++){
+    for(Territory* t:game->playersList[i]->getTerriotory()){
+        t->setNumberOfArmies(game->playersList[i]->getReinforcement()/game->playersList[i]->getTerriotory().size());
+    }
+    }
+    //Excecute order 
+    string order;
+    while (order!="yes"){
+    cout <<"Choose following order: "<<endl;
+	cout <<"-Deploy\n-bomb\n-Advance\n-airlift\n-diplomacy\n-blockade "<<endl;
+	cin>>order;
+    game->playersList[0]->issueOrder(order);
+    game->playersList[1]->issueOrder("cheat");
+    cout <<"\nAre you done with issuing order? (yes/no) "<<endl;
+    }
     cout<< "After play with Cheater, Human has: "<<game->playersList[0]->getTerriotory().size()<<endl;
     cout<< "After cheating,Cheter has: "<<game->playersList[1]->getTerriotory().size()<<endl;
-    //game->playersList[1]->issueOrder("Deploy");
-    //game->playersList[1]->issueOrder("Deploy");
-
-
 }
+]
 //int main(){
    // testPlayerStrategies();
 //}
