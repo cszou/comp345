@@ -33,6 +33,14 @@ Player::Player(string name)
 	reinforcement = 0;;
 	isEliminated = false; //for tournament mode only
 }
+Player::Player(string name, GameEngine *game)
+{
+	this->name = name;
+	this->handOfCards = new Hand();
+	orderList = new OrderList();
+	reinforcement = 0;
+	gameEngine = game;
+} // constructor with name
 string Player::getName()
 {
 	return this->name;
