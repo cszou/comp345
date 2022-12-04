@@ -82,6 +82,8 @@ Player::Player(const Player &p)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
 	this->orderList = new OrderList(*p.orderList);
+		isEliminated = false; // for tournament mode only
+
 }
 
 Player &Player::operator=(const Player &p)
