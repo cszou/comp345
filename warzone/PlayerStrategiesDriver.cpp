@@ -30,7 +30,14 @@ void testPlayerStrategies(){
     Player* Cheater = new Player("Cheater",game);
     //Player* Aggressive = new Player("Aggressive",game);
     //Player* Benevolent = new Player("Benevolent",game);
-
+ 
+ //  Aggressive->setReinforcement(100);
+   // bonavon->setReinforcement(100);
+    //bonavon->setPlayerStrategy(new BenevolentPlayerStrategy(bonavon));
+    //Aggressive->setPlayerStrategy(new AggressivePlayerStrategy(Aggressive));
+    //game->playersList.push_back(Aggressive);
+    //game->playersList.push_back(bonavon);
+	
     //Set player strategy
     human->setPlayerStrategy(new HumanPlayerStrategy(human));
     //Neutral->setPlayerStrategy(new NeutralPlayerStrategy(Neutral));
@@ -79,6 +86,22 @@ void testPlayerStrategies(){
     }
     cout<< "After play with Cheater, Human has: "<<game->playersList[0]->getTerriotory().size()<<endl;
     cout<< "After cheating,Cheter has: "<<game->playersList[1]->getTerriotory().size()<<endl;
+	
+	 /*  
+    cout<< "--------------Testing Aggressive player & bonavo player--------------"<<endl;
+
+    cout << "----------------------Deploy for Aggressive----------------------" << endl;
+      game->playersList[1]->issueOrder("Deploy");
+      cout << "----------------------Advance for Aggressive----------------------" << endl;
+      game->playersList[1]->issueOrder("Advance");
+      cout << "----------------------bomb for Aggressive----------------------" << endl;
+      game->playersList[1]->issueOrder("bomb");
+      cout << "----------------------airlift for Aggressive----------------------" << endl;
+      game->playersList[1]->issueOrder("airlift");
+    cout << "----------------------diplomacy for Aggressive----------------------" << endl;
+    game->playersList[1]->issueOrder("diplomacy");
+    cout << "----------------------blockade for Aggressive----------------------" << endl;
+    game->playersList[1]->issueOrder("blockade");*/
 }
 //int main(){
   //  testPlayerStrategies();
