@@ -160,77 +160,82 @@ void CommandProcessor::saveCommand(string command)
 
 bool CommandProcessor::validateTournamentCommand(vector<string> c)
 {
+	// clear all players, maps and related info in GemeEngine to start a new tournament
+	game->playerList.clear();
+	game->tournamentMaps.clear();
+	game->numOfGame = 0;
+	game->maxNumberOfTurns = 0;
+	// parsing the input and validate it
 	int i = 1;
 	int size = c.size();
-	vector<Map*> maps;
-	vector<Player*> players;
-	int numOfGame = 0;
-	int maxNumberOfTurns = 0;
-	MapLoader* mapLoader;
+	MapLoader* mapLoader = new MapLoader();
+	// temp player and map for reading
 	Map* tempMap;
 	Player* tempPlayer;
-	try {
-		while (i < size) {
-			if (c[i] == "-M")
-			{
+	while (i < size) {
+		if (c[i] == "-M")
+		{
+			i += 1;
+			while (c[i] != "-P") {
+				tempMap = mapLoader->readMap(c[i]);
+				if (tempMap->validate())
+					game->tournamentMaps.push_back(tempMap);
 				i += 1;
-				while (c[i] != "-P") {
-					tempMap = mapLoader->readMap(c[i]);
-					if (tempMap->validate())
-						maps.push_back(tempMap);
-					i += 1;
+			}
+			if (game->tournamentMaps.size() < 1 || game->tournamentMaps.size() > 5)
+				return false;
+		}
+		if (c[i] == "-P")
+		{
+			i += 1;
+			while (c[i] != "-G") {
+				if (c[i] == "aggressive" || c[i] == "Aggressive")
+				{
+					tempPlayer = new Player("Aggressive");
+					tempPlayer->setPlayerStrategy(new AggressivePlayerStrategy(tempPlayer));
+					game->addPlayer(tempPlayer);
 				}
-				if (maps.size() < 1 || maps.size() > 5)
-					throw(new exception());
-			}
-			if (c[i] == "-P")
-			{
-				i += 1;
-				while (c[i] != "-G") {
-					if (c[i] == "aggressive" || c[i] == "Aggressive")
-					{
-						tempPlayer = new Player("Aggressive");
-						tempPlayer->setPlayerStrategy(new AggressivePlayerStrategy(tempPlayer));
-					}
-					else if (c[i] == "benevolent" || c[i] == "Benevolent")
-					{
-						tempPlayer = new Player("Benevolent");
-						tempPlayer->setPlayerStrategy(new BenevolentPlayerStrategy(tempPlayer));
-					}
-					else if (c[i] == "cheater" || c[i] == "Cheater")
-					{
-						tempPlayer = new Player("Cheater");
-						tempPlayer->setPlayerStrategy(new CheaterPlayerStrategy(tempPlayer));
-					}
-					else if (c[i] == "neutral" || c[i] == "Neutral")
-					{
-						tempPlayer = new Player("Neutral");
-						tempPlayer->setPlayerStrategy(new NeutralPlayerStrategy(tempPlayer));
-					}
-					else
-						throw(new exception());
-					if (c[i] != "")
-						players.push_back(tempPlayer);
-					i += 1;
+				else if (c[i] == "benevolent" || c[i] == "Benevolent")
+				{
+					tempPlayer = new Player("Benevolent");
+					tempPlayer->setPlayerStrategy(new BenevolentPlayerStrategy(tempPlayer));
+					game->addPlayer(tempPlayer);
 				}
-				if (players.size() < 2 || players.size() > 4)
-					throw(new exception());
-			}
-			if (c[i] == "-G")
-			{
+				else if (c[i] == "cheater" || c[i] == "Cheater")
+				{
+					tempPlayer = new Player("Cheater");
+					tempPlayer->setPlayerStrategy(new CheaterPlayerStrategy(tempPlayer));
+					game->addPlayer(tempPlayer);
+				}
+				else if (c[i] == "neutral" || c[i] == "Neutral")
+				{
+					tempPlayer = new Player("Neutral");
+					tempPlayer->setPlayerStrategy(new NeutralPlayerStrategy(tempPlayer));
+					game->addPlayer(tempPlayer);
+				}
+				else
+					return false;
 				i += 1;
-				numOfGame = stoi(c[i]);
 			}
-			if (c[i] == "-D")
-			{
-				i += 1;
-				maxNumberOfTurns = stoi(c[i]);
-			}
+			if (game->playerList.size() < 2 || game->playerList.size() > 4)
+				return false;
+		}
+		if (c[i] == "-G")
+		{
+			i += 1;
+			game->numOfGame = stoi(c[i++]);
+			if (game->numOfGame > 5 || game->numOfGame < 1)
+				return false;
+		}
+		if (c[i] == "-D")
+		{
+			i += 1;
+			game->maxNumberOfTurns = stoi(c[i++]);
+			if (game->maxNumberOfTurns > 50 || game->maxNumberOfTurns < 10)
+				return false;
 		}
 	}
-	catch (exception e) {
-		return false;
-	}
+	delete mapLoader;
 	return true;
 }
 

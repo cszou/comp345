@@ -260,7 +260,14 @@ int Continent::getBonus()
 {
 	return this->bonus;
 }
-// get total number of territories
+bool Continent::ownedBy(Player* p)
+{
+	for (auto t : this->territoriesList)
+		if (t->getOwner() != p)
+			return false;
+	return true;
+}
+//get total number of territories
 int Continent::getTerritoryNumber() const
 {
 	return numberOfTerritory;

@@ -22,6 +22,7 @@ Player::Player()
 	handOfCards = new Hand();
 	orderList = new OrderList();
 	reinforcement = 0;
+	isEliminated = false; //for tournament mode only
 }
 // The const
 Player::Player(string name)
@@ -29,7 +30,8 @@ Player::Player(string name)
 	this->name = name;
 	this->handOfCards = new Hand();
 	orderList = new OrderList();
-	reinforcement = 0;
+	reinforcement = 0;;
+	isEliminated = false; //for tournament mode only
 }
 string Player::getName()
 {
@@ -44,7 +46,8 @@ Player::Player(vector<Territory *> territories, Hand *hand, string name, OrderLi
 	}
 	this->handOfCards = new Hand(*hand);
 	this->name = name;
-	this->orderList = new OrderList(*orderList);
+	this->orderList = new OrderList(*orderList);;
+	isEliminated = false; //for tournament mode only
 	std::cout << "created player" << endl;
 }
 // Destructor
@@ -62,7 +65,8 @@ Player::Player(const Player &p)
 	for (auto t : p.territories)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
-	this->orderList = new OrderList(*p.orderList);
+	this->orderList = new OrderList(*p.orderList);;
+	isEliminated = false; //for tournament mode only
 }
 
 Player &Player::operator=(const Player &p)
@@ -71,7 +75,8 @@ Player &Player::operator=(const Player &p)
 	for (auto t : p.territories)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
-	this->orderList = new OrderList(*p.orderList);
+	this->orderList = new OrderList(*p.orderList);;
+	isEliminated = false; //for tournament mode only
 	return *this;
 }
 bool Player::ownsTerritory(Territory *t1)
@@ -226,9 +231,10 @@ void Player::issueOrder(string orderName)
 	ps->issueOrder(orderName);
 }
 // Default constructor for creating a player base on the PlayerStrategy
-Player::Player(PlayerStrategy *ps)
-{
-	this->ps = ps;
+Player::Player(PlayerStrategy* ps){
+	this->ps = ps;;
+	isEliminated = false; //for tournament mode only
+
 }
 // Set player to change player strategy during excecution time
 void Player::setPlayerStrategy(PlayerStrategy *newPlayerStrategy)
@@ -254,5 +260,33 @@ void Player::setifattected()
 }
 bool Player::getifattacked()
 {
-	return whetherattacked;
+	return neverAttacked;
+}
+void Player::eliminated()
+{
+	this->isEliminated = true;
+}
+bool Player::checkEliminated()
+{
+	return this->isEliminated;
+}
+void Player::reset()
+{
+	this->isEliminated = false;
+	this->territories.clear();
+}
+void Player::deleteTerriotory(Territory *o)
+{
+	if (ownsTerritory(o))
+	{
+		vector<Territory *> depli;
+		for (Territory *t : territories)
+		{
+			if (t != o)
+			{
+				depli.push_back(t);
+			}
+		}
+		territories=depli;
+	}
 }

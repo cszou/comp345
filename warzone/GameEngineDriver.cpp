@@ -26,36 +26,36 @@ void testStartupPhase() {
 	//Validate Map command  validate map code here
 
 	//Add players sample to be modified
-	game->playersList.push_back(new Player("faker"));
-	game->playersList.push_back(new Player("uzi"));
-	game->playersList.push_back(new Player("ikun"));
+	game->playerList.push_back(new Player("faker"));
+	game->playerList.push_back(new Player("uzi"));
+	game->playerList.push_back(new Player("ikun"));
 
 	//Game start command
 	vector<Territory*> allTerritories = game->map->getAllTerritories();
 
 	//Distribute territories to players
 	while (!allTerritories.empty()) {
-		for (int i = 0; i < game->playersList.size(); i++) {
+		for (int i = 0; i < game->playerList.size(); i++) {
 			if (allTerritories.empty())
 				break;
-			game->playersList[i]->addTerritory(allTerritories.back());
+			game->playerList[i]->addTerritory(allTerritories.back());
 			allTerritories.pop_back();
 		}
 	}
 
 	//Creating random player order, this is the order of play
 	auto rng = std::default_random_engine{};
-	std::shuffle(std::begin(game->playersList), std::end(game->playersList), rng);
+	std::shuffle(std::begin(game->playerList), std::end(game->playerList), rng);
 
 	//Assign reinforcement to each player
-	for (int i = 0; i < game->playersList.size(); i++) {
-		game->playersList[i]->setReinforcement(50);
-		game->playersList[i]->set_all_territories(allTerritories);
+	for (int i = 0; i < game->playerList.size(); i++) {
+		game->playerList[i]->setReinforcement(50);
+		game->playerList[i]->set_all_territories(allTerritories);
 	}
 
-	for (int i = 0; i < game->playersList.size(); i++) {
+	for (int i = 0; i < game->playerList.size(); i++) {
 		for (int j = 0; j < 2; j++) {
-			game->playersList[i]->gethandofcard()->add_CardinHand(game->deck->draw());
+			game->playerList[i]->gethandofcard()->add_CardinHand(game->deck->draw());
 		}
 	}
 
@@ -77,31 +77,31 @@ void testMainGameLoop() {
 	//Reinforcement phase
 
 	//Add players and get continents and territories
-	game->playersList.push_back(new Player("faker"));
-	game->playersList.push_back(new Player("uzi"));
-	game->playersList.push_back(new Player("ikun"));
+	game->playerList.push_back(new Player("faker"));
+	game->playerList.push_back(new Player("uzi"));
+	game->playerList.push_back(new Player("ikun"));
 	vector<Territory*> allTerritories = game->map->getAllTerritories();
 	vector<Continent*> continents = game->map->getAllContinents();
 
 	//Distribute territories to players
 	while (!allTerritories.empty()) {
-		for (int i = 0; i < game->playersList.size(); i++) {
+		for (int i = 0; i < game->playerList.size(); i++) {
 			if (allTerritories.empty())
 				break;
 			Territory* t = allTerritories.back();
-			game->playersList[i]->addTerritory(t);
-			t->setOwner(game->playersList[i]);
+			game->playerList[i]->addTerritory(t);
+			t->setOwner(game->playerList[i]);
 			allTerritories.pop_back();
 		}
 	}
 
-	while (game->playersList.size() > 1) {
+	while (game->playerList.size() > 1) {
 
-		for (int i = 0; i < game->playersList.size(); i++) {
+		for (int i = 0; i < game->playerList.size(); i++) {
 			//Assign troops based on the number of territories
 			int num_Troop = 3;
 			int num_Troop_base;
-			Player* player = game->playersList[i];
+			Player* player = game->playerList[i];
 			vector<Territory*> playerTerritories = player->getTerriotory();
 
 			num_Troop_base = playerTerritories.size() / 3;
@@ -135,7 +135,7 @@ void testMainGameLoop() {
 		vector<bool> player_deployment_status;
 
 		//Issue Order Phase
-		for (int i = 0; i < game->playersList.size(); i++) {
+		for (int i = 0; i < game->playerList.size(); i++) {
 
 			issue_order_status.push_back(false);
 			player_deployment_status.push_back(false);
@@ -143,10 +143,10 @@ void testMainGameLoop() {
 		}
 		//Deployment orders only until all players are done
 		while (game->find_Bool(player_deployment_status, false)) {
-			for (int i = 0; i < game->playersList.size(); i++) {
+			for (int i = 0; i < game->playerList.size(); i++) {
 				if (player_deployment_status[i] != true) {
-					if (game->playersList[i]->getReinforcement() != 0) {
-						game->playersList[i]->issueOrder("Deploy");
+					if (game->playerList[i]->getReinforcement() != 0) {
+						game->playerList[i]->issueOrder("Deploy");
 					}
 					else {
 						player_deployment_status[i] = true;
@@ -159,27 +159,27 @@ void testMainGameLoop() {
 		cout << 4 << endl;
 		//Other orders
 		while (game->find_Bool(issue_order_status, false)) {
-			for (int i = 0; i < game->playersList.size(); i++) {
+			for (int i = 0; i < game->playerList.size(); i++) {
 				bool b = false;
 				if (issue_order_status[i] != true) {
 
-					b = game->playersList[i]->issueOrder("Any");
+					b = game->playerList[i]->issueOrder("Any");
 					issue_order_status[i] = b;
 				}
 			}
 		}
 
-		for (int i = 0; i < game->playersList.size(); i++) {
-			Player* p = game->playersList[i];
+		for (int i = 0; i < game->playerList.size(); i++) {
+			Player* p = game->playerList[i];
 			if (p->getTerriotory().empty()) {
 				delete(p);
-				game->playersList.erase(game->playersList.begin() + i);
+				game->playerList.erase(game->playerList.begin() + i);
 				i--;
 			}
 		}
 
 	}
 
-	cout << "The game has ended, the winner is  " << game->playersList[0]->getName() << endl;
+	cout << "The game has ended, the winner is  " << game->playerList[0]->getName() << endl;
 
 }

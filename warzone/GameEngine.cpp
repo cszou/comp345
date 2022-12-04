@@ -95,6 +95,11 @@ void GameEngine::addPlayer(string playerName) {
 	playerList.push_back(new Player(playerName));
 }
 
+void GameEngine::addPlayer(Player* p)
+{
+	playerList.push_back(p);
+}
+
 void GameEngine::readMap(string mapName)
 {
 	MapLoader mapLoader;
@@ -121,4 +126,9 @@ bool GameEngine::find_Bool(const vector<bool>& bools, bool b) {
 
 void GameEngine::enableTournamentMode() {
 	isTournamentMode = true;
+}
+
+bool GameEngine::checkTournamentMode()
+{
+	return isTournamentMode;
 }

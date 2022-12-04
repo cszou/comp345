@@ -62,6 +62,23 @@ public:
 
     void  deleteTerriotory(Territory *o);
 
+
+    //Newly added method for part 3
+    void setIfAttected();
+    bool getIfAttacked();
+    void setPlayerStrategy(PlayerStrategy* newPlayerStrategy);
+    Player(PlayerStrategy* ps);
+    std::map<string, Territory*> getDeploy_territories();
+    std::map<string, Territory*> getAvailable_territories();
+    std::map<string, Player*> getPlayers_Map();
+    vector<Player*> getAttackBan();
+    void deleteTerriotory(Territory *o);
+    void setifattected();
+    bool getifattacked();
+    void eliminated();
+    bool checkEliminated();
+    void reset();
+
 private:
     vector<Territory *> territories;
     Hand *handOfCards;
@@ -71,11 +88,14 @@ private:
     bool whetherattacked;
     // Newly added variables
     int reinforcement;
-    std::map<string, Territory *> deploy_territories;
-    std::map<string, Territory *> available_territories;
-    std::map<string, Territory *> all_territories;
-    vector<Player *> attackBan;
-    std::map<string, Player *> players_Map;
-    // Newly added for Player Strategy
-    PlayerStrategy *ps;
+
+    std::map<string, Territory*> deploy_territories;
+    std::map<string, Territory*> available_territories;
+    std::map<string, Territory*> all_territories;
+    vector<Player*> attackBan;
+    std::map<string, Player*> players_Map;
+    
+    //Newly added for Player Strategy 
+    PlayerStrategy* ps;
+    bool isEliminated;
 };
