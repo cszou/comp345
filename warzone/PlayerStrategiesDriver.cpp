@@ -25,11 +25,11 @@ void testPlayerStrategies(){
     vector<Continent*> continents = game->map->getAllContinents();
 
     //Add new players
-    Player* human = new Player("Human");
-   // Player* Neutral = new Player("Neutral");
-    Player* Cheater = new Player("Cheater");
-    //Player* Aggressive = new Player("Aggressive");
-    //Player* Benevolent = new Player("Benevolent");
+    Player* human = new Player("Human",game);
+   // Player* Neutral = new Player("Neutral".game);
+    Player* Cheater = new Player("Cheater",game);
+    //Player* Aggressive = new Player("Aggressive",game);
+    //Player* Benevolent = new Player("Benevolent",game);
 
     //Set player strategy
     human->setPlayerStrategy(new HumanPlayerStrategy(human));
