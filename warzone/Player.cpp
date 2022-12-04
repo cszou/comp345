@@ -22,7 +22,7 @@ Player::Player()
 	handOfCards = new Hand();
 	orderList = new OrderList();
 	reinforcement = 0;
-	isEliminated = false; //for tournament mode only
+	isEliminated = false; // for tournament mode only
 }
 // The const
 Player::Player(string name)
@@ -30,8 +30,8 @@ Player::Player(string name)
 	this->name = name;
 	this->handOfCards = new Hand();
 	orderList = new OrderList();
-	reinforcement = 0;;
-	isEliminated = false; //for tournament mode only
+	reinforcement = 0;
+	isEliminated = false; // for tournament mode only
 }
 Player::Player(string name, GameEngine *game)
 {
@@ -40,9 +40,16 @@ Player::Player(string name, GameEngine *game)
 	orderList = new OrderList();
 	reinforcement = 0;
 	gameEngine = game;
+	isEliminated = false; // for tournament mode only
+
 } // constructor with name
+GameEngine *Player::getGameEngine()
+{
+	return gameEngine;
+}
 string Player::getName()
 {
+
 	return this->name;
 }
 // Cons 4 params
@@ -54,8 +61,9 @@ Player::Player(vector<Territory *> territories, Hand *hand, string name, OrderLi
 	}
 	this->handOfCards = new Hand(*hand);
 	this->name = name;
-	this->orderList = new OrderList(*orderList);;
-	isEliminated = false; //for tournament mode only
+	this->orderList = new OrderList(*orderList);
+	isEliminated = false; // for tournament mode only
+
 	std::cout << "created player" << endl;
 }
 // Destructor
@@ -73,18 +81,17 @@ Player::Player(const Player &p)
 	for (auto t : p.territories)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
-	this->orderList = new OrderList(*p.orderList);;
-	isEliminated = false; //for tournament mode only
+	this->orderList = new OrderList(*p.orderList);
 }
 
 Player &Player::operator=(const Player &p)
 {
+		isEliminated = false; //for tournament mode only
 	this->name = p.name;
 	for (auto t : p.territories)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
-	this->orderList = new OrderList(*p.orderList);;
-	isEliminated = false; //for tournament mode only
+	this->orderList = new OrderList(*p.orderList);
 	return *this;
 }
 bool Player::ownsTerritory(Territory *t1)
@@ -107,11 +114,6 @@ void Player::addTerritory(Territory *o)
 	territories.push_back(o);
 }
 
-void Player::deleteTerriotory(Territory *o)
-{
-		territories.erase(remove(territories.begin(),territories.end(),o),territories.end());
-}
-
 void Player::addOrder(Order *o)
 {
 	this->orderList->addOrders(o);
@@ -119,8 +121,8 @@ void Player::addOrder(Order *o)
 // Establish an arbitrary list of territories to be attacked
 vector<Territory *> Player::toAttack()
 {
-	 	return ps->toAttack();
- }
+	return ps->toAttack();
+}
 // Establish an arbitrary list of territories to be defended
 vector<Territory *> Player::toDefend()
 {
@@ -184,17 +186,14 @@ bool Player::assignReinforcement(int num)
 
 void Player::set_Deploy_Territories()
 {
-
 	for (int i = 0; i < territories.size(); i++)
 	{
 		Territory *t = territories[i];
 		deploy_territories[t->getName()] = t;
 	}
 }
-
 void Player::set_Available_Territories()
 {
-
 	vector<Territory *> enemy_territories = toAttack();
 	cout << "done" << endl;
 	for (int i = 0; i < enemy_territories.size(); i++)
@@ -238,10 +237,12 @@ void Player::issueOrder(string orderName)
 {
 	ps->issueOrder(orderName);
 }
+
 // Default constructor for creating a player base on the PlayerStrategy
-Player::Player(PlayerStrategy* ps){
-	this->ps = ps;;
-	isEliminated = false; //for tournament mode only
+Player::Player(PlayerStrategy *ps)
+{
+	this->ps = ps;
+		isEliminated = false; //for tournament mode only
 
 }
 // Set player to change player strategy during excecution time
@@ -262,13 +263,22 @@ std::map<string, Player *> Player::getPlayers_Map()
 {
 	return players_Map;
 }
+
+vector<Player *> Player::getAttackBan()
+{
+	return attackban;
+}
 void Player::setifattected()
 {
-	whetherattacked = true;
+	neverAttacked = true;
 }
 bool Player::getifattacked()
 {
 	return neverAttacked;
+}
+void Player::deleteTerriotory(Territory *o)
+{
+	territories.erase(remove(territories.begin(), territories.end(), o), territories.end());
 }
 void Player::eliminated()
 {
@@ -282,19 +292,4 @@ void Player::reset()
 {
 	this->isEliminated = false;
 	this->territories.clear();
-}
-void Player::deleteTerriotory(Territory *o)
-{
-	if (ownsTerritory(o))
-	{
-		vector<Territory *> depli;
-		for (Territory *t : territories)
-		{
-			if (t != o)
-			{
-				depli.push_back(t);
-			}
-		}
-		territories=depli;
-	}
 }
