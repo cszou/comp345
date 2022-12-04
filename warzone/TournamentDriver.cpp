@@ -24,27 +24,28 @@ void testTournament()
 		game->map = m;
 		for(int i = 0; i < game->numOfGame; i++)
 		{
-			for (auto p : game->playerList)
+			for (auto p : game->playersList)
 				p->reset();
 
+			auto rng = std::default_random_engine{};
 			vector<Territory*> allTerritories = game->map->getAllTerritories();
-
+			std::shuffle(std::begin(allTerritories), std::end(allTerritories), rng);
 			//Distribute territories to players
 			while (!allTerritories.empty()) {
-				for (int i = 0; i < game->playerList.size(); i++) {
+				for (int i = 0; i < game->playersList.size(); i++) {
 					if (allTerritories.empty())
 						break;
-					game->playerList[i]->addTerritory(allTerritories.back());
+					game->playersList[i]->addTerritory(allTerritories.back());
 					allTerritories.pop_back();
 				}
 			}
 
 			//Creating random player order, this is the order of play
-			auto rng = std::default_random_engine{};
-			std::shuffle(std::begin(game->playerList), std::end(game->playerList), rng);
+			
+			std::shuffle(std::begin(game->playersList), std::end(game->playersList), rng);
 
 			//Assign reinforcement to each player
-			for (auto p : game->playerList) {
+			for (auto p : game->playersList) {
 				p->setReinforcement(50);
 				p->set_all_territories(allTerritories);
 				p->gethandofcard()->add_CardinHand(game->deck->draw());
@@ -56,11 +57,11 @@ void testTournament()
 			vector<string> winners;
 
 			int turn = 1;
-			int numOfPlayers = game->playerList.size();
+			int numOfPlayers = game->playersList.size();
 			while (numOfPlayers > 1 && turn <= game->maxNumberOfTurns) {
 
 				// assign troops
-				for (auto p : game->playerList) {
+				for (auto p : game->playersList) {
 					if (p->checkEliminated())
 						continue;
 					else {
@@ -76,19 +77,19 @@ void testTournament()
 						p->setReinforcement(num_Troop);
 					}
 				}
-				for (auto p : game->playerList)
+				for (auto p : game->playersList)
 					if (p->checkEliminated())
 						continue;
 					else
 						p->issueOrder("deploy");
 
-				for (auto p : game->playerList)
+				for (auto p : game->playersList)
 					if (p->checkEliminated())
 						continue;
 					else
 						p->issueOrder("advance");
 
-				for (auto p : game->playerList)
+				for (auto p : game->playersList)
 					if (p->getTerriotory().empty())
 					{
 						p->eliminated();
@@ -98,8 +99,8 @@ void testTournament()
 			}
 			if (numOfPlayers == 1)
 			{
-				cout << "The game has ended, the winner is  " << game->playerList[0]->getName() << endl;
-				winners.push_back(game->playerList[0]->getName());
+				cout << "The game has ended, the winner is  " << game->playersList[0]->getName() << endl;
+				winners.push_back(game->playersList[0]->getName());
 			}
 			else
 			{

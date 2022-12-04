@@ -1,4 +1,3 @@
-#include "Player.h"
-#include "PlayerStrategies.h"
+#pragma once
 
 void testPlayerStrategies();

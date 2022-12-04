@@ -22,6 +22,6 @@ int main() {
 	//testOrderExecution();
 	//cout << endl << "************* Part 5 *************" << endl;
 	//testLoggingObserver();
-	testPlayerStrategies();
+	//testPlayerStrategies();
 	testTournament();
 }

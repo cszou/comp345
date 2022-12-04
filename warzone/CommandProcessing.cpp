@@ -161,7 +161,7 @@ void CommandProcessor::saveCommand(string command)
 bool CommandProcessor::validateTournamentCommand(vector<string> c)
 {
 	// clear all players, maps and related info in GemeEngine to start a new tournament
-	game->playerList.clear();
+	game->playersList.clear();
 	game->tournamentMaps.clear();
 	game->numOfGame = 0;
 	game->maxNumberOfTurns = 0;
@@ -217,7 +217,7 @@ bool CommandProcessor::validateTournamentCommand(vector<string> c)
 					return false;
 				i += 1;
 			}
-			if (game->playerList.size() < 2 || game->playerList.size() > 4)
+			if (game->playersList.size() < 2 || game->playersList.size() > 4)
 				return false;
 		}
 		if (c[i] == "-G")

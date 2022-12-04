@@ -46,7 +46,7 @@ public:
 	void readMap(string mapName);
 	Player* getNeutralPlayer();
 	Map* map;
-	vector<Player*> playerList;
+	vector<Player*> playersList;
 	Deck* deck;
 	bool startupFinished;
 	bool find_Territory(const vector<Territory*>& territories, Territory* t);

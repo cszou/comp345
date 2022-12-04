@@ -66,7 +66,7 @@ GameEngine::~GameEngine() {
 	delete map;
 	delete neutralPlayer;
 	delete deck;
-	for (auto p : playerList)
+	for (auto p : playersList)
 		delete p;
 }
 
@@ -92,12 +92,12 @@ string GameEngine::stringToLog() {
 }
 
 void GameEngine::addPlayer(string playerName) {
-	playerList.push_back(new Player(playerName));
+	playersList.push_back(new Player(playerName));
 }
 
 void GameEngine::addPlayer(Player* p)
 {
-	playerList.push_back(p);
+	playersList.push_back(p);
 }
 
 void GameEngine::readMap(string mapName)

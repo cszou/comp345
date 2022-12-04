@@ -300,7 +300,7 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 				cout << "Number of army of strongest tero: " << toDedend().at(0)->getNumberOfArmies() << endl;
 				vector<Territory *> strong_can_attack;
 				cout << "Will auto use the strongest one to attack" << endl;
-				int count;
+				int count=0;
 				// where the strongest tero can attack
 				cout << "Strongest teros neibor:" << endl;
 				for (int i = 0; i < toDedend().at(0)->getNeighbours().size(); i++)
