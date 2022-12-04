@@ -17,11 +17,13 @@ class Order;
 class OrderList;
 class Hand;
 class PlayerStrategy;
+class GameEngine;
 class Player
 {
 public:
-    Player();                                                                               // Default constructor
-    Player(string name);                                                                    // constructor with name
+    Player(); // Default constructor
+    Player(string name);
+    Player(string name, GameEngine *game);                                                  // constructor with name                                                  // constructor with name
     Player(vector<Territory *> territories, Hand *hand, string name, OrderList *orderList); // Constructor 3 params
     ~Player();                                                                              // Desturctor
     Player(const Player &);                                                                 // Copy constructor
@@ -38,9 +40,8 @@ public:
     vector<Player *> attackban;
     vector<Territory *> getTerriotory();
     void addTerritory(Territory *o);
+
     // Newly added methods
-    void setifattected();
-    bool getifattacked();
     void setTerritories(vector<Territory *> &t);
     void setReinforcement(int reinforcement);
     int getReinforcement();
@@ -53,49 +54,41 @@ public:
     void set_players_Map(vector<Player *> players);
 
     // Newly added method for part 3
+    void setIfAttected();
     void setPlayerStrategy(PlayerStrategy *newPlayerStrategy);
     Player(PlayerStrategy *ps);
     std::map<string, Territory *> getDeploy_territories();
     std::map<string, Territory *> getAvailable_territories();
     std::map<string, Player *> getPlayers_Map();
     vector<Player *> getAttackBan();
-
-    void  deleteTerriotory(Territory *o);
-
-
-    //Newly added method for part 3
-    void setIfAttected();
-    bool getIfAttacked();
-    void setPlayerStrategy(PlayerStrategy* newPlayerStrategy);
-    Player(PlayerStrategy* ps);
-    std::map<string, Territory*> getDeploy_territories();
-    std::map<string, Territory*> getAvailable_territories();
-    std::map<string, Player*> getPlayers_Map();
-    vector<Player*> getAttackBan();
     void deleteTerriotory(Territory *o);
     void setifattected();
     bool getifattacked();
+    GameEngine* getGameEngine();
     void eliminated();
     bool checkEliminated();
     void reset();
-
 private:
+    bool neverAttacked = false;
     vector<Territory *> territories;
     Hand *handOfCards;
     OrderList *orderList;
     string name;
+    GameEngine *gameEngine;
+
     friend std::ostream &operator<<(ostream &os, Player &p1);
-    bool whetherattacked;
+
     // Newly added variables
     int reinforcement;
+    std::map<string, Territory *> deploy_territories;
+    std::map<string, Territory *> available_territories;
+    std::map<string, Territory *> all_territories;
+    vector<Player *> attackBan;
+    std::map<string, Player *> players_Map;
+    // Newly added for Player Strategy
+    PlayerStrategy *ps;
+        bool isEliminated;
 
-    std::map<string, Territory*> deploy_territories;
-    std::map<string, Territory*> available_territories;
-    std::map<string, Territory*> all_territories;
-    vector<Player*> attackBan;
-    std::map<string, Player*> players_Map;
-    
-    //Newly added for Player Strategy 
-    PlayerStrategy* ps;
-    bool isEliminated;
 };
+
+    
