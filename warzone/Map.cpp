@@ -174,7 +174,7 @@ bool Map::validate()
 	for (auto &t : territories)
 		if (t->getContinent() == nullptr)
 			return false;
-	cout << "unique continent validated" << endl;
+	//cout << "unique continent validated" << endl;
 	// validate map is connected
 	vector<bool> visited;
 	for (int i = 0; i < territoryNum; i++)
@@ -188,12 +188,12 @@ bool Map::validate()
 			if (!visited[i])
 				return false;
 	}
-	cout << "whole map connectivity validated" << endl;
+	//cout << "whole map connectivity validated" << endl;
 	// validate continent is connected, using DFS and skipping the territory not in the continent
 	for (auto c : continents)
 		if (!(c->validate()))
 			return false;
-	cout << "continent connectivity validated" << endl;
+	//cout << "continent connectivity validated" << endl;
 	return true;
 }
 
@@ -693,7 +693,7 @@ Map *MapLoader::readMap(string mapPath)
 	 */
 	else
 	{
-		cout << "map loaded." << endl;
+		//cout << "map loaded." << endl;
 		return gameMap;
 	}
 }

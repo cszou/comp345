@@ -272,19 +272,13 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 	{
 		if (orderName == "Deploy")
 		{
-			std::cout << "for player " << p->getName() << ",AggressivePlayerStrategy." << endl;
-			std::cout << "deploy." << endl;
+			cout << "\n********** " << p->getName() << "'s turn to deploy **********\n";
 			if (p->getReinforcement() > 0)
 			{
-				std::cout << "the pool is " << p->getReinforcement() << endl;
-				std::cout << "All goes to strongest country:" << toDedend().at(0)->getName() << endl;
 				p->addOrder(new Deploy(p->getReinforcement(), p, toDedend().at(0)));
-				// p->setReinforcement(0);
-				//				p->gethandofcard()->remove_CardinHand_ByType("Deploy");
 				Order *o = p->getlist()->getorderlist().back();
 				o->execute();
 				p->getlist()->getorderlist().pop_back();
-				cout << toDedend().at(0)->getNumberOfArmies() << endl;
 			}
 			else
 			{
@@ -298,19 +292,9 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 			{
 				if(toAttack().size()==0)
 				  break;
-				cout << "Name of strongest tero: " << toDedend().at(0)->getName() << endl;
-				cout << "Number of army of strongest tero: " << toDedend().at(0)->getNumberOfArmies() << endl;
 				vector<Territory *> strong_can_attack;
-				cout << "Will auto use the strongest one to attack" << endl;
 				int count = 0;
 				// where the strongest tero can attack
-				cout << "Strongest teros neibor:" << endl;
-				cout << "can attack tero but not strongest teros neibor:" << endl;
-				for (int i = 0; i < toAttack().size(); i++)
-				{
-					cout << toAttack().at(i)->getName() << "  ";
-				}
-				cout << endl;
 				if (toDedend().at(0)->getNeighbours().size() == 0)
 				{
 					if (toAttack().size() != 0)
@@ -318,25 +302,20 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 				}
 
 				Territory *k = toAttack().at(0);
-				cout << toAttack().at(0)->getName() << ": " << toAttack().at(0)->getNumberOfArmies() << endl;
-				cout << toDedend().at(0)->getName() << ": " << toDedend().at(0)->getNumberOfArmies() << endl;
 				Order *o = new Advance(p->toDefend().at(0), toAttack().at(0), this->p, p->toDefend().at(0)->getNumberOfArmies());
 				o->execute();
-				//		p->getlist()->getorderlist().pop_back();
 				if (k->getOwner() != p || p->getDeploy_territories().size() == 50)
 				{
-					cout << "didnt concor" << endl;
 					check23 = false;
 				}
 				else
 				{
 					if (k->getNumberOfArmies() == 0)
 						check23 = false;
-					cout << k->getName() << " is belong to " << k->getOwner()->getName() << endl;
-					cout << "It has army " << k->getNumberOfArmies() << endl;
 				}
+				check23 = false;
 			}
-			cout << "Consecutive order finished" << endl;}
+		}
 		else if (orderName == "bomb")
 		{
 			cout << "Using the bomb card, please choose a territory" << endl;
@@ -366,12 +345,9 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 				}
 			}
 			cout << "The territory to use bomb from the list is: " << target_name << endl;
-			// p->addOrder(new Bomb(p, p->toAttack().at(recorddd), 0));
 			Order *o = new Bomb(p, p->toAttack().at(recorddd), 0);
 			// Execute order
-			//		Order *o = p->getlist()->getorderlist().back();
 			o->execute();
-			//			p->gethandofcard()->remove_CardinHand_ByType("bomb");
 		}
 	}
 	else
@@ -379,17 +355,14 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 		if (orderName == "airlift")
 		{
 			std::cout << "AggressivePlayerStrategy doesnt airlift." << endl;
-			//			p->gethandofcard()->remove_CardinHand_ByType("airlift");
 		}
 		else if (orderName == "diplomacy")
 		{
 			std::cout << "AggressivePlayerStrategy doesnt diplomacy." << endl;
-			//			p->gethandofcard()->remove_CardinHand_ByType("diplomacy");
 		}
 		else if (orderName == "blockade")
 		{
 			std::cout << "AggressivePlayerStrategy doesnt blockade." << endl;
-			//			p->gethandofcard()->remove_CardinHand_ByType("blockade");
 		}
 	}
 }
@@ -416,9 +389,7 @@ vector<Territory *> AggressivePlayerStrategy::toAttack()
 			}
 		}
 	}
-	// cout<<"---the emey has"<<toAttack.size()<<endl;
 	sort(toAttack.begin(), toAttack.end());
-	// for (Territory* t : toAttack) {
 	toAttack.erase(unique(toAttack.begin(), toAttack.end()), toAttack.end());
 	for (int i = 0; i < toAttack.size(); i++)
 	{
@@ -433,7 +404,6 @@ vector<Territory *> AggressivePlayerStrategy::toAttack()
 }
 vector<Territory *> AggressivePlayerStrategy::toDedend()
 {
-	//////////////////////////////////////////
 	int smallest = 0;
 	int record = 0;
 	vector<Territory *> deplicate = p->getTerriotory();
@@ -469,18 +439,12 @@ void BenevolentPlayerStrategy::issueOrder(string orderName)
 {
 	if (orderName == "Deploy")
 	{
-		std::cout << "for player " << p->getName() << ",BenevolentPlayerStrategy." << endl;
-		std::cout << "deploy." << endl;
+		cout << "\n********** " << p->getName() << "'s turn to deploy **********\n";
 		if (p->getReinforcement() > 0)
 		{
-			std::cout << "the pool is " << p->getReinforcement() << endl;
-			std::cout << "All goes to weakest country:" << toDedend().at(0)->getName() << endl;
-			//	p->addOrder(new Deploy(p->getReinforcement(), p, toDedend().at(0)));
-			// p->gethandofcard()->remove_CardinHand_ByType("Deploy");
 			Order *o = new Deploy(p->getReinforcement(), p, toDedend().at(0));
 			p->setReinforcement(0);
 			// Execute order
-			//		Order *o = p->getlist()->getorderlist().back();
 			o->execute();
 		}
 	}
@@ -488,9 +452,7 @@ void BenevolentPlayerStrategy::issueOrder(string orderName)
 	{
 		if (orderName == "Advance")
 		{
-			std::cout << "advance." << endl;
-			std::cout << "BenevolentPlayerStrategy doesnt advance." << endl;
-			//	p->gethandofcard()->remove_CardinHand_ByType("Advance");
+
 		}
 	}
 }
@@ -533,14 +495,15 @@ string NeutralPlayerStrategy::getStrategyName()
 
 void NeutralPlayerStrategy::issueOrder(string orderName)
 {
-	cout << "Excecuting isssue order from " << getStrategyName() << endl;
+	if(orderName == "Deploy")
+		cout << "\n********** " << p->getName() << "'s turn to deploy **********\n";
 	if (!p->getifattacked())
 	{
-		cout << "This is a Neutral Player, it cannot issue any Order,becasue it hasnt been attacked" << endl;
+		//This is a Neutral Player, it cannot issue any Order, becasue it hasnt been attacked
 	}
 	if (p->getifattacked())
 	{
-		cout << "Neutral Player is attacked, it will become an Aggressive player." << endl;
+		// Neutral Player was attacked, it will become an Aggressive player
 		p->setPlayerStrategy(new AggressivePlayerStrategy(p));
 		p->issueOrder(orderName);
 	}
@@ -566,12 +529,12 @@ string CheaterPlayerStrategy::getStrategyName(){
 
 //Once CheaterPlayer issues Order, it automatically conquers that are adjacent to its own territories
 void CheaterPlayerStrategy:: issueOrder(string orderName){
-	if(orderName == "Advance")
+
+	if (orderName == "Deploy")
+		cout << "\n********** " << p->getName() << "'s turn to deploy **********\n";
+	else if(orderName == "Advance")
 	{
 		vector<Territory*> enemy_territories = toAttack();
-		cout << "-->Excecuting advance order from " << getStrategyName() << "\n" << endl;
-		cout << getStrategyName() << " will conquer all territories that are adjacent to its own!" << endl;
-		cout << "My adjacent territories have: " << enemy_territories.size() << " countires: \n" << endl;
 		for (Territory* t : enemy_territories) {
 			if (t->getOwner() != p) {
 				t->getOwner()->deleteTerriotory(t);
@@ -579,7 +542,6 @@ void CheaterPlayerStrategy:: issueOrder(string orderName){
 				p->addTerritory(t);
 			}
 		}
-		cout << "After conquering, My territories have " << p->getTerriotory().size() << " countries. " << endl;
 	}
 }
 //return all adjacent territories 

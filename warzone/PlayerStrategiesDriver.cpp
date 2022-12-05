@@ -2,7 +2,7 @@
 #include "GameEngineDriver.h"
 #include "GameEngine.h"
 #include "Player.h"
-
+#include "PlayerStrategies.h"
 #include <iostream>
 using std::cin;
 using std::cout;
@@ -10,7 +10,6 @@ using std::cout;
 using std::string;
 #include <vector>
 using std::vector;
-#include "GameEngineDriver.h"
 
 void testPlayerStrategies()
 {
@@ -157,8 +156,4 @@ void testPlayerStrategies()
       cout << "----------------------Advance for Benevolent----------------------" << endl;
       game2->playersList[1]->issueOrder("Advance");
 
-}
-int main()
-{
-    testPlayerStrategies();
 }

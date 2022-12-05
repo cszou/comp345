@@ -9,7 +9,7 @@
 Order::Order()
 {
     this->game = new GameEngine();
-    std::cout << "order created..." << std::endl;
+    //std::cout << "order created..." << std::endl;
 }
 Order::~Order()
 {
@@ -22,11 +22,11 @@ Deploy::Deploy(int NUMBEROFARMY, Player *K, Territory *F)
     this->F = F;
     this->NUMBEROFARMY = NUMBEROFARMY;
     // std::cout<<this->F->getOwner()<<std::endl;
-    std::cout << "initiate deploy!" << std::endl;
+    //std::cout << "initiate deploy!" << std::endl;
 }
 Deploy::~Deploy()
 {
-    std::cout << "deploy class destruction called" << std::endl;
+    //std::cout << "deploy class destruction called" << std::endl;
     // add logobserver
 }
 bool Deploy::validate()
@@ -35,12 +35,10 @@ bool Deploy::validate()
     //   std::cout << F->getOwner() << std::endl;
     if (K != F->getOwner())
     {
-        cout << "false" << endl;
         return false;
     }
     else
     {
-        cout << "true" << endl;
         return true;
     }
 }
@@ -48,17 +46,17 @@ void Deploy::execute()
 {
     if (validate())
     {
-        std::cout << "Deploy amount: " << NUMBEROFARMY << std::endl;
-        std::cout << "The terriotery is : " << F->getName() << std::endl;
-        std::cout << "Previously has army: " << F->getNumberOfArmies() << std::endl;
+        //std::cout << "Deploy amount: " << NUMBEROFARMY << std::endl;
+        //std::cout << "The terriotery is : " << F->getName() << std::endl;
+        //std::cout << "Previously has army: " << F->getNumberOfArmies() << std::endl;
         F->setNumberOfArmies(F->getNumberOfArmies() + NUMBEROFARMY);
-        std::cout << "Now has army: " << F->getNumberOfArmies() << std::endl;
+        //std::cout << "Now has army: " << F->getNumberOfArmies() << std::endl;
         check = true;
-        std::cout << "Execute successful." << std::endl;
+        //std::cout << "Execute successful." << std::endl;
     }
     else
     {
-        std::cout << "Execute unsuccessful since validated false." << std::endl;
+        std::cout << "Execute u?nsuccessful since validated false." << std::endl;
     }
     Notify(this);
 }
@@ -68,7 +66,7 @@ Deploy &Deploy::operator=(const Deploy &s)
     {
         this->F = new Territory(*(s.F));
         this->K = new Player(*(s.K));
-        std::cout << "assignment operator initiated" << std::endl;
+        //std::cout << "assignment operator initiated" << std::endl;
         this->NUMBEROFARMY = s.NUMBEROFARMY;
         return *this;
     }
@@ -94,11 +92,11 @@ Advance::Advance(Territory *old, Territory *new1, Player *player, int NUMBEROFAR
     this->NUMBEROFARMY = NUMBEROFARMY;
     this->K = player;
     d = new Deck();
-    std::cout << "initiate advance!" << std::endl;
+    //std::cout << "initiate advance!" << std::endl;
 }
 Advance::~Advance()
 {
-    std::cout << "advance class destruction called" << std::endl;
+    //std::cout << "advance class destruction called" << std::endl;
     // detach()
 }
 
@@ -106,18 +104,18 @@ bool Advance::validate()
 {
     for (Territory *i : OLD->getNeighbours())
     {
-        std::cout << "advance class destruction called" << std::endl;
+        //std::cout << "advance class destruction called" << std::endl;
         if (&NEW == &i) // if new is not neibor of old
             return false;
     }
     if (OLD->getOwner() != K)
     {
-        std::cout << "advance class destruction called" << std::endl;
+        //std::cout << "advance class destruction called" << std::endl;
         return false;
     }
     else
     {
-        std::cout << "advance verified successful" << std::endl;
+        //std::cout << "advance verified successful" << std::endl;
         return true;
     }
 }
@@ -127,36 +125,26 @@ void Advance::execute()
     {
         if (OLD->getOwner() == NEW->getOwner())
         {
-            std::cout
-                << "ARMY FROM OLD PLACE:" << OLD->getNumberOfArmies() << std::endl;
-            std::cout << "ARMY FROM NEW PLACE:" << NEW->getNumberOfArmies() << std::endl;
             NEW->setNumberOfArmies(NEW->getNumberOfArmies() + OLD->getNumberOfArmies());
-            std::cout << "UPDATE! ARMY FROM NEW PLACE:" << NEW->getNumberOfArmies() << std::endl;
         }    // SAME OWNER BETWEEN TEROIRO
-        else /*OLD->getOwner()!=NEW->getOwner()*/
+        else
         {    // attack
 
-            std::cout << NEW->getOwner()->getName() << std::endl;
             NEW->getOwner()->setifattected(); // set the owner being attacked
-            std::cout << "Teroery has different owner!!!" << std::endl;
             if (OLD->getNumberOfArmies() * 0.6 >= NEW->getNumberOfArmies())
             {
                 NEW->setNumberOfArmies(OLD->getNumberOfArmies() - 0.7 * NEW->getNumberOfArmies());
-                OLD->setNumberOfArmies(0);
+                OLD->setNumberOfArmies(1);
+                NEW->getOwner()->deleteTerriotory(NEW);
                 NEW->setOwner(OLD->getOwner()); // owner changed!
                 OLD->getOwner()->addTerritory(NEW);
-                std::cout << numberoftime << endl;
+                //std::cout << numberoftime << endl;
 
-                if (numberoftime = 0)
+                if (numberoftime == 0)
                 {
-                    std::cout << "Currently holding cards: " << OLD->getOwner()->gethandofcard()->numOfHandCards() << std::endl;
                     OLD->getOwner()->gethandofcard()->add_CardinHand(d->draw()); // add card in hand
-                    std::cout << "One new card draw from deck,advance successfully" << std::endl;
-                    std::cout << "Currently holding cards: " << OLD->getOwner()->gethandofcard()->numOfHandCards() << endl;
                     numberoftime++;
                 }
-                else
-                    std::cout << "no new card will give,since more than one advance sofar!" << std::endl;
             }
             else if (NEW->getNumberOfArmies() * 0.7 < OLD->getNumberOfArmies() && OLD->getNumberOfArmies() * 0.6 < NEW->getNumberOfArmies())
             {
@@ -165,19 +153,18 @@ void Advance::execute()
                 int nnew = NEW->getNumberOfArmies();
                 OLD->setNumberOfArmies(nold - nnew * 0.7);
                 NEW->setNumberOfArmies(nnew - nold * 0.6);
-                std::cout << "half half both got damaged" << std::endl;
             }
             else if (NEW->getNumberOfArmies() * 0.7 >= OLD->getNumberOfArmies())
             {
                 // new 20 old 130
                 NEW->setNumberOfArmies(NEW->getNumberOfArmies() - OLD->getNumberOfArmies() * 0.6);
-                OLD->setNumberOfArmies(0);
-                std::cout << "target cant make,own tero become 0" << std::endl;
+                OLD->setNumberOfArmies(1);
+                //std::cout << "target cant make,own tero become 0" << std::endl;
             }
             else
                 std::cout << "dont know whats the condition" << std::endl;
         }
-        std::cout << "advance order validated!" << std::endl;
+        //std::cout << "advance order validated!" << std::endl;
     }
     Notify(this);
 }
@@ -192,7 +179,7 @@ Advance::Advance(const Advance &advance)
     this->NUMBEROFARMY = advance.NUMBEROFARMY;
     this->K = advance.K;
     this->d = advance.d;
-    std::cout << "initiate copy consturctor!" << std::endl;
+    //std::cout << "initiate copy consturctor!" << std::endl;
 }
 Advance &Advance::operator=(const Advance &add)
 {
@@ -204,9 +191,9 @@ Advance &Advance::operator=(const Advance &add)
         this->NUMBEROFARMY = add.NUMBEROFARMY;
         this->K = add.K;
         this->d = add.d;
-        std::cout << "initiate assignment operator consturctor!" << std::endl;
+        //std::cout << "initiate assignment operator consturctor!" << std::endl;
     }
-    std::cout << "initiate assignment operator consturctor!" << std::endl;
+    //std::cout << "initiate assignment operator consturctor!" << std::endl;
     return *this;
 }
 string Advance::getName()
@@ -442,7 +429,7 @@ string Negotiate::stringToLog()
 //---------------------------------------ORDERLIST-------------------------------------
 OrderList::OrderList()
 {
-    std::cout << "default orderlist" << std::endl;
+    //std::cout << "default orderlist" << std::endl;
 }
 OrderList::OrderList(vector<Order *> list)
 {

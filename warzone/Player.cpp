@@ -198,7 +198,7 @@ void Player::set_Deploy_Territories()
 void Player::set_Available_Territories()
 {
 	vector<Territory *> enemy_territories = toAttack();
-	cout << "done" << endl;
+	//cout << "done" << endl;
 	for (int i = 0; i < enemy_territories.size(); i++)
 	{
 		Territory *t = enemy_territories[i];

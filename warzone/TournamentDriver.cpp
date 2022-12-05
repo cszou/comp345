@@ -36,13 +36,15 @@ void testTournament()
 			fcp->getCommand();
 		}
 	}
+	// vector to record the winners
+	vector<string> winners;
 	//Game start command
 	for(auto m: game->tournamentMaps){
 		game->map = m;
-		cout << "**********Start map: " << m->getName() << "**********\n";
+		cout << "******************** Start map: " << m->getName() << " ********************\n";
 		for(int i = 0; i < game->numOfGame; i++)
 		{
-			cout << "**********Game " << i + 1 << "**********\n";
+			cout << "******************** Game " << i + 1 << " ********************\n";
 			for (auto p : game->playersList)
 				p->reset();
 
@@ -64,19 +66,17 @@ void testTournament()
 
 			//Assign reinforcement to each player
 			for (auto p : game->playersList) {
-				p->setReinforcement(50);
+				p->setReinforcement(10);
 				p->set_all_territories(allTerritories);
 			}
 
 			//get continents
 			vector<Continent*> continents = game->map->getAllContinents();
-			// vector to record the winners
-			vector<string> winners;
 
 			int turn = 1;
 			int numOfPlayers = game->playersList.size();
 			while (numOfPlayers > 1 && turn <= game->maxNumberOfTurns) {
-				cout << "round " << turn << endl;
+				cout << "\n******************** round " << turn << " ********************" << endl;
 				// assign troops
 				for (auto p : game->playersList) {
 					if (p->checkEliminated() || p->getTerriotory().empty())
@@ -99,7 +99,6 @@ void testTournament()
 						continue;
 					else
 					{
-						cout << "\n**********" << p->getName() << "'s turn to deploy**********\n";
 						p->issueOrder("Deploy");
 					}
 
@@ -108,8 +107,10 @@ void testTournament()
 						continue;
 					else
 					{
-						cout << "\n**********" << p->getName() << "'s turn to advance**********\n";
+						cout << "\n********** " << p->getName() << "'s turn to advance **********\n";
+						cout << p->getName() << " has " << p->getTerriotory().size() << " territories before advance.\n";
 						p->issueOrder("Advance");
+						cout << p->getName() << " has " << p->getTerriotory().size() << " territories after advance.\n";
 					}
 
 				for (auto p : game->playersList)
@@ -122,6 +123,8 @@ void testTournament()
 					}
 				turn += 1;
 			}
+			cout << "\n******************** Game Ended ********************\n";
+			cout << turn - 1 << " rounds played with " << numOfPlayers << " players left.\n";
 			if (numOfPlayers == 1)
 			{
 				for(auto p: game->playersList)
@@ -138,4 +141,63 @@ void testTournament()
 			}
 		}
 	}
+	cout << endl;
+	string output = "tournamentlog.txt";
+	fstream filestream;
+	//if the file does not exit, it will create a new file. Otherwise, append content to the file
+	filestream.open(output, ofstream::app);
+	cout << "\nTournament Mode:\n";
+	filestream << "\nTournament Mode:\n";
+	cout << "M: ";
+	filestream << "M: ";
+	for (auto m : game->tournamentMaps)
+	{
+		cout << m->getName() << " ";
+		filestream << m->getName() << " ";
+	}
+	cout << "\nP: ";
+	filestream << "\nP: ";
+	for (auto p : game->playersList)
+	{
+		cout << p->getName() << " ";
+		filestream << p->getName() << " ";
+	}
+	cout << "\nG: " << game->numOfGame << "\nD: " << game->maxNumberOfTurns << endl;
+	filestream << "\nG: " << game->numOfGame << "\nD: " << game->maxNumberOfTurns << endl;
+	cout << "\nResults:\n";
+	filestream << "\nResults:\n";
+	for (int i = 0;i < 15;i++)
+	{
+		cout << " ";
+		filestream << " ";
+	}
+	for (int i = 1;i <= game->numOfGame;i++)
+	{
+		cout << "Game " << i << "\t\t";
+		filestream << "Game " << i << "\t\t";
+	}
+	int j = 0;
+	for (auto m : game->tournamentMaps) {
+		cout << endl << m->getName();
+		filestream << endl << m->getName();
+		for (int i = m->getName().size();i < 15;i++)
+		{
+			cout << " ";
+			filestream << " ";
+		}
+		cout << winners[j] << "\t\t";
+		filestream << winners[j] << "\t\t";
+		j += 1;
+		while (j % game->numOfGame != 0)
+		{
+			cout << winners[j] << "\t\t";
+			filestream << winners[j] << "\t\t";
+			j += 1;
+		}
+	}
+	cout << endl;
+	filestream << endl;
+	//close the file
+	filestream << "-----------------------------------------\n" << endl;
+	filestream.close();
 }

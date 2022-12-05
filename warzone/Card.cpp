@@ -147,7 +147,7 @@ Card* Deck:: draw(){
     Card* drawCard = deckOfCards.at(random);//copy random picked card
     //generate random number from 0 to number of cards in deck-1
     deckOfCards.erase(deckOfCards.begin()+random);//erase drawn card from the vector
-    std::cout<<"draw method finished"<<std::endl;
+    //std::cout<<"draw method finished"<<std::endl;
     return drawCard;
  }
 
@@ -156,7 +156,7 @@ Card* Deck:: draw(){
 
 //Defalut Constructor
 Hand::Hand(){
-std::cout<<"Hand created"<<endl;
+//std::cout<<"Hand created"<<endl;
 }
 //Destructor
 Hand::~Hand(){
