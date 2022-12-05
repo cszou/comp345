@@ -335,7 +335,7 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 					cout << "It has army " << k->getNumberOfArmies() << endl;
 				}
 			}
-			cout << "Consecutive order finished" << endl;
+			cout << "Consecutive order finished" << endl;}
 		else if (orderName == "bomb")
 		{
 			cout << "Using the bomb card, please choose a territory" << endl;
