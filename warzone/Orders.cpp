@@ -4,6 +4,7 @@
 #include "Orders.h"
 #include "Player.h"
 #include "Card.h"
+#include "LoggingObserver.h"
 
 Order::Order()
 {
@@ -126,28 +127,33 @@ void Advance::execute()
     {
         if (OLD->getOwner() == NEW->getOwner())
         {
-            std::cout << "ARMY FROM OLD PLACE:" << OLD->getNumberOfArmies() << std::endl;
+            std::cout
+                << "ARMY FROM OLD PLACE:" << OLD->getNumberOfArmies() << std::endl;
             std::cout << "ARMY FROM NEW PLACE:" << NEW->getNumberOfArmies() << std::endl;
             NEW->setNumberOfArmies(NEW->getNumberOfArmies() + OLD->getNumberOfArmies());
             std::cout << "UPDATE! ARMY FROM NEW PLACE:" << NEW->getNumberOfArmies() << std::endl;
         }    // SAME OWNER BETWEEN TEROIRO
         else /*OLD->getOwner()!=NEW->getOwner()*/
         {    // attack
-            NEW->getOwner()->setifattected();//set the owner being attacked
+
+            std::cout << NEW->getOwner()->getName() << std::endl;
+            NEW->getOwner()->setifattected(); // set the owner being attacked
             std::cout << "Teroery has different owner!!!" << std::endl;
             if (OLD->getNumberOfArmies() * 0.6 >= NEW->getNumberOfArmies())
             {
-                std::cout << "get" << std::endl;
                 NEW->setNumberOfArmies(OLD->getNumberOfArmies() - 0.7 * NEW->getNumberOfArmies());
                 OLD->setNumberOfArmies(0);
                 NEW->setOwner(OLD->getOwner()); // owner changed!
                 OLD->getOwner()->addTerritory(NEW);
-                if (numberoftime == 0)
+                std::cout << numberoftime << endl;
+
+                if (numberoftime = 0)
                 {
                     std::cout << "Currently holding cards: " << OLD->getOwner()->gethandofcard()->numOfHandCards() << std::endl;
                     OLD->getOwner()->gethandofcard()->add_CardinHand(d->draw()); // add card in hand
                     std::cout << "One new card draw from deck,advance successfully" << std::endl;
                     std::cout << "Currently holding cards: " << OLD->getOwner()->gethandofcard()->numOfHandCards() << endl;
+                    numberoftime++;
                 }
                 else
                     std::cout << "no new card will give,since more than one advance sofar!" << std::endl;
@@ -312,12 +318,13 @@ void Bomb::execute()
     {
         int record = target->getNumberOfArmies();
         target->setNumberOfArmies(target->getNumberOfArmies() / 2);
+        std::cout << endl;
         std::cout << "bomb order executed!Previous target army: " << record << ",Currently target terriotery army: " << target->getNumberOfArmies() << std::endl;
     }
     else
         std::cout << "verification failed" << std::endl;
     std::cout << "bomb execute method finished !" << std::endl;
-     Notify(this);
+    Notify(this);
 }
 
 std::ostream &operator<<(std::ostream &s, Bomb *i)
@@ -362,11 +369,11 @@ void Blockade::execute()
     if (validate())
     {
         target->setNumberOfArmies(target->getNumberOfArmies() * 2); // double the army amount
-        target->setOwner(game->getNeutralPlayer());                                  // set owner to null
+        target->setOwner(game->getNeutralPlayer());                 // set owner to null
         std::cout << "blockade order executed!" << std::endl;
-    }
+    }else
     std::cout << "blockade order failed!" << std::endl;
-     Notify(this);
+    Notify(this);
 }
 
 std::ostream &operator<<(std::ostream &s, Blockade *i)
@@ -394,7 +401,7 @@ Negotiate::~Negotiate()
 }
 bool Negotiate::validate()
 {
-            std::cout << "negotiate order validate!" << std::endl;
+    std::cout << "negotiate order validate!" << std::endl;
 
     if (order == rival)
     {
@@ -416,8 +423,9 @@ void Negotiate::execute()
         order->attackban.push_back(rival);
         rival->attackban.push_back(order);
         std::cout << "negotiate order executed!" << std::endl;
-    }else
-    std::cout << "negotiate order failed!" << std::endl;
+    }
+    else
+        std::cout << "negotiate order failed!" << std::endl;
 }
 std::ostream &operator<<(std::ostream &s, Negotiate *i)
 {
@@ -470,10 +478,11 @@ vector<Order *> OrderList::getorderlist()
 void OrderList::add(Order *k1)
 {
     list.push_back(k1);
-     Notify(this);
+    Notify(this);
 }
-string OrderList::stringToLog(){
-    return "Order have just added: "+ list.back()->getName();
+string OrderList::stringToLog()
+{
+    return "Order have just added: " + list.back()->getName();
 }
 std::ostream &operator<<(std::ostream &s, OrderList &ol) // string insertion operator for orderlists
 {

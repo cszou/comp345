@@ -25,6 +25,7 @@ void testLoadMaps() {
 			cout << "This is a valid map.\n";
 		else
 			cout << "This is not a valid map.\n";
+		gameMap->showAllContinents();
 		cout << "Do you want try again (y/n): ";
 		cin >> ans;
 	}

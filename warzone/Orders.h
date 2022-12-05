@@ -55,7 +55,7 @@ class Advance : public Order{
     Territory *OLD;
     Territory *NEW;
     string name = "Advance";
-     int numberoftime;
+     int numberoftime=0;
  //   Deck *d = new Deck();
     public:
     Advance(const Advance &advance);

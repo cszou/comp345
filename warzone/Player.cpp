@@ -82,7 +82,7 @@ Player::Player(const Player &p)
 		this->territories.push_back(new Territory(*t));
 	this->handOfCards = new Hand(*p.handOfCards);
 	this->orderList = new OrderList(*p.orderList);
-		isEliminated = false; // for tournament mode only
+			isEliminated = false; //for tournament mode only
 
 }
 
@@ -114,6 +114,7 @@ vector<Territory *> Player::getTerriotory()
 void Player::addTerritory(Territory *o)
 {
 	territories.push_back(o);
+	o->setOwner(this);
 }
 
 void Player::addOrder(Order *o)
@@ -280,7 +281,7 @@ bool Player::getifattacked()
 }
 void Player::deleteTerriotory(Territory *o)
 {
-	territories.erase(remove(territories.begin(), territories.end(), o), territories.end());
+	territories.erase(find(territories.begin(), territories.end(), o));
 }
 void Player::eliminated()
 {

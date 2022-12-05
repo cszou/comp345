@@ -28,7 +28,10 @@ public:
 	friend std::ostream& operator<<(std::ostream&, const Map&); //stream insertion
 	vector<Territory*> getAllTerritories();
 	vector<Continent*> getAllContinents();
+	void setName(string name);
+	string getName();
 private:
+	string name; //map name
 	vector<Territory*> territories; //vector to store the territories
 	vector<Continent*> continents; //vector to store the continents
 	int territoryNum; //total number of territories

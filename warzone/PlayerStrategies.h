@@ -1,78 +1,84 @@
+#pragma once
 #include <string>
-#include"Player.h"
-#include <vector> 
-#include <algorithm> 
+#include "Player.h"
 using namespace std;
 
-class PlayerStrategy {
+class PlayerStrategy
+{
 protected:
-    Player* p;
+    Player *p;
+
 public:
-    PlayerStrategy(Player* player);
-    Player* getPlayer();
+    PlayerStrategy(Player *player);
+    Player *getPlayer();
     virtual void issueOrder(string OrderName) = 0;
-    virtual vector<Territory*> toAttack() = 0;
-    virtual vector<Territory*> toDedend() = 0;
+    virtual vector<Territory *> toAttack() = 0;
+    virtual vector<Territory *> toDedend() = 0;
 };
 
-//Player that never issue any order, nor use any cards. If a Neutral player is attacked,
-//it becomes an Aggressive player
-class NeutralPlayerStrategy : public PlayerStrategy {
+// Player that never issue any order, nor use any cards. If a Neutral player is attacked,
+// it becomes an Aggressive player
+class NeutralPlayerStrategy : public PlayerStrategy
+{
 private:
     string strategyName;
+
 public:
-    NeutralPlayerStrategy(Player* player);
+    NeutralPlayerStrategy(Player *player);
     ~NeutralPlayerStrategy();
     void issueOrder(string orderName);
-    vector<Territory*> toAttack();
-    vector<Territory*> toDedend();
+    vector<Territory *> toAttack();
+    vector<Territory *> toDedend();
     string getStrategyName();
-
-
 };
-class CheaterPlayerStrategy : public PlayerStrategy {
+class CheaterPlayerStrategy : public PlayerStrategy
+{
 private:
     string strategyName;
+
 public:
-    CheaterPlayerStrategy(Player* player);
+    CheaterPlayerStrategy(Player *player);
     ~CheaterPlayerStrategy();
     void issueOrder(string OrderName);
-    vector<Territory*> toAttack();
-    vector<Territory*> toDedend();
+    vector<Territory *> toAttack();
+    vector<Territory *> toDedend();
     string getStrategyName();
 };
-class HumanPlayerStrategy : public PlayerStrategy {
+class HumanPlayerStrategy : public PlayerStrategy
+{
 private:
     string strategyName;
+
 public:
-    HumanPlayerStrategy(Player* player);
+    HumanPlayerStrategy(Player *player);
     ~HumanPlayerStrategy();
     void issueOrder(string OrderName);
-    vector<Territory*> toAttack();
-    vector<Territory*> toDedend();
+    vector<Territory *> toAttack();
+    vector<Territory *> toDedend();
     string getStrategyName();
 };
-class AggressivePlayerStrategy : public PlayerStrategy {
+class AggressivePlayerStrategy : public PlayerStrategy
+{
 private:
     string strategyName;
+
 public:
-    static bool compareInterval(Territory* k1, Territory* k2);
-    AggressivePlayerStrategy(Player* player);
+    AggressivePlayerStrategy(Player *player);
     ~AggressivePlayerStrategy();
     void issueOrder(string OrderName);
-    vector<Territory*> toAttack();
-    vector<Territory*> toDedend();
+    vector<Territory *> toAttack();
+    vector<Territory *> toDedend();
     string getStrategyName();
 };
-class BenevolentPlayerStrategy : public PlayerStrategy {
+class BenevolentPlayerStrategy : public PlayerStrategy
+{
 private:
     string strategyName;
 public:
-    static bool compareInterval(Territory* k1, Territory* k2);
-    BenevolentPlayerStrategy(Player* player);
+    BenevolentPlayerStrategy(Player *player);
     ~BenevolentPlayerStrategy();
     void issueOrder(string OrderName);
-    vector<Territory*> toAttack();
-    vector<Territory*> toDedend();
+    vector<Territory *> toAttack();
+    vector<Territory *> toDedend();
     string getStrategyName();
 };

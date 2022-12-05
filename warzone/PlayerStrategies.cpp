@@ -14,7 +14,6 @@ using std::string;
 #include <vector>
 using std::vector;
 #include <algorithm>
-using std::sort;
 #include <sstream>
 using namespace std;
 
@@ -62,10 +61,11 @@ void HumanPlayerStrategy::issueOrder(string orderName)
 		cout << "Where do you want to deploy " << num << " troops? Please enter the name of the territory. " << endl;
 		string name;
 		cin >> name;
-		while (p->getDeploy_territories().find(name) == p->getDeploy_territories().end()) {
+		/*while (std::find(p->getTerriotory().begin(),p->getTerriotory().end(),) {
 			cout << "Wrong name, please try again." << endl;
 			cin >> name;
-		}
+		}*/
+
 		cout << "Order type: Deploy " << num << " -> " << name << endl;
 
 		p->setReinforcement(p->getReinforcement() - num);
@@ -268,7 +268,7 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 {
 	p->set_Deploy_Territories();
 	p->set_Available_Territories();
-	if (orderName == "Deploy" | orderName == "Advance" | orderName == "bomb")
+	if (orderName == "Deploy" || orderName == "Advance" || orderName == "bomb")
 	{
 		if (orderName == "Deploy")
 		{
@@ -300,7 +300,7 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 				cout << "Number of army of strongest tero: " << toDedend().at(0)->getNumberOfArmies() << endl;
 				vector<Territory *> strong_can_attack;
 				cout << "Will auto use the strongest one to attack" << endl;
-				int count=0;
+				int count = 0;
 				// where the strongest tero can attack
 				cout << "Strongest teros neibor:" << endl;
 				for (int i = 0; i < toDedend().at(0)->getNeighbours().size(); i++)
@@ -359,7 +359,7 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 				//		Order *o = p->getlist()->getorderlist().back();
 				o->execute();
 				//		p->getlist()->getorderlist().pop_back();
-				if (k->getOwner() != p | p->getDeploy_territories().size() == 50)
+				if (k->getOwner() != p || p->getDeploy_territories().size() == 50)
 				{
 					cout << "didnt concor" << endl;
 					check23 = false;
@@ -491,6 +491,7 @@ vector<Territory *> AggressivePlayerStrategy::toDedend()
 	deplicate.at(record) = swap1; // the first one is always the strongest
 	return deplicate;
 }
+
 // BenevolentPlayerStrategy
 //----------------------------------------------------------
 
@@ -522,7 +523,7 @@ void BenevolentPlayerStrategy::issueOrder(string orderName)
 			o->execute();
 		}
 	}
-	else if (orderName == "Advance" | orderName == "bomb")
+	else if (orderName == "Advance" || orderName == "bomb")
 	{
 		if (orderName == "Advance")
 		{
@@ -703,7 +704,6 @@ vector<Territory *> BenevolentPlayerStrategy::toDedend()
 	deplicate.at(record) = swap1; // the first one is always the weakest
 	return deplicate;
 }
- 
 // NeutralPlayerStrategy
 //----------------------------------------------------------
 NeutralPlayerStrategy::NeutralPlayerStrategy(Player *player) : PlayerStrategy(player)
@@ -739,8 +739,6 @@ vector<Territory *> NeutralPlayerStrategy::toDedend()
 {
 	return p->getTerriotory();
 }
-
-
 //CheaterPlayerStrategy (Done)
 //----------------------------------------------------------
 CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player):PlayerStrategy (player){
@@ -752,20 +750,21 @@ string CheaterPlayerStrategy::getStrategyName(){
 
 //Once CheaterPlayer issues Order, it automatically conquers that are adjacent to its own territories
 void CheaterPlayerStrategy:: issueOrder(string orderName){
-	vector<Territory*> enemy_territories = toAttack();
-	cout<<"/n-->Excecuting isssue order from "<<getStrategyName()<<"\n"<<endl;
-	cout<<getStrategyName()<<" will conquer all territories that are adjacent to its own!"<<endl;
-	cout<<"My adjacent territories have: "<<enemy_territories.size()<<" contires: \n"<<endl;
-	for (Territory* t :enemy_territories){
-		cout<< t->getName()<<"  ";
-		if(t->getOwner()!=p){
-			t->getOwner()->deleteTerriotory(t);
-			t->setOwner( p);
-			p->addTerritory(t);
+	if(orderName == "Advance")
+	{
+		vector<Territory*> enemy_territories = toAttack();
+		cout << "-->Excecuting advance order from " << getStrategyName() << "\n" << endl;
+		cout << getStrategyName() << " will conquer all territories that are adjacent to its own!" << endl;
+		cout << "My adjacent territories have: " << enemy_territories.size() << " countires: \n" << endl;
+		for (Territory* t : enemy_territories) {
+			if (t->getOwner() != p) {
+				t->getOwner()->deleteTerriotory(t);
+				t->setOwner(p);
+				p->addTerritory(t);
 			}
+		}
+		cout << "After conquering, My territories have " << p->getTerriotory().size() << " countries. " << endl;
 	}
-	cout<<endl;
-	cout<<"\nAfter conquering, My territories have " <<p->getTerriotory().size()<<" countries. "<<endl;
 }
 //return all adjacent territories 
 vector<Territory*> CheaterPlayerStrategy::toAttack(){
@@ -785,4 +784,3 @@ vector<Territory*> CheaterPlayerStrategy::toAttack(){
 vector<Territory*> CheaterPlayerStrategy::toDedend(){
 	return p->getTerriotory();
 }
-

@@ -90,5 +90,3 @@ private:
         bool isEliminated;
 
 };
-
-    

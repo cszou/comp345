@@ -13,23 +13,42 @@ using std::vector;
 void testTournament()
 {
 	GameEngine* game = new GameEngine();
-	while (!game->checkTournamentMode())
+	cout << "Where do you want to read commands from? 1. console / 2. file: ";
+	string ans;
+	cin >> ans;
+	if (ans == "1" || ans == "console")
+		// read from console
 	{
-		cout << "Please enter a valid tournament command.\n";
-		CommandProcessor* cp = new CommandProcessor(game);
-		cp->getCommand();
+		while (!game->checkTournamentMode())
+		{
+			cout << "Please enter a valid tournament command.\n";
+			CommandProcessor* cp = new CommandProcessor(game);
+			cp->getCommand();
+		}
+	}
+	else if (ans == "2" || ans == "file")
+		// read from file
+	{
+		while (!game->checkTournamentMode())
+		{
+			cout << "Please enter a valid tournament command.\n";
+			CommandProcessor* fcp = new FileCommandProcessorAdapter(game);
+			fcp->getCommand();
+		}
 	}
 	//Game start command
 	for(auto m: game->tournamentMaps){
 		game->map = m;
+		cout << "**********Start map: " << m->getName() << "**********\n";
 		for(int i = 0; i < game->numOfGame; i++)
 		{
+			cout << "**********Game " << i + 1 << "**********\n";
 			for (auto p : game->playersList)
 				p->reset();
 
-			auto rng = std::default_random_engine{};
+			//auto rng = std::default_random_engine{};
 			vector<Territory*> allTerritories = game->map->getAllTerritories();
-			std::shuffle(std::begin(allTerritories), std::end(allTerritories), rng);
+			std::random_shuffle(std::begin(allTerritories), std::end(allTerritories));
 			//Distribute territories to players
 			while (!allTerritories.empty()) {
 				for (int i = 0; i < game->playersList.size(); i++) {
@@ -39,19 +58,17 @@ void testTournament()
 					allTerritories.pop_back();
 				}
 			}
-
+			cout << "all territory assigned" << endl;
 			//Creating random player order, this is the order of play
-			
-			std::shuffle(std::begin(game->playersList), std::end(game->playersList), rng);
+			std::random_shuffle(std::begin(game->playersList), std::end(game->playersList));
 
 			//Assign reinforcement to each player
 			for (auto p : game->playersList) {
 				p->setReinforcement(50);
 				p->set_all_territories(allTerritories);
-				p->gethandofcard()->add_CardinHand(game->deck->draw());
 			}
 
-			//Add players and get continents and territories
+			//get continents
 			vector<Continent*> continents = game->map->getAllContinents();
 			// vector to record the winners
 			vector<string> winners;
@@ -59,10 +76,10 @@ void testTournament()
 			int turn = 1;
 			int numOfPlayers = game->playersList.size();
 			while (numOfPlayers > 1 && turn <= game->maxNumberOfTurns) {
-
+				cout << "round " << turn << endl;
 				// assign troops
 				for (auto p : game->playersList) {
-					if (p->checkEliminated())
+					if (p->checkEliminated() || p->getTerriotory().empty())
 						continue;
 					else {
 						//Assign troops based on the number of territories
@@ -78,19 +95,27 @@ void testTournament()
 					}
 				}
 				for (auto p : game->playersList)
-					if (p->checkEliminated())
+					if (p->checkEliminated() || p->getTerriotory().empty())
 						continue;
 					else
-						p->issueOrder("deploy");
+					{
+						cout << "\n**********" << p->getName() << "'s turn to deploy**********\n";
+						p->issueOrder("Deploy");
+					}
+
+				for (auto p : game->playersList)
+					if (p->checkEliminated() || p->getTerriotory().empty())
+						continue;
+					else
+					{
+						cout << "\n**********" << p->getName() << "'s turn to advance**********\n";
+						p->issueOrder("Advance");
+					}
 
 				for (auto p : game->playersList)
 					if (p->checkEliminated())
 						continue;
-					else
-						p->issueOrder("advance");
-
-				for (auto p : game->playersList)
-					if (p->getTerriotory().empty())
+					else if (p->getTerriotory().empty())
 					{
 						p->eliminated();
 						numOfPlayers -= 1;
@@ -99,12 +124,16 @@ void testTournament()
 			}
 			if (numOfPlayers == 1)
 			{
-				cout << "The game has ended, the winner is  " << game->playersList[0]->getName() << endl;
-				winners.push_back(game->playersList[0]->getName());
+				for(auto p: game->playersList)
+					if(p->getTerriotory().size()>0)
+					{
+						cout << "The game has ended, the winner is " << p->getName() << endl << endl;
+						winners.push_back(p->getName());
+					}
 			}
 			else
 			{
-				cout << "The game has ended as a draw" << endl;
+				cout << "The game has ended as a draw" << endl << endl;
 				winners.push_back("Draw");
 			}
 		}

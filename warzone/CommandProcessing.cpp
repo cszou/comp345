@@ -136,7 +136,7 @@ string CommandProcessor::readCommand()
 			cout << "invalid tournament command.\n";
 			return "error tournament command";
 		}
-	if (commands[0] == "loadmap") {
+	else if (commands[0] == "loadmap") {
 		if (commands.size() < 2)
 			return "error loadmap command";
 		else
@@ -365,7 +365,18 @@ string FileCommandProcessorAdapter::readCommand()
 		command.push_back(commands.substr(start, end));
 		commands = commands.substr(end + 1, len - end + 1);
 	}
-	if (command[0] == "loadmap") {
+	if (command[0] == "tournament")
+		if (this->validateTournamentCommand(command))
+		{
+			cout << "valid tournament command.\n";
+			game->enableTournamentMode();
+		}
+		else
+		{
+			cout << "invalid tournament command.\n";
+			return "error tournament command";
+		}
+	else if (command[0] == "loadmap") {
 		if (command.size() < 1)
 			return "error command";
 		else
