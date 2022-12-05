@@ -423,7 +423,7 @@ vector<Territory *> AggressivePlayerStrategy::toAttack()
 	{
 		for (int k = 0; k < bannedTerritory.size(); k++)
 		{
-			if (toAttack.at(i) = bannedTerritory.at(k))
+			if (toAttack.at(i) == bannedTerritory.at(k))
 				toAttack.erase(toAttack.begin() + i);
 		}
 	}
