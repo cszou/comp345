@@ -296,6 +296,8 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 			bool check23 = true;
 			while (check23)
 			{
+				if(toAttack().size()==0)
+				  break;
 				cout << "Name of strongest tero: " << toDedend().at(0)->getName() << endl;
 				cout << "Number of army of strongest tero: " << toDedend().at(0)->getNumberOfArmies() << endl;
 				vector<Territory *> strong_can_attack;
@@ -303,60 +305,22 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 				int count = 0;
 				// where the strongest tero can attack
 				cout << "Strongest teros neibor:" << endl;
-				for (int i = 0; i < toDedend().at(0)->getNeighbours().size(); i++)
-				{
-					cout << toDedend().at(0)->getNeighbours().at(i)->getName() << "  ";
-				}
-				for (int i = 0; i < toAttack().size(); i++)
-				{
-					if (toDedend().at(0)->checkNeighbours(toAttack().at(i)) && count == 0)
-					{
-						strong_can_attack.push_back(toAttack().at(i));
-						cout << toAttack().at(i)->getName() << "  ";
-						count = count + 1;
-					}
-					else if (count == toAttack().size() - 1)
-					{
-						cout << "No enermy nearby the strongest tero" << endl;
-					}
-				}
-				cout << endl;
 				cout << "can attack tero but not strongest teros neibor:" << endl;
 				for (int i = 0; i < toAttack().size(); i++)
 				{
 					cout << toAttack().at(i)->getName() << "  ";
 				}
 				cout << endl;
-				cout << "Add a attackable tero to the strongest tero's neibor?" << endl;
-				string k0;
-				cin >> k0;
-				bool check4 = true;
-				int recordddd = 0;
-				while (check4) // check whether true input
+				if (toDedend().at(0)->getNeighbours().size() == 0)
 				{
-					for (int i = 0; i < toAttack().size(); i++)
-					{
-						if (k0 == toAttack().at(i)->getName())
-						{
-							check4 = false;
-							toDedend().at(0)->addNeighbour(toAttack().at(i)); // add a neibor for strongest
-							strong_can_attack.push_back(toAttack().at(i));
-							recordddd = i;
-							cout << "add neibor success";
-						}
-					}
-					if (check4)
-					{
-						cout << "error tero ,Add a attackable tero to the strongest tero's neibor?";
-						cin >> k0;
-					}
+					if (toAttack().size() != 0)
+						toDedend().at(0)->addNeighbour(toAttack().at(0)); // add a neibor for strongest
 				}
-				Territory *k = toAttack().at(recordddd);
-				cout << toAttack().at(recordddd)->getName() << ": " << toAttack().at(recordddd)->getNumberOfArmies() << endl;
+
+				Territory *k = toAttack().at(0);
+				cout << toAttack().at(0)->getName() << ": " << toAttack().at(0)->getNumberOfArmies() << endl;
 				cout << toDedend().at(0)->getName() << ": " << toDedend().at(0)->getNumberOfArmies() << endl;
-				Order *o = new Advance(p->toDefend().at(0), toAttack().at(recordddd), this->p, p->toDefend().at(0)->getNumberOfArmies());
-				// Execute order
-				//		Order *o = p->getlist()->getorderlist().back();
+				Order *o = new Advance(p->toDefend().at(0), toAttack().at(0), this->p, p->toDefend().at(0)->getNumberOfArmies());
 				o->execute();
 				//		p->getlist()->getorderlist().pop_back();
 				if (k->getOwner() != p || p->getDeploy_territories().size() == 50)
@@ -366,17 +330,13 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 				}
 				else
 				{
+					if (k->getNumberOfArmies() == 0)
+						check23 = false;
 					cout << k->getName() << " is belong to " << k->getOwner()->getName() << endl;
 					cout << "It has army " << k->getNumberOfArmies() << endl;
 				}
-				cout << "Do you want to stop? You should keep conquer(type \"stop\" to stop)" << endl;
-				string stop;
-				cin >> stop;
-				if (stop == "stop")
-					check23 = false;
 			}
-			cout << "Consecutive order finished" << endl;
-		}
+			cout << "Consecutive order finished" << endl;}
 		else if (orderName == "bomb")
 		{
 			cout << "Using the bomb card, please choose a territory" << endl;
@@ -464,7 +424,7 @@ vector<Territory *> AggressivePlayerStrategy::toAttack()
 	{
 		for (int k = 0; k < bannedTerritory.size(); k++)
 		{
-			if (toAttack.at(i) = bannedTerritory.at(k))
+			if (toAttack.at(i) == bannedTerritory.at(k))
 				toAttack.erase(toAttack.begin() + i);
 		}
 	}
@@ -504,6 +464,7 @@ string BenevolentPlayerStrategy::getStrategyName()
 	return this->strategyName;
 }
 
+ 
 void BenevolentPlayerStrategy::issueOrder(string orderName)
 {
 	if (orderName == "Deploy")
@@ -530,151 +491,6 @@ void BenevolentPlayerStrategy::issueOrder(string orderName)
 			std::cout << "advance." << endl;
 			std::cout << "BenevolentPlayerStrategy doesnt advance." << endl;
 			//	p->gethandofcard()->remove_CardinHand_ByType("Advance");
-		}
-		else
-		{
-			std::cout << "bomb." << endl;
-			std::cout << "BenevolentPlayerStrategy doesnt bomb." << endl;
-			//	p->gethandofcard()->remove_CardinHand_ByType("bomb");
-		}
-	}
-	else
-	{
-		if (orderName == "airlift")
-		{
-			cout << "Using this airlift card" << endl;
-			cout << "Your territories are: ";
-			for (int i = 0; i < toDedend().size(); i++)
-			{
-				cout << toDedend().at(i)->getName() << "  ";
-			}
-			cout << "Choose the source territory";
-			string target_name;
-			bool check3 = true;
-			int recorddd;
-			while (check3) // check whether true input
-			{
-				cin >> target_name;
-				for (int i = 0; i < toDedend().size(); i++)
-				{
-					if (target_name == toDedend().at(i)->getName())
-					{
-						check3 = false;
-						recorddd = i;
-					}
-				}
-				if (check3)
-				{
-					cout << "Wrong name, please try again." << endl;
-				}
-			}
-
-			cout << "You have " << toDedend().at(recorddd)->getNumberOfArmies() << "army unites in this territory, how many do you want to move ?" << endl;
-			int num;
-
-			bool check5 = true;
-			while (check5) // check whether true int input
-			{
-				cin >> num;
-				if (num <= toDedend().at(recorddd)->getNumberOfArmies())
-				{
-					check5 = false;
-				}
-				if (check5)
-				{
-					cout << "wrong int,try again" << endl;
-				}
-			}
-			cout << "Please enter the target territory" << endl;
-			cout << "Available territories are: " << endl;
-			for (int i = 0; i < toDedend().size(); i++)
-			{
-				if (toDedend().at(i)->getName() != toDedend().at(recorddd)->getName())
-					cout << toDedend().at(i)->getName() << "  ";
-			}
-			string target_tero;
-			bool check6 = true;
-			int recorddddd;
-			while (check6) // check whether true input
-			{
-				cin >> target_tero;
-				for (int i = 0; i < toDedend().size(); i++)
-				{
-					if (target_tero == toDedend().at(i)->getName())
-					{
-						check6 = false;
-						recorddddd = i;
-					}
-				}
-				if (check6)
-				{
-					cout << "Wrong name, please try again." << endl;
-				}
-			}
-			Order *o = new Airlift(this->p, toDedend().at(recorddd), toDedend().at(recorddddd));
-			o->execute();
-		}
-		else if (orderName == "diplomacy")
-		{
-			cout << "Using diplomacy card" << endl;
-			cout << "Please choose a victim" << endl;
-			cout << "The available players are: ";
-			int record = 0;
-			for (int i = 0; i < p->getGameEngine()->playersList.size(); i++)
-			{
-				if (p != p->getGameEngine()->playersList.at(i))
-				{
-					cout << p->getGameEngine()->playersList.at(i)->getName() << " ";
-					record = i;
-				}
-			}
-			bool check6 = true;
-			string name;
-			while (check6) // check whether true input
-			{
-				cin >> name;
-				if (name != p->getGameEngine()->playersList.at(record)->getName())
-				{
-					cout << "Wrong name, please try again." << endl;
-				}
-				else
-				{
-					check6 = false;
-				}
-			}
-			Order *o = new Negotiate(this->p, p->getGameEngine()->playersList.at(record));
-			o->execute();
-			cout << "The player cannot attack: " << p->getAttackBan().at(0)->getName() << endl;
-		}
-		else if (orderName == "blockade")
-		{
-			cout << "Using the blockade card, please choose one of your territory" << endl;
-			cout << "Available territories are: " << endl;
-			for (int i = 0; i < toDedend().size(); i++)
-			{
-				cout << toDedend().at(i)->getName() << " ";
-			}
-			string target_name;
- 			bool check6 = true;
-			int k = 0;
-			while (check6) // check whether true input
-			{
-				cin >> target_name;
-				for (int i = 0; i < toDedend().size(); i++)
-				{
-					if (target_name == toDedend().at(i)->getName())
-					{
-						check6 = false;
-						k = i;
-					}
-				}
-				if (check6)
-					cout << "Wrong name, please try again." << endl;
-			}
-			Order *o = new Blockade(this->p, toDedend().at(k));
-			o->execute();
-			if (toDedend().at(k)->getOwner() != p)
-				cout << "The owner of " << toDedend().at(k)->getName() << " is not " << p->getName() << endl;
 		}
 	}
 }

@@ -18,67 +18,50 @@ void testPlayerStrategies()
     game->startupFinished = true;
     game->readMap("europe.map");
     vector<Territory *> allTerritories = game->map->getAllTerritories();
-    cout << "%%%%%%%%%%%%%%%%%%%%%%%%creates Aggressive%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
     // Add new players
     Player *human = new Player("Human", game);
     Player *Cheater = new Player("Cheater", game);
+    Player *Aggressive = new Player("Aggressive", game);
+    Player *Benevolent = new Player("Benevolent", game);
+    Player *Neutral = new Player("Neutral", game);
     // Set player strategy
-    //human->setPlayerStrategy(new HumanPlayerStrategy(human));
-    //Cheater->setPlayerStrategy(new CheaterPlayerStrategy(Cheater));
+    human->setPlayerStrategy(new HumanPlayerStrategy(human));
+    Cheater->setPlayerStrategy(new CheaterPlayerStrategy(Cheater));
+    Benevolent->setPlayerStrategy(new BenevolentPlayerStrategy(Benevolent));
+    Aggressive->setPlayerStrategy(new AggressivePlayerStrategy(Aggressive));
+    Neutral->setPlayerStrategy(new NeutralPlayerStrategy(Neutral));
     game->playersList.push_back(human);
     game->playersList.push_back(Cheater);
+    game->playersList.push_back(Neutral);
     
-    /*    Player *Aggressive = new Player("Aggressive", game);
-        Player *bonavon = new Player("bonavon", game);
-        Aggressive->setReinforcement(100);
-        bonavon->setReinforcement(100);
-        bonavon->setPlayerStrategy(new BenevolentPlayerStrategy(bonavon));
-        Aggressive->setPlayerStrategy(new AggressivePlayerStrategy(Aggressive));
-        game->playersList.push_back(Aggressive);
-        game->playersList.push_back(bonavon);
-    */
     // Distribute territories to players
     int size = allTerritories.size() / 2;
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < 2; i++){
+         for (int k = 0; k < size; k++)
+         {
         Territory *t = allTerritories.back();
-        game->playersList[0]->addTerritory(t);
-        t->setOwner(game->playersList[0]);
+        game->playersList[i]->addTerritory(t);
+        t->setOwner(game->playersList[i]);
         allTerritories.pop_back();
-    }
-    for (int i = 0; i < size; i++)
-    {
-        Territory *t = allTerritories.back();
-        game->playersList[1]->addTerritory(t);
-        t->setOwner(game->playersList[1]);
-        allTerritories.pop_back();
-    }
+        }
+        }
+        cout<<"here"<<endl;
     // Distribute army to Terriotories
     // set Reinforcement pool to each player
     game->playersList[0]->setReinforcement(50);
     game->playersList[1]->setReinforcement(50);
-    for (int i = 0; i < game->playersList.size(); i++)
+    game->playersList[2]->setReinforcement(50);
+    for (int i = 0; i < 2; i++)
     {
         for (Territory *t : game->playersList[i]->getTerriotory())
         {
             t->setNumberOfArmies(game->playersList[i]->getReinforcement() / game->playersList[i]->getTerriotory().size());
         }
     }
-    cout << game->playersList[0]->getTerriotory().size() << endl;
-
-    for (int i = 0; i < game->playersList[0]->getTerriotory().size(); i++)
-    {
-        cout << game->playersList[0]->getTerriotory().at(i)->getName() << " ";
-    }
-    cout << game->playersList[1]->getTerriotory().size() << endl;
-
-    for (int i = 0; i < game->playersList[1]->getTerriotory().size(); i++)
-    {
-        cout << game->playersList[1]->getTerriotory().at(i)->getName() << " ";
-    }
-
-    // game->playersList[0]->set_players_Map(game->playersList);
+    cout<< "--------------Testing Human player & Cheater player--------------"<<endl;
     // Excecute order
+    cout <<"Human start with "<< game->playersList[0]->getTerriotory().size() << endl;
+    cout <<"Cheater start with "<< game->playersList[1]->getTerriotory().size() << endl;
     string order;
     while (order != "yes")
     {
@@ -88,112 +71,94 @@ void testPlayerStrategies()
         game->playersList[0]->issueOrder(order);
         game->playersList[1]->issueOrder("cheat");
         cout << "\nAre you done with issuing order? (yes/no) " << endl;
+        cin >> order;
     }
     cout << "After play with Cheater, Human has: " << game->playersList[0]->getTerriotory().size() << endl;
     cout << "After cheating,Cheter has: " << game->playersList[1]->getTerriotory().size() << endl;
-    /*
-      cout << "----------------------Deploy for Aggressive----------------------" << endl;
-        game->playersList[1]->issueOrder("Deploy");
-        cout << "----------------------Advance for Aggressive----------------------" << endl;
-        game->playersList[1]->issueOrder("Advance");
-        cout << "----------------------bomb for Aggressive----------------------" << endl;
-        game->playersList[1]->issueOrder("bomb");
-        cout << "----------------------airlift for Aggressive----------------------" << endl;
-        game->playersList[1]->issueOrder("airlift");
-      cout << "----------------------diplomacy for Aggressive----------------------" << endl;
-      game->playersList[1]->issueOrder("diplomacy");
-      cout << "----------------------blockade for Aggressive----------------------" << endl;
-      game->playersList[1]->issueOrder("blockade");*/
-}
-//int main()
-//{
-//    testPlayerStrategies();
-//}
-//   cout << "%%%%%%%%%%%%%%%%%%%%%%%%creates Neutral%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
-// Player *Neutral = new Player("Neutral");
-// Set player strategy
-//   Neutral->setPlayerStrategy(new NeutralPlayerStrategy(Neutral));
-//    game->playersList.push_back(Neutral);
-//   game->playersList.push_back(Cheater);
 
-// cout << "nurtral has: " << game->playersList[0]->getTerriotory().size() << endl;
-//  cout << "Aggressive has: " << game->playersList[0]->getTerriotory().size() << endl;
-/*   cout << "----------------------Deploy for Neutral----------------------" << endl;
-   game->playersList[0]->issueOrder("Deploy");
-   cout << "----------------------Advance for Neutral----------------------" << endl;
-   game->playersList[0]->issueOrder("Advance");
-*/
-/*	vector<Territory *> bannedTerritory;
- for (int i = 0; i < Aggressive->getAttackBan().size(); i++)
- {
-     vector<Territory *> each_ban_player_tero = Aggressive->getAttackBan()[i]->getTerriotory();
-     for (int k = 0; k < each_ban_player_tero.size(); k++)
-     {
-         bannedTerritory.push_back(each_ban_player_tero.at(k)); // cannot attact not dulicate
-     }
- }
-
- vector<Territory *> toAttack;
- for (Territory *t : Aggressive->getTerriotory())
- {
-     for (Territory *a : t->getNeighbours())
-     {
-         if (!Aggressive->ownsTerritory(a))
+    cout<< "--------------Testing Human player & Neutral player--------------"<<endl;
+    int t = game->playersList[1]->getTerriotory().size()/2;
+    //Add territory back to human for testing
+    for (int k = 0; k < t; k++)
          {
-             toAttack.push_back(a);
+        Territory *t = game->playersList[1]->getTerriotory().back();
+        game->playersList[0]->addTerritory(t);
+        t->setOwner(game->playersList[0]);
+         game->playersList[1]->deleteTerriotory(game->playersList[1]->getTerriotory().back());
+        }
+    //Distribute territory to Neutral player
+     for (int k = 0; k < t; k++)
+         {
+        Territory *t = game->playersList[1]->getTerriotory().back();
+        game->playersList[2]->addTerritory(t);
+        t->setOwner(game->playersList[2]);
+        game->playersList[1]->deleteTerriotory(game->playersList[1]->getTerriotory().back());
+        }
+
+    cout<<"Neutral's territorries are :"<<endl;
+     for (Territory *t: Neutral->getTerriotory()){
+            cout<< t->getName()<<" ";
+     }
+     cout<<"\n---------------------------------------------"<<endl;
+    for (Territory *t : game->playersList[2]->getTerriotory())
+        {
+            t->setNumberOfArmies(game->playersList[2]->getReinforcement() / game->playersList[2]->getTerriotory().size());
+        }
+    string order2;
+    while (order2 != "yes")
+    {
+        cout << "Choose following order: " << endl;
+        cout << "-Deploy\n-bomb\n-Advance\n-airlift\n-blockade " << endl;
+        cin >> order2;
+        game->playersList[0]->issueOrder(order);
+        if(order2 == "bomb"||order2 == "Advance"){
+               Neutral->setifattected();
+        }
+        game->playersList[2]->issueOrder("Advance");
+        cout << "\nAre you done with issuing order? (yes/no) " << endl;
+        cin>>order2;
+    }
+
+
+    cout<< "--------------Testing Aggressive player & Benevolent player--------------"<<endl;
+        GameEngine *game2 = new GameEngine();
+        game2->startupFinished = true;
+        game2->readMap("europe.map");
+        vector<Territory *> allTerritories3 = game2->map->getAllTerritories();
+        game2->playersList.push_back(Aggressive);
+        game2->playersList.push_back(Benevolent);
+        Aggressive->setReinforcement(100);
+        Benevolent->setReinforcement(100);
+        //Set armies
+        for (int i = 0; i < game2->playersList.size(); i++)
+        {
+          for (Territory *t : game2->playersList[i]->getTerriotory())
+         {
+            t->setNumberOfArmies(game2->playersList[i]->getReinforcement() / game->playersList[i]->getTerriotory().size());
          }
-     }
- }
- // cout<<"---the emey has"<<toAttack.size()<<endl;
- sort(toAttack.begin(), toAttack.end());
- // for (Territory* t : toAttack) {
- toAttack.erase(unique(toAttack.begin(), toAttack.end()), toAttack.end());
- for (int i = 0; i < toAttack.size(); i++)
- {
-     for (int k = 0; k < bannedTerritory.size(); k++)
-     {
-         if (toAttack.at(i) = bannedTerritory.at(k))
-             toAttack.erase(toAttack.begin() + i);
-     }
- }
+         }
+        size = allTerritories3.size() / 2;
+         for (int i = 0; i < game2->playersList.size(); i++){
+         for (int k = 0; k < size; k++)
+         {
+        Territory *t = allTerritories3.back();
+        game2->playersList[i]->addTerritory(t);
+        t->setOwner(game->playersList[i]);
+        allTerritories3.pop_back();
+        }
+        }
+      cout << "----------------------Deploy for Aggressive----------------------" << endl;
+      game2->playersList[0]->issueOrder("Deploy");
+      cout << "----------------------Advance for Aggressive----------------------" << endl;
+      game2->playersList[0]->issueOrder("Advance");
+     
+      cout << "----------------------Deploy for Benevolent----------------------" << endl;
+      game2->playersList[1]->issueOrder("Deploy");
+      cout << "----------------------Advance for Benevolent----------------------" << endl;
+      game2->playersList[1]->issueOrder("Advance");
 
-
- for (int i = 0; i < game->playersList[0]->toAttack().size(); i++)
- {
-     Aggressive1->addTerritory(toAttack.at(i));
-     game->playersList[0]->toAttack().at(i)->setOwner(Aggressive1);
- }
- for (int i = 0; i < Aggressive1->getTerriotory().size(); i++)
- {
-     cout << Aggressive1->getTerriotory().at(i)->getName();
- }
-
-     cout << "hello";
-
-
-
- // Distribute territories to players
- int size = allTerritories.size() / 2;
- for (int i = 0; i < size; i++)
- {
-     Territory *t = allTerritories.back();
-     game->playersList[0]->addTerritory(t);
-     t->setOwner(game->playersList[0]);
-     allTerritories.pop_back();
- }
- // set Reinforcement pool to each player
- game->playersList[0]->setReinforcement(50);
- // Distribute army to Terriotories
- for (int i = 0; i < game->playersList.size(); i++)
- {
-     for (Territory *t : game->playersList[i]->getTerriotory())
-     {
-         t->setNumberOfArmies(game->playersList[i]->getReinforcement() / game->playersList[i]->getTerriotory().size());
-     }
- }
- for (int i = 0; i < game->playersList[0]->getTerriotory().size(); i++)
- {
-     cout << game->playersList[0]->getTerriotory().at(i)->getNumberOfArmies() << "hel" << endl;
- }
- //  game->playersList[0]->set_players_Map(game->playersList);
-*/
+}
+int main()
+{
+    testPlayerStrategies();
+}
