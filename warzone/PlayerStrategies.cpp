@@ -313,7 +313,6 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 					if (k->getNumberOfArmies() == 0)
 						check23 = false;
 				}
-				check23 = false;
 			}
 		}
 		else if (orderName == "bomb")

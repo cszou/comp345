@@ -166,32 +166,47 @@ void testTournament()
 	filestream << "\nG: " << game->numOfGame << "\nD: " << game->maxNumberOfTurns << endl;
 	cout << "\nResults:\n";
 	filestream << "\nResults:\n";
-	for (int i = 0;i < 15;i++)
+	for (int i = 0;i < 20;i++)
 	{
 		cout << " ";
 		filestream << " ";
 	}
 	for (int i = 1;i <= game->numOfGame;i++)
 	{
-		cout << "Game " << i << "\t\t";
-		filestream << "Game " << i << "\t\t";
+		cout << "Game " << i;
+		filestream << "Game " << i;
+		for (int i = 0;i < 14;i++)
+		{
+			cout << " ";
+			filestream << " ";
+		}
 	}
 	int j = 0;
 	for (auto m : game->tournamentMaps) {
 		cout << endl << m->getName();
 		filestream << endl << m->getName();
-		for (int i = m->getName().size();i < 15;i++)
+		for (int i = m->getName().size();i < 20;i++)
 		{
 			cout << " ";
 			filestream << " ";
 		}
-		cout << winners[j] << "\t\t";
-		filestream << winners[j] << "\t\t";
+		cout << winners[j];
+		filestream << winners[j];
+		for (int i = winners[j].size();i < 20;i++)
+		{
+			cout << " ";
+			filestream << " ";
+		}
 		j += 1;
 		while (j % game->numOfGame != 0)
 		{
-			cout << winners[j] << "\t\t";
-			filestream << winners[j] << "\t\t";
+			cout << winners[j];
+			filestream << winners[j];
+			for (int i = winners[j].size();i < 20;i++)
+			{
+				cout << " ";
+				filestream << " ";
+			}
 			j += 1;
 		}
 	}
