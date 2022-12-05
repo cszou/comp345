@@ -296,69 +296,32 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 			bool check23 = true;
 			while (check23)
 			{
+				if(toAttack().size()==0)
+				  break;
 				cout << "Name of strongest tero: " << toDedend().at(0)->getName() << endl;
 				cout << "Number of army of strongest tero: " << toDedend().at(0)->getNumberOfArmies() << endl;
 				vector<Territory *> strong_can_attack;
 				cout << "Will auto use the strongest one to attack" << endl;
-				int count=0;
+				int count;
 				// where the strongest tero can attack
 				cout << "Strongest teros neibor:" << endl;
-				for (int i = 0; i < toDedend().at(0)->getNeighbours().size(); i++)
-				{
-					cout << toDedend().at(0)->getNeighbours().at(i)->getName() << "  ";
-				}
-				for (int i = 0; i < toAttack().size(); i++)
-				{
-					if (toDedend().at(0)->checkNeighbours(toAttack().at(i)) && count == 0)
-					{
-						strong_can_attack.push_back(toAttack().at(i));
-						cout << toAttack().at(i)->getName() << "  ";
-						count = count + 1;
-					}
-					else if (count == toAttack().size() - 1)
-					{
-						cout << "No enermy nearby the strongest tero" << endl;
-					}
-				}
-				cout << endl;
 				cout << "can attack tero but not strongest teros neibor:" << endl;
 				for (int i = 0; i < toAttack().size(); i++)
 				{
 					cout << toAttack().at(i)->getName() << "  ";
 				}
 				cout << endl;
-				cout << "Add a attackable tero to the strongest tero's neibor?" << endl;
-				string k0;
-				cin >> k0;
-				bool check4 = true;
-				int recordddd = 0;
-				while (check4) // check whether true input
+				if (toDedend().at(0)->getNeighbours().size() == 0)
 				{
-					for (int i = 0; i < toAttack().size(); i++)
-					{
-						if (k0 == toAttack().at(i)->getName())
-						{
-							check4 = false;
-							toDedend().at(0)->addNeighbour(toAttack().at(i)); // add a neibor for strongest
-							strong_can_attack.push_back(toAttack().at(i));
-							recordddd = i;
-							cout << "add neibor success";
-						}
-					}
-					if (check4)
-					{
-						cout << "error tero ,Add a attackable tero to the strongest tero's neibor?";
-						cin >> k0;
-					}
+					if (toAttack().size() != 0)
+						toDedend().at(0)->addNeighbour(toAttack().at(0)); // add a neibor for strongest
 				}
-				Territory *k = toAttack().at(recordddd);
-				cout << toAttack().at(recordddd)->getName() << ": " << toAttack().at(recordddd)->getNumberOfArmies() << endl;
+
+				Territory *k = toAttack().at(0);
+				cout << toAttack().at(0)->getName() << ": " << toAttack().at(0)->getNumberOfArmies() << endl;
 				cout << toDedend().at(0)->getName() << ": " << toDedend().at(0)->getNumberOfArmies() << endl;
-				Order *o = new Advance(p->toDefend().at(0), toAttack().at(recordddd), this->p, p->toDefend().at(0)->getNumberOfArmies());
-				// Execute order
-				//		Order *o = p->getlist()->getorderlist().back();
+				Order *o = new Advance(p->toDefend().at(0), toAttack().at(0), this->p, p->toDefend().at(0)->getNumberOfArmies());
 				o->execute();
-				//		p->getlist()->getorderlist().pop_back();
 				if (k->getOwner() != p | p->getDeploy_territories().size() == 50)
 				{
 					cout << "didnt concor" << endl;
@@ -366,17 +329,13 @@ void AggressivePlayerStrategy::issueOrder(string orderName)
 				}
 				else
 				{
+					if (k->getNumberOfArmies() == 0)
+						check23 = false;
 					cout << k->getName() << " is belong to " << k->getOwner()->getName() << endl;
 					cout << "It has army " << k->getNumberOfArmies() << endl;
 				}
-				cout << "Do you want to stop? You should keep conquer(type \"stop\" to stop)" << endl;
-				string stop;
-				cin >> stop;
-				if (stop == "stop")
-					check23 = false;
 			}
 			cout << "Consecutive order finished" << endl;
-		}
 		else if (orderName == "bomb")
 		{
 			cout << "Using the bomb card, please choose a territory" << endl;
